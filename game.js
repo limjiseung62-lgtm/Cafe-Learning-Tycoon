@@ -150,6 +150,9 @@ export class CafeGame {
         }
     } }
     canServe(g) { return g.order.length > 0 && g.order.every(o => (this.menus.find(m => m.menuId === o.menuId)?.stock ?? 0) >= o.quantity); }
+    get readyToServe() { return this.guests.filter(g => g.state === 'SERVING' && !this.service.workers.some(w => w.orderId === g.id)).sort((a, b) => a.orderedAt - b.orderedAt || a.id - b.id); }
+    serveReadyOrder() { if (this.status !== 'RUNNING')
+        return false; const g = this.readyToServe[0]; return !!g && this.service.claimOwner({ id: g.id, seat: g.seat, ready: true, active: true, orderedAt: g.orderedAt, items: g.order.flatMap(o => Array(o.quantity).fill(o.menuId)) }); }
     transition(g, state) { g.state = state; g.elapsed = 0; }
     generateOrder(customer, type) { const d = { orderProfile: this.cafe.order }; const available = this.menus.filter(m => m.unlockCafeLevel <= this.cafeLevel); const base = d.orderProfile.minQuantity + Math.floor(this.random() * (d.orderProfile.maxQuantity - d.orderProfile.minQuantity + 1)); const total = type === 'gourmand' ? Math.min(this.phase4Profile.gourmandMaxQuantity, Math.ceil(base * this.phase4Profile.gourmandMultiplier)) : type === 'vip' ? 2 + Math.floor(this.random() * 3) : type === 'hurried' ? Math.min(2, base) : base; const lines = []; for (let i = 0; i < total; i++) {
         const choices = lines.length >= d.orderProfile.maxTypes ? available.filter(m => lines.some(l => l.menuId === m.menuId)) : available;

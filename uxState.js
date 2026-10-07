@@ -21,7 +21,7 @@ export class TutorialPreference {
     }
     catch { } }
 }
-export const tutorialSteps = [{ id: 'order', text: '손님이 주문했어요!', target: '.guest-bubble' }, { id: 'shortage', text: '음식이 부족해요! 음식 만들기를 누르고 문제를 맞히면 음식이 생겨요.', target: '#make' }, { id: 'pickup', text: '직원이 음식을 가져다줘요!', target: '#workers' }, { id: 'money', text: '음식을 팔아 돈을 벌었어요!', target: '#money' }, { id: 'growth', text: '돈으로 카페를 키울 수 있어요.', target: '#invest' }];
+export const tutorialSteps = [{ id: 'order', text: '손님이 주문했어요!', target: '.guest-bubble' }, { id: 'shortage', text: '음식이 부족해요! 음식 만들기를 누르고 문제를 맞히면 음식이 생겨요.', target: '#make' }, { id: 'pickup', text: '음식을 손님에게 가져다줘요!', target: '#workers' }, { id: 'money', text: '음식을 팔아 돈을 벌었어요!', target: '#money' }, { id: 'growth', text: '돈으로 카페를 키울 수 있어요.', target: '#invest' }];
 export class TutorialTracker {
     preference;
     seen = new Set();

@@ -2,6 +2,10 @@ import { staffBalance } from './config.js';
 export const staffDefinitions = [{ staffId: 'staff-1', name: '봄이', visualKey: 'spring' }, { staffId: 'staff-2', name: '준이', visualKey: 'jun' }, { staffId: 'staff-3', name: '하루', visualKey: 'haru' }, { staffId: 'staff-4', name: '루나', visualKey: 'luna' }, { staffId: 'staff-5', name: '도담', visualKey: 'dodam' }];
 export const staffVisuals = { owner: { face: '🧑‍🍳', apron: '#795f42', accessory: '☕' }, spring: { face: '👩', apron: '#d4898f', accessory: '🌸' }, jun: { face: '👨‍🦱', apron: '#7d9cc1', accessory: '🎧' }, haru: { face: '👩‍🦰', apron: '#9aaf70', accessory: '🌿' }, luna: { face: '👩‍🦳', apron: '#ac8dbb', accessory: '⭐' }, dodam: { face: '👨‍🦲', apron: '#d8a562', accessory: '🎀' } };
 export class StaffSystem {
+    // Headless balance simulations retain their automatic driver. Interactive play opts in.
+    manualOwner = false;
+    claimOwner(order) { const w = this.workers[0]; if (!this.manualOwner || this.paid.length || w.state !== 'IDLE' || !order.ready || !order.active || this.workers.some(worker => worker.orderId === order.id))
+        return false; w.orderId = order.id; w.remaining = [...order.items]; this.change(w, 'CLAIMING_ORDER'); return true; }
     workers = [this.create('owner', '사장님', 'owner', true)];
     pickup = { x: 78, y: 30 };
     seats = [];
@@ -30,7 +34,7 @@ export class StaffSystem {
                 claimed.delete(w.orderId);
                 this.release(w);
             }
-            if (w.state === 'IDLE') {
+            if (w.state === 'IDLE' && !(w.owner && this.manualOwner && !this.paid.length)) {
                 const order = orders.filter(o => o.ready && o.active && !claimed.has(o.id)).sort((a, b) => a.orderedAt - b.orderedAt || a.id - b.id)[0];
                 if (order) {
                     w.orderId = order.id;
