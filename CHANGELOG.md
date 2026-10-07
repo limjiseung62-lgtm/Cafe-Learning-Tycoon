@@ -1,0 +1,17 @@
+# 변경 기록
+
+## 1.0.0 — 2026-10-07
+
+GitHub Pages 공개 배포와 실제 공개 URL smoke 검증을 통과했습니다.
+
+- 수업 시간 게임과 저장형 카페 육성을 제공합니다.
+- 6단계 카페, 18종 메뉴, 창고·직원·메뉴 성장과 전략 아이템을 구현했습니다.
+- 실제 분수 문제와 쌍둥이 문제, 오답 복습을 연결했습니다.
+- 카페 아트, 이동·착석·서빙, 폰트·음악·효과음·첫 안내를 다듬었습니다.
+- RC에서 임의 문제 ID의 학습 기억 충돌과 하위 경로 배포의 초기 로딩 오류를 수정했습니다.
+- 기존 144개와 회귀 3개 테스트를 유지합니다. Phase 10에서는 새 게임 기능이나 경제 변경을 추가하지 않습니다.
+
+
+공식 공개 URL: [https://limjiseung62-lgtm.github.io/Cafe-Learning-Tycoon/](https://limjiseung62-lgtm.github.io/Cafe-Learning-Tycoon/)
+최초 Pages 배포 성공: workflow #1, commit 6f4c27c. 최종 상태와 검증은 PHASE10_REPORT.md 및 저장소 v1.0.0 태그를 확인하세요.
+
