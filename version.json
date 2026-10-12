@@ -1,1 +1,7 @@
-{"version":"1.1.0","status":"production","sourceCandidate":"45bb01a","released":"2026-10-07"}
+{
+  "version": "1.2.0",
+  "status": "production",
+  "publicDeploymentApproved": true,
+  "sourceCandidate": "14ac6e25b4d11b1b22dedae9b091523be5d6d86b",
+  "released": "2026-10-13"
+}

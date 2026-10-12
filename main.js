@@ -1,28 +1,31 @@
-import { productionReceipt, stockStatus } from './playLoop.js';
-import { FinalUx } from './finalUx.js';
-import { SessionClock, ActionGate } from './uxState.js';
-import { installAssetFallbacks } from './assetFallback.js';
-import { createLearning, learningProgressRepository } from './learningIntegration.js';
-import { renderQuestionText, escapeText } from './questionRenderer.js';
-import { GameFeel } from './gameFeel.js';
-import { ModeFlow } from './modeUi.js';
-import { itemCatalog, specialNames, specialIcons, specialTypes } from './phase4Config.js';
-import { showOrderBubble, syncOrderBubble, assetSignature } from './presentation.js';
-import { personalityLabels } from './customerRules.js';
-import { selectCustomerPose, customerPoseArt, poseGeometry, preloadCustomerPoses, selectedPoseAsset } from './customerPoses.js';
-import { SpatialScene } from './spatial.js';
-import { icon } from './uiIcons.js';
-import { sprite } from './art.js';
-import { staffBalance } from './config.js';
-import { staffDefinitions } from './staff.js';
-import { foodVisual } from './foodVisual.js';
-import { cafeLevels } from './config.js';
-import { customers, menuDefinitions } from './data.js';
+import { specialQuestions, helperCatalog } from './hospitalityConfig.js?v=1.2.0';
+import { productionReceipt, stockStatus } from './playLoop.js?v=1.2.0';
+import { FinalUx } from './finalUx.js?v=1.2.0';
+import { SessionClock, ActionGate } from './uxState.js?v=1.2.0';
+import { installAssetFallbacks } from './assetFallback.js?v=1.2.0';
+import { createLearning, learningProgressRepository } from './learningIntegration.js?v=1.2.0';
+import { renderQuestionText, escapeText } from './questionRenderer.js?v=1.2.0';
+import { GameFeel } from './gameFeel.js?v=1.2.0';
+import { ModeFlow } from './modeUi.js?v=1.2.0';
+import { itemCatalog, specialNames, specialIcons, specialTypes } from './phase4Config.js?v=1.2.0';
+import { showOrderBubble, syncOrderBubble, assetSignature } from './presentation.js?v=1.2.0';
+import { personalityLabels } from './customerRules.js?v=1.2.0';
+import { selectCustomerPose, customerPoseArt, poseGeometry, preloadCustomerPoses, selectedPoseAsset } from './customerPoses.js?v=1.2.0';
+import { SpatialScene, hallGrowthSpecs, createSpace } from './spatial.js?v=1.2.0';
+import { DepartureDialogue } from './departureDialogue.js?v=1.2.0';
+import { icon } from './uiIcons.js?v=1.2.0';
+import { sprite } from './art.js?v=1.2.0';
+import { staffBalance } from './config.js?v=1.2.0';
+import { staffDefinitions } from './staff.js?v=1.2.0';
+import { foodVisual } from './foodVisual.js?v=1.2.0';
+import { cafeLevels } from './config.js?v=1.2.0';
+import { customers, menuDefinitions } from './data.js?v=1.2.0';
 const developerMode = new URLSearchParams(location.search).has('dev');
 const clock = new SessionClock(), purchaseGate = new ActionGate();
 const feel = new GameFeel();
 const app = document.querySelector('#app');
 preloadCustomerPoses(cafeLevels[0].customerPool);
+let specialAttempt = null;
 let game = null;
 let engine = createLearning(undefined, false);
 let active = null;
@@ -38,6 +41,10 @@ let celebrationLevel = 0;
 let renderedInvestmentKey = '';
 let receipt = [];
 let stockKey = "";
+let outcomeTimer = 0;
+let departure = new DepartureDialogue();
+let departureKey = "";
+let manualTipShown = false, autoTipShown = false, lastStaffCount = 0, hintUntil = 0;
 let displayedResult = null;
 let deliveryMenu = 'coffee';
 let scene = null;
@@ -47,20 +54,25 @@ let selectedUntil = 0;
 let detailKey = '';
 const format = (s) => Math.floor(Math.ceil(s) / 60).toString().padStart(2, '0') + ':' + (Math.ceil(s) % 60).toString().padStart(2, '0');
 const labels = { ENTERING: '어서 오세요!', MOVING_TO_SEAT: '자리로 가는 중', ORDERING: '메뉴 고르는 중', WAITING_FOR_FOOD: '음식을 기다려요', PREPARING: '주문 준비 중', SERVING: '음식 배달 중', EATING: '맛있게 먹는 중', PAYING: '결제 중', LEAVING: '다음에 또 올게요' };
-app.innerHTML = `<main class="shell"><header class="brand"><span class="logo">${sprite('coffee')}</span><div><p class="eyebrow">CAFE LEARNING TYCOON</p><h1>카페 학습 타이쿤</h1><p>문제 하나, 맛있는 한 걸음</p></div></header><section id="setup" class="setup"><div class="setup-people">${sprite('owner', 'welcome-owner')}${sprite('staff-1', 'welcome-staff')}</div><div class="welcome-card"></div><div class="welcome-note">공부하는 만큼, 나만의 카페가 완성돼요.</div></section><section id="playing" hidden><div class="session-tools"><span>☕ 카페 영업 중</span></div><div class="hud"><div><span>남은 시간</span><strong id="timer"></strong></div><div><span>푼 문제</span><strong id="question-count">0</strong></div><div class="money-card"><span>보유금</span><strong id="money"></strong></div><div class="level-card"><span>나의 카페</span><strong id="cafe-level"></strong></div></div><div class="game-layout"><section class="cafe" id="cafe-room"><span id="cafe-name" class="room-name"></span><div id="decor" class="decor"></div><div class="seats" id="seats"></div><div class="pickup-marker">음식 받는 곳</div><div class="workers" id="workers"></div><div class="counter-foreground"></div></section><section class="lesson-card"><button id="make" class="primary" aria-label="음식 만들기">${icon('menu')}<span>음식 만들기</span></button><button id="serve" class="secondary">서빙</button><span id="service-status" role="status"></span></section><aside class="pantry"><div class="pantry-head"><h2>부족 재고</h2><span id="warehouse-caption"></span><span id="stock-count"></span></div><div id="stocks"></div><div id="production" class="production" aria-live="polite"></div></aside><nav class="scene-actions" aria-label="카페 관리"><button id="invest" aria-label="카페 키우기"><span class="nav-symbol">${icon('grow')}</span>성장</button><button data-focus-tab="staff" aria-label="직원 관리"><span class="nav-symbol">${icon('staff')}</span>직원</button><button data-focus-tab="menu" aria-label="메뉴 강화"><span class="nav-symbol">${icon('menu')}</span>메뉴</button><button data-focus-tab="warehouse" aria-label="창고 관리"><span class="nav-symbol">${icon('warehouse')}</span>창고</button></nav><div id="live-stats"></div><div id="item-effects" class="item-effects"></div><div class="mode-status"><span id="mode-label"></span><span id="save-status"></span><button id="end-business" hidden>영업 마치기</button><button id="leave-game">나가기</button></div><aside id="guest-detail" class="guest-detail" hidden aria-label="선택한 손님 상세"></aside></div></section><section id="results" class="results" hidden></section></main><section id="problem-panel" class="problem-panel" hidden aria-label="음식 만들기 학습 패널"></section><section id="investment-panel" class="investment-panel" hidden aria-label="카페 투자 패널"></section><div id="celebration" class="celebration" hidden aria-live="polite"></div>`;
+app.innerHTML = `<main class="shell"><header class="brand"><span class="logo">${sprite('coffee')}</span><div><p class="eyebrow">CAFE LEARNING TYCOON</p><h1>카페 학습 타이쿤</h1><p>문제 하나, 맛있는 한 걸음</p></div></header><section id="setup" class="setup"><div class="setup-people">${sprite('owner', 'welcome-owner')}${sprite('staff-1', 'welcome-staff')}</div><div class="welcome-card"></div><div class="welcome-note">공부하는 만큼, 나만의 카페가 완성돼요.</div></section><section id="playing" hidden><div class="session-tools"><span class="tools-title">카페 영업 중</span><details id="session-menu" class="session-menu"><summary aria-label="영업 메뉴">메뉴</summary><div class="session-menu-content"></div></details></div><div class="hud"><div><span>남은 시간</span><strong id="timer"></strong></div><div><span>푼 문제</span><strong id="question-count">0</strong></div><div class="money-card"><span>보유금</span><strong id="money"></strong></div><div class="level-card"><span>나의 카페</span><strong id="cafe-level"></strong></div></div><div class="game-layout"><section class="cafe" id="cafe-room"><span id="cafe-name" class="room-name"></span><div id="decor" class="decor"></div><div class="seats" id="seats"></div><div class="pickup-marker">음식 받는 곳</div><div class="workers" id="workers"></div><div class="counter-foreground"></div></section><section class="lesson-card"><button id="make" class="primary" aria-label="음식 만들기">${icon('menu')}<span>음식 만들기</span></button><button id="serve" class="secondary">서빙</button><button id="special-order" class="secondary" hidden>특별 주문 만들기</button><p id="hospitality-note" class="hospitality-note" role="status" hidden></p><span id="service-status" role="status"></span><p id="service-hint" class="service-hint" role="status" hidden></p></section><div id="departure-talks" class="departure-talks" role="log" aria-live="polite" hidden></div><aside class="pantry"><div class="pantry-head"><h2>부족 재고</h2><span id="warehouse-caption"></span><span id="stock-count"></span></div><div id="stocks"></div><div id="production" class="production" aria-live="polite"></div></aside><nav class="scene-actions" aria-label="카페 관리"><button id="invest" aria-label="카페 키우기"><span class="nav-symbol">${icon('grow')}</span>성장</button><button data-focus-tab="staff" aria-label="직원 관리"><span class="nav-symbol">${icon('staff')}</span>직원</button><button data-focus-tab="menu" aria-label="메뉴 강화"><span class="nav-symbol">${icon('menu')}</span>메뉴</button><button data-focus-tab="warehouse" aria-label="창고 관리"><span class="nav-symbol">${icon('warehouse')}</span>창고</button></nav><div id="live-stats"></div><div id="item-effects" class="item-effects"></div><div class="mode-status"><span id="mode-label"></span><span id="save-status"></span><button id="end-business" hidden>영업 마치기</button><button id="leave-game">나가기</button></div><aside id="guest-detail" class="guest-detail" hidden aria-label="선택한 손님 상세"></aside></div></section><section id="results" class="results" hidden></section></main><section id="problem-panel" class="problem-panel" hidden aria-label="음식 만들기 학습 패널"></section><section id="investment-panel" class="investment-panel" hidden aria-label="카페 투자 패널"></section><div id="celebration" class="celebration" hidden aria-live="polite"></div>`;
 const el = (id) => document.getElementById(id);
 const ux = new FinalUx(() => game);
 installAssetFallbacks();
 el('playing').before(document.querySelector('.session-tools'));
-document.querySelector('.session-tools').append(el('game-help'), el('sound-settings'));
+document.querySelector('.session-menu-content').append(el('game-help'), el('sound-settings'), el('leave-game'), el('end-business'));
+el('session-menu').addEventListener('click', e => { if (e.target.closest('button'))
+    el('session-menu').removeAttribute('open'); });
 document.querySelector('.game-layout').prepend(el('first-guide'));
 el('serve').onclick = () => { advanceTime(); if (game?.serveReadyOrder())
     render(); };
-export function startSession(session, pool) { el('workers').innerHTML = ''; el('seats').innerHTML = ''; el('decor').innerHTML = ''; delete el('cafe-room').dataset.artLevel; guestLooks.clear(); selectedGuest = null; detailKey = ''; app.classList.add('in-session'); game = session; game.service.manualOwner = true; receipt = []; stockKey = ""; displayedResult = null; clock.start(); ux.start(); feel.start(session); modeFlow.attach(session, pool); scene = new SpatialScene(game.cafeLevel, game.cafe.maxCustomers); scene.sync(game); preloadCustomerPoses([...game.cafe.customerPool, ...(game.phase4Enabled ? specialTypes.map(t => 'special-' + t) : [])]); engine = createLearning(pool, session.policy.persistence === 'saved-cafe'); active = null; feedback = null; panelOpen = false; investmentOpen = false; investmentMessage = ''; renderedInvestmentKey = ''; celebrationUntil = 0; productionUntil = 0; el('setup').hidden = true; el('results').hidden = true; el('playing').hidden = false; el('make').disabled = false; el('investment-panel').hidden = true; last = performance.now(); render(); }
+export function startSession(session, pool) { el('workers').innerHTML = ''; el('seats').innerHTML = ''; el('decor').innerHTML = ''; delete el('cafe-room').dataset.artLevel; guestLooks.clear(); selectedGuest = null; detailKey = ''; app.classList.add('in-session'); game = session; clearTimeout(outcomeTimer); game.service.manualOwner = true; game.enableHallGrowth(); departure = new DepartureDialogue(); departureKey = ''; manualTipShown = false; autoTipShown = game.service.paid.length > 0; lastStaffCount = game.service.paid.length; hintUntil = 0; el('service-hint').hidden = true; receipt = []; stockKey = ""; displayedResult = null; clock.start(); ux.start(); feel.start(session); modeFlow.attach(session, pool); scene = new SpatialScene(game.cafeLevel, game.cafe.maxCustomers, true); scene.sync(game); preloadCustomerPoses([...game.cafe.customerPool, ...(game.phase4Enabled ? specialTypes.map(t => 'special-' + t) : [])]); engine = createLearning(pool, session.policy.persistence === 'saved-cafe'); game.enableHospitality(specialQuestions(engine.provider.list()).map(q => q.questionId)); specialAttempt = null; active = null; feedback = null; panelOpen = false; investmentOpen = false; investmentMessage = ''; renderedInvestmentKey = ''; celebrationUntil = 0; productionUntil = 0; el('setup').hidden = true; el('results').hidden = true; el('problem-panel').hidden = true; el('playing').hidden = false; el('make').disabled = false; el('investment-panel').hidden = true; last = performance.now(); render(); }
 document.querySelectorAll('[data-focus-tab]').forEach(b => b.onclick = () => { if (game?.status !== 'RUNNING')
     return; investmentTab = b.dataset.focusTab; selectedGuest = null; detailKey = ''; el('guest-detail').hidden = true; investmentOpen = true; panelOpen = false; renderProblem(); renderInvestment(true); });
 el('invest').addEventListener('click', () => { investmentTab = 'cafe'; if (game?.status !== 'RUNNING')
     return; selectedGuest = null; detailKey = ''; el('guest-detail').hidden = true; investmentOpen = true; panelOpen = false; renderProblem(); renderInvestment(true); });
+el('special-order').addEventListener('click', () => { const g = game?.specialOrder; if (!game || !g || game.status !== 'RUNNING' || (active && !feedback))
+    return; const ids = game.hospitality.questions, q = engine.present(ids[g.id % ids.length]); if (!q)
+    return; clearTimeout(outcomeTimer); active = q; feedback = null; specialAttempt = g.id; selectedGuest = null; investmentOpen = false; el('investment-panel').hidden = true; panelOpen = true; renderProblem(); });
 el('make').addEventListener('click', () => { if (game?.status !== 'RUNNING')
     return; selectedGuest = null; detailKey = ''; el('guest-detail').hidden = true; investmentOpen = false; el('investment-panel').hidden = true; panelOpen = true; if (!active)
     active = engine.next(); renderProblem(); if (active.type === 'short_answer' && !feedback)
@@ -70,7 +82,7 @@ function renderProblem() {
     p.hidden = !panelOpen;
     if (!panelOpen || !active)
         return;
-    p.innerHTML = `<div class="problem-head"><span>✦ 음식을 만드는 작은 도전</span><button id="close-problem" aria-label="문제 패널 닫기">✕</button></div><p class="eyebrow">${escapeText(active.subject)} · ${active.grade}학년 · ${active.type === 'ox' ? 'OX' : active.type === 'short_answer' ? '단답형' : '객관식'}</p><h2>${renderQuestionText(active.question)}</h2>${feedback ? '<div class="feedback ' + (feedback.correct ? 'correct' : 'incorrect') + '"><strong>' + (feedback.correct ? '정답! 음식이 만들어졌어요.' : '괜찮아요, 함께 확인해요') + '</strong><p>정답: ' + renderQuestionText(feedback.answer) + '</p><p>' + renderQuestionText(feedback.explanation) + '</p></div><button class="primary" id="return-cafe">카페로 돌아가 서빙하기 →</button>' : active.type === 'short_answer' ? '<form id="answer-form"><label>답<input id="answer-input" autocomplete="off" inputmode="text" required></label><button class="primary">정답 확인</button></form>' : '<div class="choices">' + active.choices.map(c => '<button data-answer="' + escapeText(c) + '">' + renderQuestionText(c) + '</button>').join('') + '</div>'}<p class="hint">문제를 푸는 동안에도 영업 시간과 손님 대기시간은 흘러요.</p>`;
+    p.innerHTML = `<div class="problem-head"><span>${specialAttempt !== null ? '특별 주문 · 시그니처 도전' : '✦ 음식을 만드는 작은 도전'}</span><button id="close-problem" aria-label="문제 패널 닫기">✕</button></div><p class="eyebrow">${escapeText(active.subject)} · ${active.grade}학년 · ${active.type === 'ox' ? 'OX' : active.type === 'short_answer' ? '단답형' : '객관식'}</p>${feedback?.correct ? '<h2 class="production-result-title">음식이 완성됐어요!</h2>' : '<h2>' + renderQuestionText(active.question) + '</h2>'}${feedback ? '<div class="feedback ' + (feedback.correct ? 'correct' : 'incorrect') + '"><strong>' + (feedback.correct ? '정답! 음식이 만들어졌어요.' : '괜찮아요, 함께 확인해요') + '</strong>' + (feedback.correct ? '<p class="production-summary">' + receipt.filter(r => r.quantity > 0).length + '종 · ' + receipt.reduce((n, r) => n + r.quantity, 0) + '개 추가 보관 · MAX ' + receipt.filter(r => r.quantity === 0).length + '종</p><details class="answer-review"><summary>정답·풀이 보기</summary><p>정답: ' + renderQuestionText(feedback.answer) + '</p><p>' + renderQuestionText(feedback.explanation) + '</p></details>' : '<p>정답: ' + renderQuestionText(feedback.answer) + '</p><p>' + renderQuestionText(feedback.explanation) + '</p>') + '</div><button class="primary" id="return-cafe">카페로 돌아가기 →</button>' : active.type === 'short_answer' ? '<form id="answer-form"><label>답<input id="answer-input" autocomplete="off" inputmode="text" required></label><button class="primary">정답 확인</button></form>' : '<div class="choices">' + active.choices.map(c => '<button data-answer="' + escapeText(c) + '">' + renderQuestionText(c) + '</button>').join('') + '</div>'}<p class="hint">문제를 푸는 동안에도 영업 시간과 손님 대기시간은 흘러요.</p>`;
     el('close-problem').onclick = returnToCafe;
     el('return-cafe')?.addEventListener('click', returnToCafe);
     if (feedback?.correct) {
@@ -88,9 +100,14 @@ function renderProblem() {
 }
 function submit(answer) { advanceTime(); if (game?.status !== 'RUNNING' || feedback || !answer.trim())
     return; const r = engine.submit(answer); if (!r)
-    return; feedback = r; const learningSaved = game.policy.persistence !== 'saved-cafe' || learningProgressRepository.write(engine.progress); const before = game.successfulProduction, quantity = game.boosterRemaining ? 3 : 1; const stocksBefore = new Map(game.menus.map(m => [m.menuId, m.stock])); game.recordAnswer(r.correct); receipt = r.correct ? productionReceipt(stocksBefore, game.menus) : []; if (!r.correct)
+    return; feedback = r; const learningSaved = game.policy.persistence !== 'saved-cafe' || learningProgressRepository.write(engine.progress); const before = game.successfulProduction, quantity = game.boosterRemaining ? 3 : 1; const stocksBefore = new Map(game.menus.map(m => [m.menuId, m.stock])); game.recordAnswer(r.correct); const signatureMade = specialAttempt !== null && game.completeSignature(specialAttempt, r.correct); specialAttempt = null; receipt = r.correct ? productionReceipt(stocksBefore, game.menus) : []; if (!r.correct)
     productionUntil = 0; if (r.correct)
-    productionUntil = performance.now() + 1800; renderProblem(); if (!r.correct && ux.wrong()) {
+    productionUntil = performance.now() + 1800; renderProblem(); if (signatureMade) {
+    const note = document.createElement('p');
+    note.className = 'signature-ready';
+    note.textContent = game.service.paid.length ? '시그니처 플레이트 완성! 직원들이 가져다드려요.' : '시그니처 플레이트 완성! 서빙하기를 눌러 가져다주세요.';
+    document.querySelector('.feedback')?.append(note);
+} if (!r.correct && ux.wrong()) {
     const note = document.createElement('p');
     note.textContent = '비슷한 문제가 나중에 다시 나와요.';
     document.querySelector('.feedback')?.append(note);
@@ -99,7 +116,12 @@ function submit(answer) { advanceTime(); if (game?.status !== 'RUNNING' || feedb
     warning.className = 'save-error';
     warning.textContent = '학습 기록을 저장하지 못했어요. 이번 영업에서는 복습이 계속됩니다.';
     document.querySelector('.feedback')?.append(warning);
-} const chosen = document.createElement('p'); chosen.className = 'answer-outcome'; chosen.textContent = '내 답: ' + answer + ' · 정답: ' + r.answer; document.querySelector('.feedback')?.append(chosen); feel.answer(r.correct, game.successfulProduction - before, quantity, game.menus.length); render(); }
+} const chosen = document.createElement('p'); chosen.className = 'answer-outcome'; chosen.textContent = '내 답: ' + answer + ' · 정답: ' + r.answer; document.querySelector('.feedback')?.append(chosen); feel.answer(r.correct, game.successfulProduction - before, quantity, game.menus.length); render(); if (r.correct) {
+    const session = game, answer = r;
+    clearTimeout(outcomeTimer);
+    outcomeTimer = window.setTimeout(() => { if (game === session && game.status === 'RUNNING' && feedback === answer && panelOpen && !document.querySelector('.answer-review[open]'))
+        returnToCafe(); }, 2300);
+} }
 function render() {
     if (!game)
         return;
@@ -127,15 +149,25 @@ function render() {
     const serve = el('serve');
     serve.hidden = game.service.paid.length > 0;
     serve.disabled = !game.readyToServe.length || game.service.workers[0].state !== 'IDLE';
-    serve.textContent = game.service.workers[0].state !== 'IDLE' ? '사장님 운반 중' : '서빙 · ' + game.readyToServe.length + '주문';
-    el('service-status').textContent = game.service.paid.length ? '직원 ' + game.service.paid.length + '명 · 자동 서빙' : '준비된 주문을 한 번 눌러 서빙해요';
+    serve.textContent = '서빙하기 (' + game.readyToServe.length + ')';
+    serve.setAttribute('aria-label', '서빙하기 · 준비 주문 ' + game.readyToServe.length + '개');
+    el('service-status').textContent = game.service.paid.length ? '자동 서빙 · 사장님 + 직원 ' + game.service.paid.length + '명' : game.service.workers[0].state === 'IDLE' ? '준비된 주문을 눌러 서빙해요' : '사장님이 음식을 운반하고 돌아와요';
     el('live-stats').textContent = '응대한 손님 ' + game.stats.servedCustomers + '명 · 푼 문제 ' + game.stats.attempted + '개 · 총매출 ' + game.stats.revenue.toLocaleString() + '원';
+    renderHospitality();
     renderSeats();
     renderGuestDetail();
-    el('item-effects').textContent = [game.goldenRemaining ? '✦ 황금시간 ' + game.goldenRemaining + '주문' : '', game.boosterRemaining ? '생산 UP ' + game.boosterRemaining + '정답' : '', game.vipPending ? '★ VIP 예약' : ''].filter(Boolean).join(' · ');
+    renderDepartureTalks();
+    renderServiceHint();
+    document.querySelector('.tools-title').textContent = game.status === 'RUNNING' ? '나의 카페' : '오늘의 영업 결과';
+    el('leave-game').disabled = game.status !== 'RUNNING';
+    el('end-business').disabled = game.status !== 'RUNNING';
+    el('item-effects').textContent = [game.goldenRemaining ? '✦ 황금시간 ' + game.goldenRemaining + '주문' : '', game.boosterRemaining ? '생산 UP ' + game.boosterRemaining + '정답' : '', game.vipPending ? '★ VIP 예약' : '', game.elapsedTime < game.hospitality.influenceUntil ? '카페 소개 중' : '', game.elapsedTime < game.hospitality.couponUntil ? '메뉴 강화 할인 1회' : '', game.elapsedTime < game.hospitality.patissierUntil && game.hospitality.patissierOrders ? '파티시에 ' + game.hospitality.patissierOrders + '주문' : '', game.elapsedTime < game.hospitality.criticUntil ? '평론가 추천 1주문' : '', game.elapsedTime < game.hospitality.travelerUntil ? '여행 노트 추천' : ''].filter(Boolean).join(' · ');
     renderInvestment();
     renderCelebration();
     if (game.status === 'CLOSED') {
+        clearTimeout(outcomeTimer);
+        el('departure-talks').hidden = true;
+        el('service-hint').hidden = true;
         displayedResult = game;
         document.querySelectorAll('#mode-confirm,#game-method,#sound-panel').forEach(n => n.remove());
         el('guest-detail').hidden = true;
@@ -181,12 +213,15 @@ function frame(now) { if (game?.status === 'CLOSED') {
 } requestAnimationFrame(frame); }
 requestAnimationFrame(frame);
 function renderRoom() { if (!game)
-    return; const room = el('cafe-room'); room.className = 'cafe cafe-lv-' + game.cafeLevel; room.dataset.theme = game.cafe.theme; if (room.dataset.artLevel === String(game.cafeLevel))
-    return; room.dataset.artLevel = String(game.cafeLevel); preloadCustomerPoses(game.cafe.customerPool); room.style.setProperty('--room', 'url(assets/art/' + (game.cafeLevel === 1 ? 'room.png' : 'room-' + game.cafeLevel + '.png') + ')'); if (game.cafeLevel < 6) {
+    return; const room = el('cafe-room'); room.className = 'cafe cafe-lv-' + game.cafeLevel; room.dataset.theme = game.cafe.theme; room.style.setProperty('--room-zoom', String(hallGrowthSpecs[game.cafeLevel - 1].zoom)); room.dataset.hall = hallGrowthSpecs[game.cafeLevel - 1].name; if (room.dataset.artLevel === String(game.cafeLevel))
+    return; room.dataset.artLevel = String(game.cafeLevel); preloadCustomerPoses([...game.cafe.customerPool, ...helperCatalog.filter(h => h.unlock <= game.cafeLevel).map(h => 'helper-' + h.id), ...(game.cafeLevel >= 4 ? ['helper-judge'] : [])]); room.style.setProperty('--room', 'url(assets/art/' + (game.cafeLevel === 1 ? 'room.png' : 'room-' + game.cafeLevel + '.png') + ')'); if (game.nextCafe) {
     const preload = new Image();
     preload.src = 'assets/art/room-' + (game.cafeLevel + 1) + '.png';
 } renderFurniture(); }
-function orderArt(menuId) { const m = game.menus.find(m => m.menuId === menuId); return foodVisual(m); }
+function renderHospitality() { if (!game)
+    return; const h = game.hospitality, b = el('special-order'); b.hidden = !game.specialOrder; b.disabled = !!active && !feedback; const n = el('hospitality-note'), event = h.events.at(-1); n.hidden = !event || game.elapsedTime - event.time > 6; n.textContent = event ? event.message : ''; el('cafe-room').classList.toggle('flower-gift', game.elapsedTime < h.flowersUntil); }
+function orderArt(menuId) { if (menuId === 'event-signature')
+    return '<img class="food-art signature-art" src="assets/art/hospitality/signature-plate.png" alt="오늘의 시그니처 플레이트">'; const m = game.menus.find(m => m.menuId === menuId); return foodVisual(m); }
 // Appearance allocation is UI-only. Original customer definition/patience/RNG are untouched.
 function allocateLooks() { if (!game)
     return; const active = new Set(game.guests.map(g => g.id)); for (const id of guestLooks.keys())
@@ -194,17 +229,18 @@ function allocateLooks() { if (!game)
         guestLooks.delete(id); for (const g of game.guests)
     guestLooks.set(g.id, g.definition.visualKey); }
 function lookName(id) { const g = game?.guests.find(g => g.id === id); if (g?.specialType)
-    return specialNames[g.specialType]; return customers.find(c => c.visualKey === guestLooks.get(id))?.name ?? '손님'; }
+    return specialNames[g.specialType]; if (g?.helperType || g?.signature)
+    return g.definition.name; return customers.find(c => c.visualKey === guestLooks.get(id))?.name ?? '손님'; }
 function renderCompactStock() { if (!game)
     return; const demand = new Map(); for (const g of game.guests.filter(g => g.state === 'WAITING_FOR_FOOD'))
     for (const o of g.order)
-        demand.set(o.menuId, (demand.get(o.menuId) ?? 0) + o.quantity); const shortage = game.menus.filter(m => m.stock < (demand.get(m.menuId) ?? 0)).length; document.querySelector('.pantry-head h2').textContent = '음식 재고'; el('stock-count').textContent = game.menus.length + '종 · 부족 주문 ' + shortage + '종'; const key = JSON.stringify(game.menus.map(m => [m.menuId, m.stock, m.maxStock, m.currentLevel, demand.get(m.menuId)])); if (key !== stockKey) {
+        demand.set(o.menuId, (demand.get(o.menuId) ?? 0) + o.quantity); const shortage = game.menus.filter(m => m.stock < (demand.get(m.menuId) ?? 0)).length; el('stocks').dataset.menus = String(game.menus.length); document.querySelector('.pantry-head h2').textContent = '음식 재고'; el('stock-count').textContent = game.menus.length + '종 · 부족 주문 ' + shortage + '종'; const key = JSON.stringify(game.menus.map(m => [m.menuId, m.stock, m.maxStock, m.currentLevel, demand.get(m.menuId)])); if (key !== stockKey) {
     stockKey = key;
     const offset = el('stocks').scrollLeft;
-    el('stocks').innerHTML = game.menus.map(m => { const status = stockStatus(m.stock, m.maxStock, demand.get(m.menuId)); return '<div class="stock" data-stock="' + m.menuId + '" data-status="' + status + '" aria-label="' + m.name + ' 재고 ' + m.stock + '/' + m.maxStock + ' ' + status + '">' + foodVisual(m) + '<b>' + m.name + '</b><strong>' + m.stock + '/' + m.maxStock + ' · ' + status + '</strong></div>'; }).join('');
+    el('stocks').innerHTML = [...game.menus].sort((a, b) => Number(b.stock < (demand.get(b.menuId) ?? 0)) - Number(a.stock < (demand.get(a.menuId) ?? 0))).map(m => { const status = stockStatus(m.stock, m.maxStock, demand.get(m.menuId)); return '<div class="stock" data-stock="' + m.menuId + '" data-status="' + status + '" data-needed="' + ((demand.get(m.menuId) ?? 0) > m.stock) + '" aria-label="' + m.name + ' 재고 ' + m.stock + '/' + m.maxStock + ' ' + (status === '0' ? '품절' : status) + '">' + foodVisual(m) + '<b>' + m.name + '</b><strong>' + m.stock + '/' + m.maxStock + ' · ' + (status === '0' ? '품절' : status) + '</strong></div>'; }).join('');
     el('stocks').scrollLeft = offset;
 } el('make').classList.toggle('needs-production', shortage > 0); }
-function returnToCafe() { const rewards = [...document.querySelectorAll('[data-reward]')].filter(n => receipt.some(r => r.menuId === n.dataset.reward && r.quantity > 0)).slice(0, 6).map(n => ({ id: n.dataset.reward, rect: n.getBoundingClientRect(), html: n.querySelector('.food-art')?.outerHTML ?? '' })); panelOpen = false; if (feedback) {
+function returnToCafe() { clearTimeout(outcomeTimer); const rewards = [...document.querySelectorAll('[data-reward]')].filter(n => receipt.some(r => r.menuId === n.dataset.reward && r.quantity > 0)).slice(0, 6).map(n => ({ id: n.dataset.reward, rect: n.getBoundingClientRect(), html: n.querySelector('.food-art')?.outerHTML ?? '' })); panelOpen = false; if (feedback) {
     active = null;
     feedback = null;
 } renderProblem(); render(); for (const reward of rewards) {
@@ -226,7 +262,7 @@ function returnToCafe() { const rewards = [...document.querySelectorAll('[data-r
     animation.onfinish = () => token.remove();
 } el('make').focus(); }
 function renderFurniture() { if (!game || !scene)
-    return; el('seats').innerHTML = ''; el('decor').innerHTML = scene.space.tables.map(t => { const art = sprite(game.cafeLevel >= 5 ? 'premium-table' : 'table'); return '<div class="space-table" data-table="' + t.tableId + '" style="left:' + t.x + '%;top:' + t.y + '%;--table-scale:' + t.scale + ';z-index:' + Math.round(t.y * 10 - 5) + '">' + art + '</div><div class="table-front" style="left:' + t.x + '%;top:' + t.y + '%;--table-scale:' + t.scale + ';z-index:' + Math.round(t.y * 10 + 2) + '">' + art + '</div>'; }).join(''); }
+    return; el('seats').innerHTML = ''; el('decor').innerHTML = scene.space.tables.map(t => { const art = sprite(t.artKey ?? (game.cafeLevel >= 5 ? 'premium-table' : 'table')); return '<div class="space-table" data-table="' + t.tableId + '" style="left:' + t.x + '%;top:' + t.y + '%;--table-scale:' + t.scale + ';z-index:' + Math.round(t.y * 10 - 5) + '">' + art + '</div><div class="table-front" style="left:' + t.x + '%;top:' + t.y + '%;--table-scale:' + t.scale + ';z-index:' + Math.round(t.y * 10 + 2) + '">' + art + '</div>'; }).join(''); }
 function renderSeats() { renderActors(); }
 function renderActors() {
     if (!game || !scene)
@@ -262,6 +298,15 @@ function renderActors() {
             badge.title = specialNames[g.specialType];
             node.dataset.special = g.specialType;
             node.classList.toggle('vip-arrival', g.specialType === 'vip' && ['ENTERING', 'MOVING_TO_SEAT'].includes(g.state));
+        }
+        if (g.helperType || g.signature) {
+            if (!badge) {
+                badge = document.createElement('span');
+                badge.className = 'special-badge hospitality-badge';
+                node.append(badge);
+            }
+            badge.textContent = g.signature ? '특별 주문' : '도움';
+            badge.title = g.definition.name + ' · ' + g.definition.characterTrait;
         }
         node.dataset.pose = selection.kind;
         node.dataset.renderIdentity = selection.walk;
@@ -324,11 +369,11 @@ function renderGuestDetail() { const box = el('guest-detail'), g = game?.guests.
     detailKey = '';
     return;
 } box.hidden = false; const key = [g.id, g.state, scene.guest(g).action, Math.ceil(g.patienceRemaining)].join('/'); if (key === detailKey)
-    return; detailKey = key; box.innerHTML = '<div><strong>' + lookName(g.id) + '</strong><button aria-label="손님 상세 닫기">×</button></div><p>' + ({ SITTING: '자리에 앉는 중', WALKING_TO_SEAT: '자리로 가는 중', FINISHING: '식사를 마쳤어요', STANDING_UP: '자리에서 일어나는 중', WALKING_TO_EXIT: '다음에 또 올게요' }[scene.guest(g).action] ?? labels[g.state]) + (['WAITING_FOR_FOOD', 'PREPARING', 'SERVING'].includes(g.state) ? ' · 남은 ' + Math.ceil(g.patienceRemaining) + '초' : '') + '</p><p>' + personalityLabels[g.definition.personality] + ' · ' + g.definition.characterTrait + '</p><div class="detail-order">' + g.order.map(o => '<span>' + orderArt(o.menuId) + '<small>' + game.menus.find(m => m.menuId === o.menuId).name + ' ×' + o.quantity + '</small></span>').join('') + '</div>'; box.querySelector('button').onclick = () => { selectedGuest = null; box.hidden = true; detailKey = ''; }; }
+    return; detailKey = key; box.innerHTML = '<div><strong>' + lookName(g.id) + '</strong><button aria-label="손님 상세 닫기">×</button></div><p>' + ({ SITTING: '자리에 앉는 중', WALKING_TO_SEAT: '자리로 가는 중', FINISHING: '식사를 마쳤어요', STANDING_UP: '자리에서 일어나는 중', WALKING_TO_EXIT: '다음에 또 올게요' }[scene.guest(g).action] ?? labels[g.state]) + (['WAITING_FOR_FOOD', 'PREPARING', 'SERVING'].includes(g.state) ? ' · 남은 ' + Math.ceil(g.patienceRemaining) + '초' : '') + '</p><p>' + personalityLabels[g.definition.personality] + ' · ' + g.definition.characterTrait + '</p><div class="detail-order">' + g.order.map(o => '<span>' + orderArt(o.menuId) + '<small>' + (o.menuId === 'event-signature' ? '오늘의 시그니처 플레이트' : game.menus.find(m => m.menuId === o.menuId).name) + ' ×' + o.quantity + '</small></span>').join('') + '</div>'; box.querySelector('button').onclick = () => { selectedGuest = null; box.hidden = true; detailKey = ''; }; }
 function renderCelebration() { const box = el('celebration'); box.hidden = !game || game.status === 'CLOSED' || performance.now() > celebrationUntil; if (box.hidden)
     return; if (box.dataset.level !== String(celebrationLevel)) {
     box.dataset.level = String(celebrationLevel);
-    box.innerHTML = '<button id="skip-celebration" aria-label="축하 연출 닫기">✕</button><p>카페 ' + celebrationLevel + '단계!</p><h2>' + cafeLevels[celebrationLevel - 1].name + ' OPEN!</h2><p>새 메뉴</p><div>' + menuDefinitions.filter(m => m.unlockCafeLevel === celebrationLevel).map(m => '<span>' + sprite(m.menuId) + ' ' + m.name + '</span>').join('') + '</div>' + (customers.some(c => c.unlockCafeLevel === celebrationLevel) ? '<p>새로운 손님 ' + customers.filter(c => c.unlockCafeLevel === celebrationLevel).length + '명이 찾아오기 시작했어요!</p>' : '');
+    box.innerHTML = '<button id="skip-celebration" aria-label="축하 연출 닫기">✕</button><p>카페 ' + celebrationLevel + '단계!</p><h2>' + game.economy.cafes[celebrationLevel - 1].name + ' OPEN!</h2><p class="hall-unlock">' + hallGrowthSpecs[celebrationLevel - 1].name + ' · 테이블 ' + createSpace(celebrationLevel, true).tables.length + '개 · 이용 좌석 ' + game.cafe.maxCustomers + '석</p><p>' + (celebrationLevel <= 6 ? '새 메뉴' : '더 넓어진 카페') + '</p><div>' + menuDefinitions.filter(m => m.unlockCafeLevel === celebrationLevel).map(m => '<span>' + sprite(m.menuId) + ' ' + m.name + '</span>').join('') + '</div>' + (customers.some(c => c.unlockCafeLevel === celebrationLevel) ? '<p>새로운 손님 ' + customers.filter(c => c.unlockCafeLevel === celebrationLevel).length + '명이 찾아오기 시작했어요!</p>' : '');
     box.onclick = () => { celebrationUntil = 0; box.hidden = true; };
     el('skip-celebration').onclick = box.onclick;
 } }
@@ -341,12 +386,12 @@ function renderInvestment(force = false) {
     if (!force && key === renderedInvestmentKey)
         return;
     renderedInvestmentKey = key;
-    const affordability = (cost) => '<p class="afford ' + (game.money < cost ? 'insufficient' : '') + '">' + game.money.toLocaleString() + ' / ' + cost.toLocaleString() + ' 원' + (game.money < cost ? ' · ' + (cost - game.money).toLocaleString() + '원 더 필요해요 · 돈이 부족해요.' : ' · 살 수 있어요') + '</p>';
+    const affordability = (cost) => '<p class="afford ' + (game.money < cost ? 'insufficient' : '') + '"><span>보유 ' + game.money.toLocaleString() + '원 / 필요 ' + cost.toLocaleString() + '원</span><strong>' + (game.money < cost ? (cost - game.money).toLocaleString() + '원 부족' : '구매 가능') + '</strong></p>';
     const next = game.nextCafe;
     const warehouse = game.nextWarehouse;
     let content = '';
     if (investmentTab === 'cafe') {
-        content = '<div class="investment-card"><p>현재 카페 ' + game.cafeLevel + '단계' + ' · ' + game.cafe.name + '</p>' + (next ? '<h2>카페 ' + next.level + '단계 · ' + next.name + '</h2><p>테이블 ' + game.cafe.maxCustomers + ' → ' + next.maxCustomers + '석</p><div class="unlock-preview">' + menuDefinitions.filter(m => m.unlockCafeLevel === next.level).map(m => '<span>' + sprite(m.menuId) + ' ' + m.name + '</span>').join('') + '</div>' + affordability(next.expansionCost) + '<button class="primary" data-buy="cafe">카페 확장 · ' + next.expansionCost.toLocaleString() + '원</button>' : '<h2>✦ 드림 카페 완성!</h2><p>최고 단계에 도달했어요. 영업은 남은 시간 동안 계속됩니다.</p>') + '</div>';
+        content = '<div class="investment-card"><p>현재 카페 ' + game.cafeLevel + '단계' + ' · ' + game.cafe.name + '</p>' + (next ? '<h2><small>카페 ' + next.level + '단계</small><span class="cafe-upgrade-name">' + next.name + '</span></h2><p>홀 확장 · 테이블 ' + scene.space.tables.length + ' → ' + createSpace(next.level, true).tables.length + '개</p><p>이용 좌석 ' + game.cafe.maxCustomers + ' → ' + next.maxCustomers + '석</p><div class="unlock-preview">' + menuDefinitions.filter(m => m.unlockCafeLevel === next.level).map(m => '<span>' + sprite(m.menuId) + ' ' + m.name + '</span>').join('') + '</div>' + affordability(next.expansionCost) + '<button class="primary" data-buy="cafe">카페 확장 · ' + next.expansionCost.toLocaleString() + '원</button>' : '<h2>✦ 드림 카페 완성!</h2><p>최고 단계에 도달했어요. 영업은 남은 시간 동안 계속됩니다.</p>') + '</div>';
     }
     else if (investmentTab === 'warehouse') {
         content = '<div class="investment-card"><p>현재 창고 ' + (game.warehouseLevel === 6 ? 'MAX' : game.warehouseLevel + '단계') + '</p><h2>메뉴마다 ' + game.warehouse.capacity + '개 보관</h2>' + (warehouse ? '<p>최대 재고 ' + game.warehouse.capacity + ' → ' + warehouse.capacity + '개</p>' + affordability(warehouse.cost) + '<button class="primary" data-buy="warehouse">창고 확장 · ' + warehouse.cost.toLocaleString() + '원</button>' : '<p>최대 크기의 창고예요.</p>') + '</div>';
@@ -369,7 +414,7 @@ function renderInvestment(force = false) {
     }
     else {
         content = '<div class="menu-investments">' + menuDefinitions.map(def => { const m = game.menus.find(m => m.menuId === def.menuId); if (!m)
-            return '<article class="investment-card locked"><span class="lock">잠김</span><h3>' + def.name + '</h3><p>카페 ' + def.unlockCafeLevel + '단계에서 열려요</p></article>'; const cost = game.getMenuUpgradeCost(m); return '<article class="investment-card menu-row">' + foodVisual(m) + '<div><h3>' + m.name + ' <small>★' + m.currentLevel + '</small></h3><p>재고 ' + m.stock + '/' + m.maxStock + ' · 판매 ' + game.getPrice(m) + (cost !== null ? ' → ' + game.getPrice(m, m.currentLevel + 1) : '') + '원</p></div>' + (cost !== null ? '<button class="secondary" data-buy="menu" data-menu="' + m.menuId + '" ' + (game.money < cost ? 'disabled' : '') + ' aria-label="' + m.name + ' 강화">강화 ' + cost.toLocaleString() + '원</button>' : '<span class="max-label">MAX ★5</span>') + '</article>'; }).join('') + '</div>';
+            return '<article class="investment-card locked"><span class="lock">잠김</span><h3>' + def.name + '</h3><p>카페 ' + def.unlockCafeLevel + '단계에서 열려요</p></article>'; const cost = game.getMenuUpgradeCost(m); return '<article class="investment-card menu-row">' + foodVisual(m) + '<div><h3>' + m.name + ' <small>★' + m.currentLevel + '</small></h3><p>재고 ' + m.stock + '/' + m.maxStock + ' · 판매 ' + game.getPrice(m) + (cost !== null ? ' → ' + game.getPrice(m, m.currentLevel + 1) : '') + '원</p>' + (cost !== null ? affordability(cost) : '') + '</div>' + (cost !== null ? '<button class="secondary" data-buy="menu" data-menu="' + m.menuId + '" ' + (game.money < cost ? 'disabled' : '') + ' aria-label="' + m.name + ' 강화">강화 ' + cost.toLocaleString() + '원</button>' : '<span class="max-label">MAX ★5</span>') + '</article>'; }).join('') + '</div>';
     }
     const scroll = panel.querySelector('.investment-content')?.scrollTop ?? 0;
     panel.innerHTML = '<div class="problem-head"><h2>카페 키우기</h2><button id="close-invest" aria-label="투자 패널 닫기">✕</button></div><p class="investment-money">보유금 ' + game.money.toLocaleString() + '원 · 총매출 ' + game.stats.revenue.toLocaleString() + '원</p><div class="investment-tabs" role="tablist">' + [['cafe', '카페 확장'], ['warehouse', '창고'], ['menu', '메뉴 강화'], ['staff', '직원'], ...(game.phase4Enabled ? [['items', '아이템']] : [])].map(([id, title]) => '<button role="tab" aria-selected="' + (id === investmentTab) + '" data-tab="' + id + '">' + title + '</button>').join('') + '</div><p class="investment-message" aria-live="polite">' + investmentMessage + '</p><div class="investment-content">' + content + '</div><p class="hint">카페를 키우는 동안에도 시간이 계속 흘러요.</p>';
@@ -446,3 +491,17 @@ export function configureUxPreference(storage, key) { ux.configure(storage, key)
 export function uxDiagnostics() { return { tutorialCompleted: ux.preference.completed, status: game?.status, cafe: game?.snapshot, learning: engine.report() }; }
 export function refreshForQA() { render(); }
 export function sessionForQA() { return game; }
+function renderDepartureTalks() { if (!game)
+    return; const messages = departure.observe(game.guests, game.elapsedTime), key = JSON.stringify(messages.map(m => m.guestId)); const lane = el('departure-talks'); lane.hidden = messages.length === 0; lane.setAttribute('aria-live', panelOpen ? 'off' : 'polite'); if (key === departureKey)
+    return; departureKey = key; lane.innerHTML = messages.map(m => '<div class="departure-bubble" data-departure="' + m.guestId + '" data-outcome="' + m.outcome + '"><b>' + escapeText(m.name) + '</b><span>' + escapeText(m.text) + '</span></div>').join(''); }
+function renderServiceHint() { if (!game)
+    return; const box = el('service-hint'), paid = game.service.paid.length; let text = ''; if (!paid && game.readyToServe.length && !manualTipShown) {
+    manualTipShown = true;
+    text = '음식이 준비됐어요! 서빙하기를 눌러 손님에게 가져다주세요.';
+} if (paid > lastStaffCount && !autoTipShown) {
+    autoTipShown = true;
+    text = '이제 직원이 자동으로 서빙해요!';
+} lastStaffCount = paid; if (text) {
+    box.textContent = text;
+    hintUntil = performance.now() + 4500;
+} box.hidden = performance.now() > hintUntil || game.status !== 'RUNNING'; }

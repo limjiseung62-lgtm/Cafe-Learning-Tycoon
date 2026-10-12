@@ -1,4 +1,4 @@
-import { normalizeAnswer } from './questionPack.js';
+import { normalizeAnswer } from './questionPack.js?v=1.2.0';
 export const learningConfig = { remediationGap: 3, recentWindow: 3, maxQueue: 32 };
 export class LearningSession {
     provider;
@@ -31,6 +31,10 @@ export class LearningSession {
                 this.remediation.push({ source, due: learningConfig.remediationGap });
         }
     }
+    present(questionId) { if (this.active && !this.answered)
+        return null; const q = this.pool.find(q => q.questionId === questionId); if (!q)
+        return null; this.active = structuredClone({ ...q, isRemediation: false, isTwin: false }); this.answered = false; this.lastRemediation = false; this.recent.push(q.questionId); if (this.recent.length > learningConfig.recentWindow)
+        this.recent.shift(); return this.active; }
     next() {
         if (this.active && !this.answered)
             return this.active;

@@ -1,4 +1,4 @@
-import { growthBaseFor } from './sessionFactory.js';
+import { growthBaseFor } from './sessionFactory.js?v=1.2.0';
 export function captureGrowth(game, base, now = new Date().toISOString()) { const t = game.telemetry.phase4, b = base.specialCustomerStats; const types = structuredClone(b.types); for (const [key, v] of Object.entries(t.specialCustomerTypes)) {
     const old = types[key] ?? { spawned: 0, served: 0 };
     types[key] = { spawned: old.spawned + v.spawned, served: old.served + v.served };

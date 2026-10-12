@@ -1,11 +1,11 @@
-import { menuDefinitions } from './data.js';
-import { staffDefinitions } from './staff.js';
-import { cafeGrowthBalance } from './modeBalance.js';
-import { specialTypes } from './phase4Config.js';
+import { menuDefinitions } from './data.js?v=1.2.0';
+import { staffDefinitions } from './staff.js?v=1.2.0';
+import { cafeGrowthBalance } from './modeBalance.js?v=1.2.0';
+import { specialTypes } from './phase4Config.js?v=1.2.0';
 const integer = (v, min = 0, max = Number.MAX_SAFE_INTEGER) => typeof v === 'number' && Number.isSafeInteger(v) && v >= min && v <= max;
 const object = (v) => !!v && typeof v === 'object' && !Array.isArray(v);
 const date = (v) => typeof v === 'string' && /^\d{4}-\d{2}-\d{2}T/.test(v) && Number.isFinite(Date.parse(v));
-export function validateGrowthSave(v) { if (!object(v) || v.schemaVersion !== 1 || v.mode !== 'CAFE_GROWTH' || !date(v.createdAt) || !date(v.updatedAt) || Date.parse(v.createdAt) > Date.parse(v.updatedAt) || !integer(v.cafeLevel, 1, 6) || !integer(v.warehouseLevel, 1, 6) || !integer(v.money))
+export function validateGrowthSave(v) { if (!object(v) || v.schemaVersion !== 1 || v.mode !== 'CAFE_GROWTH' || !date(v.createdAt) || !date(v.updatedAt) || Date.parse(v.createdAt) > Date.parse(v.updatedAt) || !integer(v.cafeLevel, 1, 10) || !integer(v.warehouseLevel, 1, 6) || !integer(v.money))
     return false; const ids = menuDefinitions.filter(m => m.unlockCafeLevel <= v.cafeLevel).map(m => m.menuId); if (!Array.isArray(v.unlockedMenuIds) || new Set(v.unlockedMenuIds).size !== ids.length || v.unlockedMenuIds.length !== ids.length || !ids.every(id => v.unlockedMenuIds instanceof Array && v.unlockedMenuIds.includes(id)))
     return false; if (!object(v.menuLevels) || Object.keys(v.menuLevels).length !== ids.length || !ids.every(id => object(v.menuLevels) && integer(v.menuLevels[id], 1, 5)))
     return false; if (!Array.isArray(v.staffOwned) || v.staffOwned.length > cafeGrowthBalance.staff.limits[v.cafeLevel - 1] || !v.staffOwned.every((id, i) => id === staffDefinitions[i]?.staffId) || !object(v.staffLevels) || Object.keys(v.staffLevels).length !== v.staffOwned.length || !v.staffOwned.every(id => object(v.staffLevels) && integer(v.staffLevels[id], 1, 5)))

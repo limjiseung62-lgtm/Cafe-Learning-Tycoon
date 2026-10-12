@@ -1,11 +1,11 @@
-import { createClassMatch, createGrowthSession } from './sessionFactory.js';
-import { createGrowthSave } from './growthSave.js';
-import { GrowthSessionController } from './growthSession.js';
-import { LocalSaveRepository } from './saveRepository.js';
-import { policyFor } from './sessionModes.js';
-import { balance } from './config.js';
-import { questionCatalog } from './questionPack.js';
-import { escapeText } from './questionRenderer.js';
+import { createClassMatch, createGrowthSession } from './sessionFactory.js?v=1.2.0';
+import { createGrowthSave } from './growthSave.js?v=1.2.0';
+import { GrowthSessionController } from './growthSession.js?v=1.2.0';
+import { LocalSaveRepository } from './saveRepository.js?v=1.2.0';
+import { policyFor } from './sessionModes.js?v=1.2.0';
+import { balance } from './config.js?v=1.2.0';
+import { questionCatalog } from './questionPack.js?v=1.2.0';
+import { escapeText } from './questionRenderer.js?v=1.2.0';
 const e = (id) => document.getElementById(id);
 const study = () => '<div id="study-content" class="study-content"><span>학습 내용</span><strong id="study-title">문제를 준비하고 있어요…</strong><select id="study-pack" aria-label="학습 내용" hidden></select></div><p id="pack-error" class="save-error" aria-live="polite"></p><button type="button" id="pack-retry" class="text-button pack-retry" hidden>다시 시도</button>';
 export function browserSaveRepository() { try {
@@ -49,7 +49,7 @@ export class ModeFlow {
     setRepository(repo) { if (this.current()?.status === 'RUNNING')
         throw Error('Cannot change repository during a session'); this.repository = repo; this.showModes(); }
     card() { return document.querySelector('.welcome-card'); }
-    showModes() { this.view++; this.busy = false; this.controller = null; this.endedGame = null; this.card().innerHTML = '<p class="eyebrow">오늘은 어떻게 놀까요?</p><h2>배움이 쌓이는<br>나만의 카페</h2><div class="mode-cards"><button id="choose-class" class="mode-card"><strong>수업 게임</strong><span>정해진 시간 동안 카페를 키워요!</span></button><button id="choose-growth" class="mode-card"><strong>내 카페 키우기</strong><span>내 카페를 저장하고 계속 키워요!</span></button></div><p class="hint">처음이라면 위의 게임 방법을 눌러 보세요.</p>'; e('choose-class').onclick = () => this.classSetup(); e('choose-growth').onclick = () => this.growthSetup(); }
+    showModes() { this.view++; this.busy = false; this.controller = null; this.endedGame = null; this.card().innerHTML = '<p class="eyebrow">오늘은 어떻게 놀까요?</p><h2>배움이 쌓이는<br>나만의 카페</h2><div class="mode-cards"><button id="choose-class" class="mode-card"><strong>수업 게임</strong><span>정해진 시간 동안 카페를 키워요!</span></button><button id="choose-growth" class="mode-card"><strong>내 카페 키우기</strong><span>내 카페를 저장하고 Lv.10까지 키워요!</span></button></div><p class="hint">처음이라면 메뉴에서 게임 방법을 눌러 보세요.</p>'; e('choose-class').onclick = () => this.classSetup(); e('choose-growth').onclick = () => this.growthSetup(); }
     back() { e('mode-back').onclick = () => this.showModes(); }
     controls(disabled) { this.card().querySelectorAll('[data-start]').forEach(b => b.disabled = disabled); }
     async populatePacks(retry = false) { const view = this.view; this.loadFailed = false; this.controls(true); e('pack-error').textContent = ''; e('pack-retry').hidden = true; try {

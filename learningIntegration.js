@@ -1,6 +1,6 @@
-import { JsonQuestionProvider, legacyQuestions } from './questionPack.js';
-import { LearningSession, LearningProgressRepository } from './learningSession.js';
-import { LocalProblemRepository } from './problems.js';
+import { JsonQuestionProvider, legacyQuestions } from './questionPack.js?v=1.2.0';
+import { LearningSession, LearningProgressRepository } from './learningSession.js?v=1.2.0';
+import { LocalProblemRepository } from './problems.js?v=1.2.0';
 let storage = null;
 try {
     if (typeof localStorage !== 'undefined')
