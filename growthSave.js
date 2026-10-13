@@ -1,7 +1,7 @@
-import { menuDefinitions } from './data.js?v=1.2.0';
-import { staffDefinitions } from './staff.js?v=1.2.0';
-import { cafeGrowthBalance } from './modeBalance.js?v=1.2.0';
-import { specialTypes } from './phase4Config.js?v=1.2.0';
+import { menuDefinitions } from './data.js?v=1.2.1';
+import { staffDefinitions } from './staff.js?v=1.2.1';
+import { cafeGrowthBalance } from './modeBalance.js?v=1.2.1';
+import { specialTypes } from './phase4Config.js?v=1.2.1';
 const integer = (v, min = 0, max = Number.MAX_SAFE_INTEGER) => typeof v === 'number' && Number.isSafeInteger(v) && v >= min && v <= max;
 const object = (v) => !!v && typeof v === 'object' && !Array.isArray(v);
 const date = (v) => typeof v === 'string' && /^\d{4}-\d{2}-\d{2}T/.test(v) && Number.isFinite(Date.parse(v));

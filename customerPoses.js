@@ -1,6 +1,6 @@
-import { hospitalityPoseCatalog } from './hospitalityPoseCatalog.js?v=1.2.0';
-import { specialPoseCatalog } from './specialPoseCatalog.js?v=1.2.0';
-import { customerPoseCatalog } from './customerPoseCatalog.js?v=1.2.0';
+import { hospitalityPoseCatalog } from './hospitalityPoseCatalog.js?v=1.2.1';
+import { specialPoseCatalog } from './specialPoseCatalog.js?v=1.2.1';
+import { customerPoseCatalog } from './customerPoseCatalog.js?v=1.2.1';
 export const customerPoses = customerPoseCatalog;
 export function selectCustomerPose(visualKey, action, facing) { const p = customerPoses[visualKey] ?? hospitalityPoseCatalog[visualKey] ?? specialPoseCatalog[visualKey]; if (!p)
     throw new Error('Missing customer pose: ' + visualKey); const walking = ['ENTERING', 'WALKING_TO_SEAT', 'STANDING_UP', 'WALKING_TO_EXIT'].includes(action); return { key: visualKey + (walking ? '/walk-' + facing : '/sit-' + facing), kind: walking ? 'walk' : 'sit', walk: p.walk, facing, asset: walking ? null : facing === 'left' ? p.sitLeft : p.sitRight }; }

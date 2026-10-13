@@ -34,3 +34,18 @@ body:has(#app.in-session){padding-top:env(safe-area-inset-top);padding-bottom:en
 .lesson-card .hospitality-note:not([hidden]){display:block;flex-basis:100%}#special-order{flex-basis:100%;font-family:var(--font-display);font-weight:400}
 
 .spatial-guest .hospitality-badge{left:calc(100% + 2px);top:2px;width:auto;height:auto;padding:2px 4px;min-height:15px;border-radius:5px;font-size:8px;line-height:1.2}
+
+/* Management return controls persist while the live investment body refreshes. */
+.investment-panel .investment-header,.investment-panel .investment-footer{flex:0 0 auto}
+.investment-panel .investment-header{min-height:50px;padding-bottom:8px}
+.investment-panel .investment-header h2{margin:0;font-size:21px}
+.investment-panel .investment-header #close-invest{min-width:96px;min-height:44px;padding:8px 10px;font-size:14px;white-space:nowrap;background:#eee0c5;border:1px solid #c3aa7e}
+.investment-panel .investment-body{display:flex;flex-direction:column;flex:1 1 auto;min-height:0;overflow:hidden}
+.investment-panel .investment-content{flex:1 1 auto;min-height:0;overflow-y:auto;touch-action:pan-y}
+.investment-panel .investment-footer{padding-top:8px;border-top:1px solid #d4bd99}
+.investment-panel #return-invest{display:block;width:100%;min-height:48px;font-size:18px}
+.investment-panel .investment-footer .hint{margin:5px 0 0;font-size:10px;text-align:center}
+body:has(#investment-panel:not([hidden])) .first-guide{display:none}
+@media(max-width:700px){.investment-panel{top:max(8px,env(safe-area-inset-top));bottom:max(8px,env(safe-area-inset-bottom));padding:10px}.investment-panel .investment-header h2{font-size:20px}.investment-panel .investment-footer{padding-bottom:env(safe-area-inset-bottom)}}
+
+.investment-body>.investment-money,.investment-body>.investment-tabs,.investment-body>.investment-message{flex:0 0 auto}.investment-body>.investment-money{margin:8px 0;font-size:12px;line-height:1.5}.investment-body>.investment-message{margin:6px 0;font-size:11px;line-height:1.4}.investment-body>.investment-content{flex:1 1 0}

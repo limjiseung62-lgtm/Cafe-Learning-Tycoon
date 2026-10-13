@@ -1,25 +1,25 @@
-import { specialQuestions, helperCatalog } from './hospitalityConfig.js?v=1.2.0';
-import { productionReceipt, stockStatus } from './playLoop.js?v=1.2.0';
-import { FinalUx } from './finalUx.js?v=1.2.0';
-import { SessionClock, ActionGate } from './uxState.js?v=1.2.0';
-import { installAssetFallbacks } from './assetFallback.js?v=1.2.0';
-import { createLearning, learningProgressRepository } from './learningIntegration.js?v=1.2.0';
-import { renderQuestionText, escapeText } from './questionRenderer.js?v=1.2.0';
-import { GameFeel } from './gameFeel.js?v=1.2.0';
-import { ModeFlow } from './modeUi.js?v=1.2.0';
-import { itemCatalog, specialNames, specialIcons, specialTypes } from './phase4Config.js?v=1.2.0';
-import { showOrderBubble, syncOrderBubble, assetSignature } from './presentation.js?v=1.2.0';
-import { personalityLabels } from './customerRules.js?v=1.2.0';
-import { selectCustomerPose, customerPoseArt, poseGeometry, preloadCustomerPoses, selectedPoseAsset } from './customerPoses.js?v=1.2.0';
-import { SpatialScene, hallGrowthSpecs, createSpace } from './spatial.js?v=1.2.0';
-import { DepartureDialogue } from './departureDialogue.js?v=1.2.0';
-import { icon } from './uiIcons.js?v=1.2.0';
-import { sprite } from './art.js?v=1.2.0';
-import { staffBalance } from './config.js?v=1.2.0';
-import { staffDefinitions } from './staff.js?v=1.2.0';
-import { foodVisual } from './foodVisual.js?v=1.2.0';
-import { cafeLevels } from './config.js?v=1.2.0';
-import { customers, menuDefinitions } from './data.js?v=1.2.0';
+import { specialQuestions, helperCatalog } from './hospitalityConfig.js?v=1.2.1';
+import { productionReceipt, stockStatus } from './playLoop.js?v=1.2.1';
+import { FinalUx } from './finalUx.js?v=1.2.1';
+import { SessionClock, ActionGate } from './uxState.js?v=1.2.1';
+import { installAssetFallbacks } from './assetFallback.js?v=1.2.1';
+import { createLearning, learningProgressRepository } from './learningIntegration.js?v=1.2.1';
+import { renderQuestionText, escapeText } from './questionRenderer.js?v=1.2.1';
+import { GameFeel } from './gameFeel.js?v=1.2.1';
+import { ModeFlow } from './modeUi.js?v=1.2.1';
+import { itemCatalog, specialNames, specialIcons, specialTypes } from './phase4Config.js?v=1.2.1';
+import { showOrderBubble, syncOrderBubble, assetSignature } from './presentation.js?v=1.2.1';
+import { personalityLabels } from './customerRules.js?v=1.2.1';
+import { selectCustomerPose, customerPoseArt, poseGeometry, preloadCustomerPoses, selectedPoseAsset } from './customerPoses.js?v=1.2.1';
+import { SpatialScene, hallGrowthSpecs, createSpace } from './spatial.js?v=1.2.1';
+import { DepartureDialogue } from './departureDialogue.js?v=1.2.1';
+import { icon } from './uiIcons.js?v=1.2.1';
+import { sprite } from './art.js?v=1.2.1';
+import { staffBalance } from './config.js?v=1.2.1';
+import { staffDefinitions } from './staff.js?v=1.2.1';
+import { foodVisual } from './foodVisual.js?v=1.2.1';
+import { cafeLevels } from './config.js?v=1.2.1';
+import { customers, menuDefinitions } from './data.js?v=1.2.1';
 const developerMode = new URLSearchParams(location.search).has('dev');
 const clock = new SessionClock(), purchaseGate = new ActionGate();
 const feel = new GameFeel();
@@ -377,6 +377,7 @@ function renderCelebration() { const box = el('celebration'); box.hidden = !game
     box.onclick = () => { celebrationUntil = 0; box.hidden = true; };
     el('skip-celebration').onclick = box.onclick;
 } }
+function closeInvestment() { investmentOpen = false; el('investment-panel').hidden = true; const trigger = document.querySelector('[data-focus-tab="' + investmentTab + '"]') ?? el('invest'); trigger.focus({ preventScroll: true }); }
 function renderInvestment(force = false) {
     const panel = el('investment-panel');
     panel.hidden = !investmentOpen || !game || game.status !== 'RUNNING';
@@ -417,7 +418,16 @@ function renderInvestment(force = false) {
             return '<article class="investment-card locked"><span class="lock">잠김</span><h3>' + def.name + '</h3><p>카페 ' + def.unlockCafeLevel + '단계에서 열려요</p></article>'; const cost = game.getMenuUpgradeCost(m); return '<article class="investment-card menu-row">' + foodVisual(m) + '<div><h3>' + m.name + ' <small>★' + m.currentLevel + '</small></h3><p>재고 ' + m.stock + '/' + m.maxStock + ' · 판매 ' + game.getPrice(m) + (cost !== null ? ' → ' + game.getPrice(m, m.currentLevel + 1) : '') + '원</p>' + (cost !== null ? affordability(cost) : '') + '</div>' + (cost !== null ? '<button class="secondary" data-buy="menu" data-menu="' + m.menuId + '" ' + (game.money < cost ? 'disabled' : '') + ' aria-label="' + m.name + ' 강화">강화 ' + cost.toLocaleString() + '원</button>' : '<span class="max-label">MAX ★5</span>') + '</article>'; }).join('') + '</div>';
     }
     const scroll = panel.querySelector('.investment-content')?.scrollTop ?? 0;
-    panel.innerHTML = '<div class="problem-head"><h2>카페 키우기</h2><button id="close-invest" aria-label="투자 패널 닫기">✕</button></div><p class="investment-money">보유금 ' + game.money.toLocaleString() + '원 · 총매출 ' + game.stats.revenue.toLocaleString() + '원</p><div class="investment-tabs" role="tablist">' + [['cafe', '카페 확장'], ['warehouse', '창고'], ['menu', '메뉴 강화'], ['staff', '직원'], ...(game.phase4Enabled ? [['items', '아이템']] : [])].map(([id, title]) => '<button role="tab" aria-selected="' + (id === investmentTab) + '" data-tab="' + id + '">' + title + '</button>').join('') + '</div><p class="investment-message" aria-live="polite">' + investmentMessage + '</p><div class="investment-content">' + content + '</div><p class="hint">카페를 키우는 동안에도 시간이 계속 흘러요.</p>';
+    let body = panel.querySelector('.investment-body');
+    if (!body) {
+        panel.setAttribute('role', 'dialog');
+        panel.setAttribute('aria-label', '카페 관리');
+        panel.innerHTML = '<div class="problem-head investment-header"><h2>카페 관리</h2><button id="close-invest" aria-label="카페 관리 닫고 카페로 돌아가기">← 카페로</button></div><div class="investment-body"></div><footer class="investment-footer"><button id="return-invest" class="primary">카페로 돌아가기</button><p class="hint">관리 중에도 영업은 계속 진행돼요.</p></footer>';
+        body = panel.querySelector('.investment-body');
+        el('close-invest').onclick = closeInvestment;
+        el('return-invest').onclick = closeInvestment;
+    }
+    body.innerHTML = '<p class="investment-money">보유금 ' + game.money.toLocaleString() + '원 · 총매출 ' + game.stats.revenue.toLocaleString() + '원</p><div class="investment-tabs" role="tablist">' + [['cafe', '카페 확장'], ['warehouse', '창고'], ['menu', '메뉴 강화'], ['staff', '직원'], ...(game.phase4Enabled ? [['items', '아이템']] : [])].map(([id, title]) => '<button role="tab" aria-selected="' + (id === investmentTab) + '" data-tab="' + id + '">' + title + '</button>').join('') + '</div><p class="investment-message" aria-live="polite">' + investmentMessage + '</p><div class="investment-content">' + content + '</div>';
     panel.querySelector('.investment-content').scrollTop = scroll;
     const delivery = panel.querySelector('#delivery-menu');
     if (delivery)
@@ -426,7 +436,6 @@ function renderInvestment(force = false) {
         return; const menu = panel.querySelector('#delivery-menu')?.value; const result = game.buyItem(b.dataset.item, b.dataset.item === 'delivery' ? menu : undefined); investmentMessage = result.reason.replace(/Cafe Lv\.(\d+)/g, '카페 $1단계'); render(); });
     panel.querySelectorAll('[data-buy],[data-item]').forEach(b => { if (purchaseGate.blocked || b.closest('article,.investment-card')?.querySelector('.afford.insufficient') || (b.dataset.buy === 'cafe' && performance.now() < celebrationUntil))
         b.disabled = true; });
-    el('close-invest').onclick = () => { investmentOpen = false; panel.hidden = true; };
     panel.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => { investmentTab = b.dataset.tab; investmentMessage = ''; renderInvestment(true); panel.querySelector('.investment-content').scrollTop = 0; });
     panel.querySelectorAll('[data-buy]').forEach(b => b.onclick = () => { advanceTime(); if (!game || game.status !== 'RUNNING' || !purchaseGate.run(() => { }))
         return; const kind = b.dataset.buy; if (kind === 'cafe' && performance.now() < celebrationUntil)
