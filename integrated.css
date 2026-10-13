@@ -49,3 +49,5 @@ body:has(#investment-panel:not([hidden])) .first-guide{display:none}
 @media(max-width:700px){.investment-panel{top:max(8px,env(safe-area-inset-top));bottom:max(8px,env(safe-area-inset-bottom));padding:10px}.investment-panel .investment-header h2{font-size:20px}.investment-panel .investment-footer{padding-bottom:env(safe-area-inset-bottom)}}
 
 .investment-body>.investment-money,.investment-body>.investment-tabs,.investment-body>.investment-message{flex:0 0 auto}.investment-body>.investment-money{margin:8px 0;font-size:12px;line-height:1.5}.investment-body>.investment-message{margin:6px 0;font-size:11px;line-height:1.4}.investment-body>.investment-content{flex:1 1 0}
+
+#investment-panel{z-index:230}body:has(#investment-panel:not([hidden])) .session-menu{visibility:hidden;pointer-events:none}

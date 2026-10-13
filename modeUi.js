@@ -1,11 +1,11 @@
-import { createClassMatch, createGrowthSession } from './sessionFactory.js?v=1.2.1';
-import { createGrowthSave } from './growthSave.js?v=1.2.1';
-import { GrowthSessionController } from './growthSession.js?v=1.2.1';
-import { LocalSaveRepository } from './saveRepository.js?v=1.2.1';
-import { policyFor } from './sessionModes.js?v=1.2.1';
-import { balance } from './config.js?v=1.2.1';
-import { questionCatalog } from './questionPack.js?v=1.2.1';
-import { escapeText } from './questionRenderer.js?v=1.2.1';
+import { createClassMatch, createGrowthSession } from './sessionFactory.js?v=1.2.2';
+import { createGrowthSave } from './growthSave.js?v=1.2.2';
+import { GrowthSessionController } from './growthSession.js?v=1.2.2';
+import { LocalSaveRepository } from './saveRepository.js?v=1.2.2';
+import { policyFor } from './sessionModes.js?v=1.2.2';
+import { balance } from './config.js?v=1.2.2';
+import { questionCatalog } from './questionPack.js?v=1.2.2';
+import { escapeText } from './questionRenderer.js?v=1.2.2';
 const e = (id) => document.getElementById(id);
 const study = () => '<div id="study-content" class="study-content"><span>학습 내용</span><strong id="study-title">문제를 준비하고 있어요…</strong><select id="study-pack" aria-label="학습 내용" hidden></select></div><p id="pack-error" class="save-error" aria-live="polite"></p><button type="button" id="pack-retry" class="text-button pack-retry" hidden>다시 시도</button>';
 export function browserSaveRepository() { try {

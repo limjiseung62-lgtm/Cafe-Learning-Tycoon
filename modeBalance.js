@@ -1,5 +1,5 @@
-import { balance, cafeLevels, warehouseLevels, staffBalance } from './config.js?v=1.2.1';
-import { phase4Balance } from './phase4Config.js?v=1.2.1';
+import { balance, cafeLevels, warehouseLevels, staffBalance } from './config.js?v=1.2.2';
+import { phase4Balance } from './phase4Config.js?v=1.2.2';
 // CLASS_MATCH references the approved data without changing any values.
 export const classMatchBalance = { cafes: cafeLevels, warehouses: warehouseLevels, staff: staffBalance, menuMultipliers: balance.menuMultipliers, menuUpgradeMultipliers: balance.menuUpgradeCostMultipliers, special: phase4Balance, initial: { cafeLevel: 1, money: 0, warehouseLevel: 1 } };
 // Independent v1 growth costs. Shared capacity, art, menus and service mechanics.

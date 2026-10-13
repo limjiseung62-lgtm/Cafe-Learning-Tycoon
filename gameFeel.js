@@ -1,4 +1,4 @@
-import { AudioManager } from './audioManager.js?v=1.2.1';
+import { AudioManager } from './audioManager.js?v=1.2.2';
 export class FeelTracker {
     guests = new Map();
     workers = new Map();

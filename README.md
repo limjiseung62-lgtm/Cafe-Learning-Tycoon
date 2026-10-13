@@ -1,4 +1,4 @@
-# 카페 학습 타이쿤 · v1.2.1
+# 카페 학습 타이쿤 · v1.2.2
 
 [카페 열기](https://limjiseung62-lgtm.github.io/Cafe-Learning-Tycoon/)
 
@@ -13,6 +13,6 @@
 
 181개 자동검사, TypeScript 검사, production build, 실제 브라우저 검수 통과. 60분 균형/합리적 운영 모델의120문제 결과는 Lv.5 75% / Lv.6 25%입니다. 육성 효율 운영 3개 시드는 회당15분·30문제·정답률90%에서71~74회에Lv.10에 도달했습니다. 모델 수치는 개인 플레이의 결과를 보장하지 않습니다. 모바일 실물 기기 검증을 의미하지 않습니다.
 
-[변경 기록](CHANGELOG.md) · [v1.2 릴리스 안내](RELEASE_NOTES_v1.2.1.md) · [라이선스](THIRD_PARTY_NOTICES.md) · [음향 출처](AUDIO_LICENSES.md)
+[변경 기록](CHANGELOG.md) · [v1.2 릴리스 안내](RELEASE_NOTES_v1.2.2.md) · [라이선스](THIRD_PARTY_NOTICES.md) · [음향 출처](AUDIO_LICENSES.md)
 
 모바일 관리창에서는 상단 ← 카페로 또는 하단 카페로 돌아가기를 눌러 영업 화면으로 복귀합니다.

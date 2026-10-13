@@ -1,4 +1,4 @@
-import { TutorialPreference, TutorialTracker } from './uxState.js?v=1.2.1';
+import { TutorialPreference, TutorialTracker } from './uxState.js?v=1.2.2';
 export class FinalUx {
     current;
     preference;
