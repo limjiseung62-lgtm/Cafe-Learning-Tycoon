@@ -1,17 +1,21 @@
-import { Hospitality } from './hospitality.js?v=1.2.2';
-import { hospitalityDefinition, hospitalityBalance } from './hospitalityConfig.js?v=1.2.2';
-import { chooseSpecial, specialDefinition, itemCatalog } from './phase4Config.js?v=1.2.2';
-import { policyFor } from './sessionModes.js?v=1.2.2';
-import { chooseCustomer, chooseOrderMenu } from './customerRules.js?v=1.2.2';
-import { StaffSystem } from './staff.js?v=1.2.2';
-import { createSpace, floorPath } from './spatial.js?v=1.2.2';
-import { LocalTelemetry } from './telemetry.js?v=1.2.2';
-import { balance } from './config.js?v=1.2.2';
-import { createMenus, menuDefinitions } from './data.js?v=1.2.2';
+import { CafeRun } from './cafeRun.js?v=1.3.0';
+import { Hospitality } from './hospitality.js?v=1.3.0';
+import { hospitalityDefinition, hospitalityBalance } from './hospitalityConfig.js?v=1.3.0';
+import { chooseSpecial, specialDefinition, itemCatalog } from './phase4Config.js?v=1.3.0';
+import { policyFor } from './sessionModes.js?v=1.3.0';
+import { chooseCustomer, chooseOrderMenu } from './customerRules.js?v=1.3.0';
+import { StaffSystem } from './staff.js?v=1.3.0';
+import { createSpace, floorPath } from './spatial.js?v=1.3.0';
+import { LocalTelemetry } from './telemetry.js?v=1.3.0';
+import { balance } from './config.js?v=1.3.0';
+import { createMenus, menuDefinitions } from './data.js?v=1.3.0';
 export class CafeGame {
     durationSeconds;
     random;
     content;
+    run = null;
+    enableRun(code, concept) { if (this.mode !== 'CLASS_MATCH' || this.elapsedTime !== 0 || this.run)
+        throw Error('Run only available before class starts'); this.run = new CafeRun(code, concept); }
     hospitality = new Hospitality();
     enableHospitality(questionIds = []) { this.hospitality.enabled = true; this.hospitality.questions = [...new Set(questionIds)]; }
     completeSignature(id, correct) { const g = this.guests.find(g => g.id === id); if (!g?.signature || g.state !== 'WAITING_FOR_FOOD' || g.signatureReady || !correct)
@@ -204,7 +208,7 @@ export class CafeGame {
     serveReadyOrder() { if (this.status !== 'RUNNING')
         return false; const g = this.readyToServe[0]; return !!g && this.service.claimOwner({ id: g.id, seat: g.seat, ready: true, active: true, orderedAt: g.orderedAt, items: g.order.flatMap(o => Array(o.quantity).fill(o.menuId)) }); }
     transition(g, state) { g.state = state; g.elapsed = 0; }
-    generateOrder(customer, type) { const d = { orderProfile: this.cafe.order }; const available = this.menus.filter(m => m.unlockCafeLevel <= this.cafeLevel); const base = d.orderProfile.minQuantity + Math.floor(this.random() * (d.orderProfile.maxQuantity - d.orderProfile.minQuantity + 1)); const total = type === 'gourmand' ? Math.min(this.phase4Profile.gourmandMaxQuantity, Math.ceil(base * this.phase4Profile.gourmandMultiplier)) : type === 'vip' ? 2 + Math.floor(this.random() * 3) : type === 'hurried' ? Math.min(2, base) : base; const lines = []; for (let i = 0; i < total; i++) {
+    generateOrder(customer, type, party = false) { const d = { orderProfile: party ? { minQuantity: 3, maxQuantity: 3, maxTypes: 2 } : this.cafe.order }; const available = this.menus.filter(m => m.unlockCafeLevel <= this.cafeLevel); const base = d.orderProfile.minQuantity + Math.floor(this.random() * (d.orderProfile.maxQuantity - d.orderProfile.minQuantity + 1)); const total = type === 'gourmand' ? Math.min(this.phase4Profile.gourmandMaxQuantity, Math.ceil(base * this.phase4Profile.gourmandMultiplier)) : type === 'vip' ? 2 + Math.floor(this.random() * 3) : type === 'hurried' ? Math.min(2, base) : base; const lines = []; for (let i = 0; i < total; i++) {
         const choices = lines.length >= d.orderProfile.maxTypes ? available.filter(m => lines.some(l => l.menuId === m.menuId)) : available;
         const repeat = type === 'gourmand' && lines.length > 0 && this.random() < .65;
         const preferred = repeat ? choices.filter(m => m.menuId === lines[0].menuId) : choices;
@@ -248,7 +252,8 @@ export class CafeGame {
         definition = hospitalityDefinition(helper);
         if (helper !== 'judge')
             definition = { ...definition, patienceSeconds: original.patienceSeconds, orderPreference: original.orderPreference, orderProfile: original.orderProfile };
-    } this.guests.push({ ...(helper === 'judge' ? { signature: true, signatureReady: false } : helper ? { helperType: helper } : {}), id: this.nextId++, ...(type ? { specialType: type, regularTier } : {}), definition, seat, state: 'ENTERING', elapsed: 0, patienceRemaining: definition.patienceSeconds, order: [], paid: false, abandoned: false, stockoutRecorded: false, quotedRevenue: 0, orderedAt: 0, foodWaitTime: 0, staffWaitTime: 0 }); }
+    } const runFinal = !!this.run && !type && !helper && this.run.assignFinal(this.elapsedTime, this.durationSeconds); if (this.run && !type && !helper)
+        definition = { ...definition, orderPreference: this.run.preference(definition.orderPreference), patienceSeconds: definition.patienceSeconds + this.run.patience(runFinal) }; this.guests.push({ ...(runFinal ? { runFinal: true } : {}), ...(helper === 'judge' ? { signature: true, signatureReady: false } : helper ? { helperType: helper } : {}), id: this.nextId++, ...(type ? { specialType: type, regularTier } : {}), definition, seat, state: 'ENTERING', elapsed: 0, patienceRemaining: definition.patienceSeconds, order: [], paid: false, abandoned: false, stockoutRecorded: false, quotedRevenue: 0, orderedAt: 0, foodWaitTime: 0, staffWaitTime: 0 }); }
     tick(seconds) { if (this.status === 'CLOSED' || seconds <= 0 || !Number.isFinite(seconds))
         return; let left = Math.min(seconds, this.remainingSeconds); while (left > 0) {
         const dt = Math.min(left, 0.1);
@@ -287,7 +292,7 @@ export class CafeGame {
                     break;
                 case 'ORDERING':
                     if (g.elapsed >= balance.customer.ordering) {
-                        g.order = g.signature ? [{ menuId: 'event-signature', quantity: 1 }] : this.generateOrder(g.definition, g.specialType);
+                        g.order = g.signature ? [{ menuId: 'event-signature', quantity: 1 }] : this.generateOrder(g.definition, g.specialType, g.runFinal);
                         g.orderedAt = this.elapsedTime;
                         g.quotedRevenue = g.signature ? Math.min(hospitalityBalance.signaturePriceCap, Math.max(...this.menus.map(m => this.getPrice(m)))) * hospitalityBalance.signatureMultiplier : g.order.reduce((sum, o) => sum + this.getPrice(this.menus.find(m => m.menuId === o.menuId)) * o.quantity, 0);
                         this.transition(g, 'WAITING_FOR_FOOD');
@@ -332,7 +337,7 @@ export class CafeGame {
                                 specialMultiplier = this.phase4Profile.hurriedBonus;
                             const special = Math.round(g.quotedRevenue * specialMultiplier);
                             const golden = !g.signature && this.goldenRemaining > 0;
-                            const total = special * (golden ? 2 : 1) + this.hospitality.normalBonus(this, g);
+                            const total = special * (golden ? 2 : 1) + this.hospitality.normalBonus(this, g) + (this.run?.payment(g, this.menus, this.service.paid.length, this.cafeLevel) ?? 0);
                             if (golden) {
                                 this.goldenRemaining--;
                                 this.telemetry.phase4.goldenOrdersCompleted++;

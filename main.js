@@ -1,25 +1,26 @@
-import { specialQuestions, helperCatalog } from './hospitalityConfig.js?v=1.2.2';
-import { productionReceipt, stockStatus } from './playLoop.js?v=1.2.2';
-import { FinalUx } from './finalUx.js?v=1.2.2';
-import { SessionClock, ActionGate } from './uxState.js?v=1.2.2';
-import { installAssetFallbacks } from './assetFallback.js?v=1.2.2';
-import { createLearning, learningProgressRepository } from './learningIntegration.js?v=1.2.2';
-import { renderQuestionText, escapeText } from './questionRenderer.js?v=1.2.2';
-import { GameFeel } from './gameFeel.js?v=1.2.2';
-import { ModeFlow } from './modeUi.js?v=1.2.2';
-import { itemCatalog, specialNames, specialIcons, specialTypes } from './phase4Config.js?v=1.2.2';
-import { showOrderBubble, syncOrderBubble, assetSignature } from './presentation.js?v=1.2.2';
-import { personalityLabels } from './customerRules.js?v=1.2.2';
-import { selectCustomerPose, customerPoseArt, poseGeometry, preloadCustomerPoses, selectedPoseAsset } from './customerPoses.js?v=1.2.2';
-import { SpatialScene, hallGrowthSpecs, createSpace } from './spatial.js?v=1.2.2';
-import { DepartureDialogue } from './departureDialogue.js?v=1.2.2';
-import { icon } from './uiIcons.js?v=1.2.2';
-import { sprite } from './art.js?v=1.2.2';
-import { staffBalance } from './config.js?v=1.2.2';
-import { staffDefinitions } from './staff.js?v=1.2.2';
-import { foodVisual } from './foodVisual.js?v=1.2.2';
-import { cafeLevels } from './config.js?v=1.2.2';
-import { customers, menuDefinitions } from './data.js?v=1.2.2';
+import { CafeRunUi } from './cafeRunUi.js?v=1.3.0';
+import { specialQuestions, helperCatalog } from './hospitalityConfig.js?v=1.3.0';
+import { productionReceipt, stockStatus } from './playLoop.js?v=1.3.0';
+import { FinalUx } from './finalUx.js?v=1.3.0';
+import { SessionClock, ActionGate } from './uxState.js?v=1.3.0';
+import { installAssetFallbacks } from './assetFallback.js?v=1.3.0';
+import { createLearning, learningProgressRepository } from './learningIntegration.js?v=1.3.0';
+import { renderQuestionText, escapeText } from './questionRenderer.js?v=1.3.0';
+import { GameFeel } from './gameFeel.js?v=1.3.0';
+import { ModeFlow } from './modeUi.js?v=1.3.0';
+import { itemCatalog, specialNames, specialIcons, specialTypes } from './phase4Config.js?v=1.3.0';
+import { showOrderBubble, syncOrderBubble, assetSignature } from './presentation.js?v=1.3.0';
+import { personalityLabels } from './customerRules.js?v=1.3.0';
+import { selectCustomerPose, customerPoseArt, poseGeometry, preloadCustomerPoses, selectedPoseAsset } from './customerPoses.js?v=1.3.0';
+import { SpatialScene, hallGrowthSpecs, createSpace } from './spatial.js?v=1.3.0';
+import { DepartureDialogue } from './departureDialogue.js?v=1.3.0';
+import { icon } from './uiIcons.js?v=1.3.0';
+import { sprite } from './art.js?v=1.3.0';
+import { staffBalance } from './config.js?v=1.3.0';
+import { staffDefinitions } from './staff.js?v=1.3.0';
+import { foodVisual } from './foodVisual.js?v=1.3.0';
+import { cafeLevels } from './config.js?v=1.3.0';
+import { customers, menuDefinitions } from './data.js?v=1.3.0';
 const developerMode = new URLSearchParams(location.search).has('dev');
 const clock = new SessionClock(), purchaseGate = new ActionGate();
 const feel = new GameFeel();
@@ -63,9 +64,10 @@ document.querySelector('.session-menu-content').append(el('game-help'), el('soun
 el('session-menu').addEventListener('click', e => { if (e.target.closest('button'))
     el('session-menu').removeAttribute('open'); });
 document.querySelector('.game-layout').prepend(el('first-guide'));
+const runUi = new CafeRunUi(() => game);
 el('serve').onclick = () => { advanceTime(); if (game?.serveReadyOrder())
     render(); };
-export function startSession(session, pool) { el('workers').innerHTML = ''; el('seats').innerHTML = ''; el('decor').innerHTML = ''; delete el('cafe-room').dataset.artLevel; guestLooks.clear(); selectedGuest = null; detailKey = ''; app.classList.add('in-session'); game = session; clearTimeout(outcomeTimer); game.service.manualOwner = true; game.enableHallGrowth(); departure = new DepartureDialogue(); departureKey = ''; manualTipShown = false; autoTipShown = game.service.paid.length > 0; lastStaffCount = game.service.paid.length; hintUntil = 0; el('service-hint').hidden = true; receipt = []; stockKey = ""; displayedResult = null; clock.start(); ux.start(); feel.start(session); modeFlow.attach(session, pool); scene = new SpatialScene(game.cafeLevel, game.cafe.maxCustomers, true); scene.sync(game); preloadCustomerPoses([...game.cafe.customerPool, ...(game.phase4Enabled ? specialTypes.map(t => 'special-' + t) : [])]); engine = createLearning(pool, session.policy.persistence === 'saved-cafe'); game.enableHospitality(specialQuestions(engine.provider.list()).map(q => q.questionId)); specialAttempt = null; active = null; feedback = null; panelOpen = false; investmentOpen = false; investmentMessage = ''; renderedInvestmentKey = ''; celebrationUntil = 0; productionUntil = 0; el('setup').hidden = true; el('results').hidden = true; el('problem-panel').hidden = true; el('playing').hidden = false; el('make').disabled = false; el('investment-panel').hidden = true; last = performance.now(); render(); }
+export function startSession(session, pool) { el('workers').innerHTML = ''; el('seats').innerHTML = ''; el('decor').innerHTML = ''; delete el('cafe-room').dataset.artLevel; guestLooks.clear(); selectedGuest = null; detailKey = ''; app.classList.add('in-session'); game = session; runUi.start(); clearTimeout(outcomeTimer); game.service.manualOwner = true; game.enableHallGrowth(); departure = new DepartureDialogue(); departureKey = ''; manualTipShown = false; autoTipShown = game.service.paid.length > 0; lastStaffCount = game.service.paid.length; hintUntil = 0; el('service-hint').hidden = true; receipt = []; stockKey = ""; displayedResult = null; clock.start(); ux.start(); feel.start(session); modeFlow.attach(session, pool); scene = new SpatialScene(game.cafeLevel, game.cafe.maxCustomers, true); scene.sync(game); preloadCustomerPoses([...game.cafe.customerPool, ...(game.phase4Enabled ? specialTypes.map(t => 'special-' + t) : [])]); engine = createLearning(pool, session.policy.persistence === 'saved-cafe'); game.enableHospitality(specialQuestions(engine.provider.list()).map(q => q.questionId)); specialAttempt = null; active = null; feedback = null; panelOpen = false; investmentOpen = false; investmentMessage = ''; renderedInvestmentKey = ''; celebrationUntil = 0; productionUntil = 0; el('setup').hidden = true; el('results').hidden = true; el('problem-panel').hidden = true; el('playing').hidden = false; el('make').disabled = false; el('investment-panel').hidden = true; last = performance.now(); render(); }
 document.querySelectorAll('[data-focus-tab]').forEach(b => b.onclick = () => { if (game?.status !== 'RUNNING')
     return; investmentTab = b.dataset.focusTab; selectedGuest = null; detailKey = ''; el('guest-detail').hidden = true; investmentOpen = true; panelOpen = false; renderProblem(); renderInvestment(true); });
 el('invest').addEventListener('click', () => { investmentTab = 'cafe'; if (game?.status !== 'RUNNING')
@@ -125,6 +127,7 @@ function submit(answer) { advanceTime(); if (game?.status !== 'RUNNING' || feedb
 function render() {
     if (!game)
         return;
+    runUi.poll();
     if (game.status === 'CLOSED' && displayedResult === game) {
         modeFlow.refresh(game);
         feel.poll(game);
@@ -182,10 +185,11 @@ function render() {
             const r = game.result;
             el('results').hidden = false;
             el('results').innerHTML = `<p class="eyebrow">오늘도 수고했어요</p><h2>오늘의 카페 운영 결과</h2><p>작은 도전들이 맛있는 하루를 만들었어요.</p><p>${game.telemetry.phase4.vipVisits ? '★ VIP ' + game.telemetry.phase4.vipVisits + '명 방문 · ' : ''}${game.telemetry.phase4.regularHighestTier ? '♥ 단골 최고 단계 ' + game.telemetry.phase4.regularHighestTier : ''}</p><div class="result-grid">${[['최종 카페', game.cafeLevel + '단계'], ['총매출', r.revenue.toLocaleString() + ' 원'], ['손님', r.servedCustomers + '명'], ['판매 음식', r.soldFood + '개'], ['푼 문제', r.attempted + '개'], ['정답', r.correct + '개'], ['정답률', r.accuracy + '%']].map(([k, v]) => '<div>' + k + '<strong>' + v + '</strong></div>').join('')}</div><details class="analysis"><summary>개발자 플레이 분석</summary><p>재고 부족: ${game.stockoutEvents}개 주문 · 생산 낭비: ${game.wastedProduction}개 · 성공 생산: ${game.successfulProduction}개 · 대기 중 퇴장: ${game.customersLeft}명</p><button id="export-log" class="secondary">플레이 로그 JSON 저장</button><pre id="log-preview"></pre></details><button class="primary" id="restart">모드 선택으로</button>`;
-            el('log-preview').textContent = JSON.stringify(({ ...game.telemetry.export(game.snapshot), learning: engine.report() }), null, 2);
+            el('log-preview').textContent = JSON.stringify(({ ...game.telemetry.export(game.snapshot), cafeRun: game.run?.report() ?? null, learning: engine.report() }), null, 2);
             el('export-log').onclick = () => { if (!game)
                 return; const blob = new Blob([JSON.stringify(({ ...game.telemetry.export(game.snapshot), learning: engine.report() }), null, 2)], { type: 'application/json' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'cafe-play-log.json'; document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000); };
             el('restart').onclick = () => { modeFlow.showModes(); game = null; app.classList.remove('in-session'); investmentOpen = false; el('investment-panel').hidden = true; el('results').hidden = true; el('setup').hidden = false; el('make').disabled = false; };
+            runUi.result(game);
             if (!developerMode)
                 el('results').querySelector('.analysis')?.remove();
         }
@@ -299,13 +303,13 @@ function renderActors() {
             node.dataset.special = g.specialType;
             node.classList.toggle('vip-arrival', g.specialType === 'vip' && ['ENTERING', 'MOVING_TO_SEAT'].includes(g.state));
         }
-        if (g.helperType || g.signature) {
+        if (g.helperType || g.signature || g.runFinal) {
             if (!badge) {
                 badge = document.createElement('span');
                 badge.className = 'special-badge hospitality-badge';
                 node.append(badge);
             }
-            badge.textContent = g.signature ? '특별 주문' : '도움';
+            badge.textContent = g.runFinal ? '감사 파티' : g.signature ? '특별 주문' : '도움';
             badge.title = g.definition.name + ' · ' + g.definition.characterTrait;
         }
         node.dataset.pose = selection.kind;

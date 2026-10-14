@@ -1,11 +1,12 @@
-import { createClassMatch, createGrowthSession } from './sessionFactory.js?v=1.2.2';
-import { createGrowthSave } from './growthSave.js?v=1.2.2';
-import { GrowthSessionController } from './growthSession.js?v=1.2.2';
-import { LocalSaveRepository } from './saveRepository.js?v=1.2.2';
-import { policyFor } from './sessionModes.js?v=1.2.2';
-import { balance } from './config.js?v=1.2.2';
-import { questionCatalog } from './questionPack.js?v=1.2.2';
-import { escapeText } from './questionRenderer.js?v=1.2.2';
+import { concepts, seededRandom } from './cafeRun.js?v=1.3.0';
+import { createClassMatch, createGrowthSession } from './sessionFactory.js?v=1.3.0';
+import { createGrowthSave } from './growthSave.js?v=1.3.0';
+import { GrowthSessionController } from './growthSession.js?v=1.3.0';
+import { LocalSaveRepository } from './saveRepository.js?v=1.3.0';
+import { policyFor } from './sessionModes.js?v=1.3.0';
+import { balance } from './config.js?v=1.3.0';
+import { questionCatalog } from './questionPack.js?v=1.3.0';
+import { escapeText } from './questionRenderer.js?v=1.3.0';
 const e = (id) => document.getElementById(id);
 const study = () => '<div id="study-content" class="study-content"><span>학습 내용</span><strong id="study-title">문제를 준비하고 있어요…</strong><select id="study-pack" aria-label="학습 내용" hidden></select></div><p id="pack-error" class="save-error" aria-live="polite"></p><button type="button" id="pack-retry" class="text-button pack-retry" hidden>다시 시도</button>';
 export function browserSaveRepository() { try {
@@ -49,7 +50,7 @@ export class ModeFlow {
     setRepository(repo) { if (this.current()?.status === 'RUNNING')
         throw Error('Cannot change repository during a session'); this.repository = repo; this.showModes(); }
     card() { return document.querySelector('.welcome-card'); }
-    showModes() { this.view++; this.busy = false; this.controller = null; this.endedGame = null; this.card().innerHTML = '<p class="eyebrow">오늘은 어떻게 놀까요?</p><h2>배움이 쌓이는<br>나만의 카페</h2><div class="mode-cards"><button id="choose-class" class="mode-card"><strong>수업 게임</strong><span>정해진 시간 동안 카페를 키워요!</span></button><button id="choose-growth" class="mode-card"><strong>내 카페 키우기</strong><span>내 카페를 저장하고 Lv.10까지 키워요!</span></button></div><p class="hint">처음이라면 메뉴에서 게임 방법을 눌러 보세요.</p>'; e('choose-class').onclick = () => this.classSetup(); e('choose-growth').onclick = () => this.growthSetup(); }
+    showModes() { this.view++; this.busy = false; this.controller = null; this.endedGame = null; this.card().innerHTML = '<p class="eyebrow">오늘은 어떻게 놀까요?</p><h2>배움이 쌓이는<br>나만의 카페</h2><div class="mode-cards"><button id="choose-class" class="mode-card"><strong>수업 게임</strong><span>매판 다른 특성으로 오늘의 카페를 만들어요!</span></button><button id="choose-growth" class="mode-card"><strong>내 카페 키우기</strong><span>내 카페를 저장하고 Lv.10까지 키워요!</span></button></div><p class="hint">처음이라면 메뉴에서 게임 방법을 눌러 보세요.</p>'; e('choose-class').onclick = () => this.classSetup(); e('choose-growth').onclick = () => this.growthSetup(); }
     back() { e('mode-back').onclick = () => this.showModes(); }
     controls(disabled) { this.card().querySelectorAll('[data-start]').forEach(b => b.disabled = disabled); }
     async populatePacks(retry = false) { const view = this.view; this.loadFailed = false; this.controls(true); e('pack-error').textContent = ''; e('pack-retry').hidden = true; try {
@@ -76,12 +77,14 @@ export class ModeFlow {
         throw Error('missing'); return (await questionCatalog.load(id)).questions; }
     async begin(factory, pool, view) { await this.beforeStart(); if (view !== this.view)
         return; this.start(factory(), pool); }
-    classSetup() { this.view++; this.busy = false; this.card().innerHTML = '<button id="mode-back" class="text-button">← 모드 선택</button><h2>수업 게임</h2><p>모두 같은 작은 카페에서 시작해요.</p><form id="class-settings">' + study() + '<label>플레이 시간<select id="duration">' + balance.time.presets.map(s => '<option value="' + s + '">' + s / 60 + '분</option>').join('') + '</select></label><p class="hint">음식 만들기로 문제를 맞히고 카페를 키워요.<br>게임 중에는 시간이 계속 흘러요.</p><button class="primary" data-start disabled>카페 문 열기 →</button></form>'; this.back(); void this.populatePacks(); e('class-settings').onsubmit = async (ev) => { ev.preventDefault(); if (this.busy)
+    classSetup() { this.view++; this.busy = false; this.card().innerHTML = '<button id="mode-back" class="text-button">← 모드 선택</button><h2>수업 게임</h2><p>같은 작은 카페에서 시작해, 나만의 조합을 만들어요.</p><form id="class-settings">' + study() + '<label>플레이 방식<select id="class-style"><option value="run">오늘의 카페 · 특성 선택</option><option value="classic">기존 수업 게임</option></select></label><div id="run-settings"><label>카페 콘셉트<select id="run-concept">' + concepts.map(c => '<option value="' + c.id + '">' + c.name + '</option>').join('') + '</select></label><p id="concept-description" class="hint">' + concepts[0].description + '</p><label>수업 코드 (같은 코드 = 같은 특성 후보)<input id="run-code" maxlength="32" autocomplete="off"></label><p class="hint">네 번의 특성 선택 · 마지막 감사 파티 주문<br>영업 중에도 선택을 나중에 할 수 있어요.</p></div><label>플레이 시간<select id="duration">' + balance.time.presets.map(s => '<option value="' + s + '">' + s / 60 + '분</option>').join('') + '</select></label><p class="hint">음식 만들기로 문제를 맞히고 카페를 키워요.<br>게임 중에는 시간이 계속 흘러요.</p><button class="primary" data-start disabled>카페 문 열기 →</button></form>'; this.back(); e('run-code').value = 'CAFE-' + Math.random().toString(36).slice(2, 8).toUpperCase(); e('class-style').onchange = () => { e('run-settings').hidden = e('class-style').value !== 'run'; }; e('run-concept').onchange = () => { e('concept-description').textContent = concepts.find(c => c.id === e('run-concept').value).description; }; void this.populatePacks(); e('class-settings').onsubmit = async (ev) => { ev.preventDefault(); if (this.busy)
         return; this.busy = true; this.controls(true); const view = this.view; const seconds = Number(e('duration').value); try {
         if (!balance.time.presets.some(s => s === seconds))
             return;
         const pool = await this.problems();
-        await this.begin(() => createClassMatch(seconds), pool, view);
+        const isRun = e('class-style').value === 'run', code = e('run-code').value.trim().slice(0, 32) || 'CAFE', concept = e('run-concept').value;
+        await this.begin(() => { const g = createClassMatch(seconds, isRun ? seededRandom('guests:' + code) : Math.random); if (isRun)
+            g.enableRun(code, concept); return g; }, pool, view);
     }
     catch {
         if (view === this.view)

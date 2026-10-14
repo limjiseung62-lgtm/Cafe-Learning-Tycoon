@@ -1,4 +1,4 @@
-import { normalizeAnswer } from './questionPack.js?v=1.2.2';
+import { normalizeAnswer } from './questionPack.js?v=1.3.0';
 export const learningConfig = { remediationGap: 3, recentWindow: 3, maxQueue: 32 };
 export class LearningSession {
     provider;
