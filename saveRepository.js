@@ -1,4 +1,4 @@
-import { validateGrowthSave, migrateGrowthSave } from './growthSave.js?v=1.5.3';
+import { validateGrowthSave, migrateGrowthSave } from './growthSave.js?v=1.5.4';
 export const growthStorageKey = 'cafe-learning-tycoon.growth.v1';
 export class LocalSaveRepository {
     storage;

@@ -1,4 +1,4 @@
-import { balance } from './config.js?v=1.5.3';
+import { balance } from './config.js?v=1.5.4';
 // Coordinates are floor contact points, in percent of the full 3:2 room image.
 // All six rooms deliberately retain a clear floor; furniture uses the existing atlas.
 const centers = [

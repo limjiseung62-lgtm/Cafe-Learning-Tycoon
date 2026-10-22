@@ -1,15 +1,15 @@
-import { CafeEvents } from './cafeEvents.js?v=1.5.3';
-import { CafeRun } from './cafeRun.js?v=1.5.3';
-import { Hospitality } from './hospitality.js?v=1.5.3';
-import { hospitalityDefinition, hospitalityBalance } from './hospitalityConfig.js?v=1.5.3';
-import { chooseSpecial, specialDefinition, itemCatalog } from './phase4Config.js?v=1.5.3';
-import { policyFor } from './sessionModes.js?v=1.5.3';
-import { chooseCustomer, chooseOrderMenu } from './customerRules.js?v=1.5.3';
-import { StaffSystem } from './staff.js?v=1.5.3';
-import { createSpace, floorPath } from './spatial.js?v=1.5.3';
-import { LocalTelemetry } from './telemetry.js?v=1.5.3';
-import { balance } from './config.js?v=1.5.3';
-import { createMenus, menuDefinitions } from './data.js?v=1.5.3';
+import { CafeEvents } from './cafeEvents.js?v=1.5.4';
+import { CafeRun } from './cafeRun.js?v=1.5.4';
+import { Hospitality } from './hospitality.js?v=1.5.4';
+import { hospitalityDefinition, hospitalityBalance } from './hospitalityConfig.js?v=1.5.4';
+import { chooseSpecial, specialDefinition, itemCatalog } from './phase4Config.js?v=1.5.4';
+import { policyFor } from './sessionModes.js?v=1.5.4';
+import { chooseCustomer, chooseOrderMenu } from './customerRules.js?v=1.5.4';
+import { StaffSystem } from './staff.js?v=1.5.4';
+import { createSpace, floorPath } from './spatial.js?v=1.5.4';
+import { LocalTelemetry } from './telemetry.js?v=1.5.4';
+import { balance } from './config.js?v=1.5.4';
+import { createMenus, menuDefinitions } from './data.js?v=1.5.4';
 export class CafeGame {
     durationSeconds;
     random;

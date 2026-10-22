@@ -1,4 +1,4 @@
-import { recentEventReaction } from './animationPresentation.js?v=1.5.3';
+import { recentEventReaction } from './animationPresentation.js?v=1.5.4';
 export function guestMotion(g, events) { if (g.state === 'EATING')
     return 'EAT'; if (g.state === 'PAYING')
     return 'REACT_HAPPY'; if (g.state === 'LEAVING')

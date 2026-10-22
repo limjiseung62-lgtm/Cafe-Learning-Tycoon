@@ -1,4 +1,4 @@
-import { escapeText } from './questionRenderer.js?v=1.5.3';
+import { escapeText } from './questionRenderer.js?v=1.5.4';
 export function readingErrors(q) { const r = q.readingContext; if (!r)
     return []; try {
     if (!r.groupId || !r.passageId || !r.title || !Array.isArray(r.paragraphs) || !r.paragraphs.length || !r.paragraphs.every(x => typeof x === 'string' && x.trim()) || r.total !== 5 || !Number.isInteger(r.position) || r.position < 1 || r.position > 5 || r.reviewRequired !== true || !Array.isArray(r.tables))
