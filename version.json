@@ -1,7 +1,7 @@
 {
-  "version": "1.5.4",
+  "version": "1.5.5",
   "status": "production",
   "publicDeploymentApproved": true,
-  "sourceCandidate": "14b443c8a087e8fdcbca591cd6ae9a0812c70bba",
+  "sourceCandidate": "2fecfb879817d865ac06a0cbeaa7e38a3e81ef89",
   "released": "2026-10-22"
 }

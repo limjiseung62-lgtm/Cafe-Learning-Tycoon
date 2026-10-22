@@ -1,8 +1,8 @@
 {
-  "version": "1.5.4",
+  "version": "1.5.5",
   "status": "production",
   "publicDeploymentApproved": true,
-  "sourceCandidate": "14b443c8a087e8fdcbca591cd6ae9a0812c70bba",
+  "sourceCandidate": "2fecfb879817d865ac06a0cbeaa7e38a3e81ef89",
   "released": "2026-10-22",
   "files": [
     {
@@ -28,12 +28,12 @@
     {
       "file": "art.js",
       "bytes": 2713,
-      "sha256": "9c8ec24e4c1638dc064267c4d07d73ce894d4c65b6dea5ba7fec005c86c4802b"
+      "sha256": "9e4d356d6dcc1fea539b6a4ecfd4a2134a4c13107e7c503d72b353ac629d83b5"
     },
     {
       "file": "assetFallback.js",
       "bytes": 2231,
-      "sha256": "dc36695d1a7268c11939d0d263f9fa949b47700699a34f5c4c6390e0f88495e9"
+      "sha256": "8412409fd32f7f5b3f146e4926847ab8895add5429418d88daafa4a7a5b75bbb"
     },
     {
       "file": "assets/art/customer-registry.json",
@@ -673,7 +673,7 @@
     {
       "file": "audioManager.js",
       "bytes": 6589,
-      "sha256": "9932f2cc5c5c992df2e3fcd788e16d0808e122f8dda0c762d5f5a170acbe8bfb"
+      "sha256": "b7577f209da9141c27837e9c6586cf8856d66c088fbe2a33a0a3189019c4c249"
     },
     {
       "file": "audioRegistry.js",
@@ -683,12 +683,12 @@
     {
       "file": "cafeEvents.js",
       "bytes": 12745,
-      "sha256": "9267ed4bfa6d028d265b010acb42e8a3c67068726efc5d7a748d4d8897377b78"
+      "sha256": "3356fff0686c29c9bfb770831162612b0a2dd2541d884f8441eac5be680350f6"
     },
     {
       "file": "cafeResults.js",
-      "bytes": 15245,
-      "sha256": "5a05b089a34b2f2ec2c01aaeedbd989af1d1fe6f75fab4e2967b590c8d8f3394"
+      "bytes": 15362,
+      "sha256": "a6d3b5fe684ba3e1ce69ca0512df17621fa3554c774342e2a839a3b68f4d0ddc"
     },
     {
       "file": "cafeRun.js",
@@ -698,17 +698,17 @@
     {
       "file": "cafeRunUi.js",
       "bytes": 7040,
-      "sha256": "d880e8f2612e6a1f3e424982e6c8f0839000ac6ee7b4c93b91628d3867879243"
+      "sha256": "6678583b034d070d275ad9e8389afba7ea1d2567c7ceb578b0413bf48ebd378f"
     },
     {
       "file": "characterMotion.js",
       "bytes": 3493,
-      "sha256": "b7a571213a7e93bab04e5815eccc42533e27bc7f20cb8d4a7e602856829fbd55"
+      "sha256": "22c3b5cc717c270b71aae724e0a086311e207331eae19bc1de37dcafdeba0db5"
     },
     {
       "file": "classroomCheckpoint.js",
       "bytes": 4913,
-      "sha256": "8539aba9db0dc1639e4050a5f0efc4bcdece4f28cf1a8cea4632b92c84e104d1"
+      "sha256": "5fbd1f75c3fe458e0643da40fb7e285164af6090dc856987be1c3c7087df9ac0"
     },
     {
       "file": "classroomUi.js",
@@ -718,7 +718,7 @@
     {
       "file": "config.js",
       "bytes": 2556,
-      "sha256": "9bdf2fadf38b9b387bbc01a79eb848a9bd1f8d53d467f2c25165b9024f5b17bc"
+      "sha256": "2cc7adcb5325adb8f498e66267451346a8640c98ce494ce8db67b7b453ca6e9e"
     },
     {
       "file": "customerPools.js",
@@ -733,22 +733,22 @@
     {
       "file": "customerPoses.js",
       "bytes": 2613,
-      "sha256": "c190935317aaa1002d15f6c3b91df23496af812df6846020a8ebb410fea2d427"
+      "sha256": "583d15c2a835ccc156621cd2859ee99d4b4f910830cdf9db492ee25d7adb15a8"
     },
     {
       "file": "customerRules.js",
       "bytes": 1662,
-      "sha256": "1348ab5beebf76728448f9cb4338324496fe4c28e998468d7d3fa18437dc256d"
+      "sha256": "0cefeeee8adeec9adf8b8dfd7829aa856949b91b51dab63e0d461033410be35e"
     },
     {
       "file": "data.js",
       "bytes": 7350,
-      "sha256": "6d194ddeeb200e3416aa36824d0217ff9f51177f35ab1806b613364012a51778"
+      "sha256": "2f7f8595786bc24bc845bfce102a55df67478839d81dba7a91a30a1d5f0afc28"
     },
     {
       "file": "departureDialogue.js",
       "bytes": 8192,
-      "sha256": "6c7cf097a00f79d6426c2127c559c15c9059b76bfe86d9a7157158aecf6d9265"
+      "sha256": "b5cc7dd976f2093a7d674c35d4dd50f5489e911322d87513945556d725191655"
     },
     {
       "file": "eventConfig.js",
@@ -763,12 +763,12 @@
     {
       "file": "eventRecovery.js",
       "bytes": 4475,
-      "sha256": "6ece17172dacb18bc8adba3bc5276513b0db5a94e97a977eabb9784d1cf75da1"
+      "sha256": "8b6c756cd6238894b99b9631b9bb5410215d658d57617a8ba3b52e5c46490fc9"
     },
     {
       "file": "eventUi.js",
       "bytes": 4166,
-      "sha256": "528a3d0bd2d2874ed1929b092949886d0e048bf452a3ff35cbd1785a51b84f98"
+      "sha256": "a7ab7679555ebf2bf42dd588f1531158420c92b3b73d4b2a5ee09e4bea4ae3db"
     },
     {
       "file": "events.css",
@@ -783,42 +783,42 @@
     {
       "file": "finalUx.js",
       "bytes": 6736,
-      "sha256": "e2307e39ff258e71f8ef55887c584aca44f4a6690c60a2686d1f9030b2ad4f22"
+      "sha256": "3f2a1932bc3ab2a2530281dd43c8a9dc225f80ef656609e3ace52307a84302c5"
     },
     {
       "file": "foodVisual.js",
       "bytes": 362,
-      "sha256": "f30d374aefa7717898a80df73dc40bbf0f46bbe97111e061655678f1a375d790"
+      "sha256": "1771b4abee26ed62d5406626719be9dfd0371f6c61d16b9916f55a6c44879931"
     },
     {
       "file": "game.js",
       "bytes": 30727,
-      "sha256": "ee33bf735cad700f4665444be3951494c0da095b4cdff33857e21de6a93bf90f"
+      "sha256": "5797812786fde5cbe158c750f4d2e02f29da10570388bb0bb004946da6355a99"
     },
     {
       "file": "gameFeel.js",
       "bytes": 12221,
-      "sha256": "c663ed9c19926205b5df9d49e7698ec84c1cbfb97e4adc75a6c556aedb8bcfd1"
+      "sha256": "c294603efff5b017a5e0a9e3177f552f49e8302c03f42e1bce19fe73fbefe4f2"
     },
     {
       "file": "growthSave.js",
       "bytes": 4378,
-      "sha256": "8ed01afc23e276cf281dbf733d7e39eb292bf257a5a67ead7272886e7672acc2"
+      "sha256": "3023139a2cf58153e803fce3ac32d6150bd8ad5125328e14799e15910ce0b422"
     },
     {
       "file": "growthSession.js",
       "bytes": 3221,
-      "sha256": "5f1b2c868dbed072331c367b1b348f3b9960b6850f10a379588f01bab7440ff7"
+      "sha256": "b5e043cff6184d5c952ec62d3c441cf911766fff2a2310d5b0dae3f40b06904f"
     },
     {
       "file": "guestCheckpoint.js",
       "bytes": 2751,
-      "sha256": "cddec52d51afcd77869a1c632892e2c7200e48df0df6bb75c2064a0ff71ab11d"
+      "sha256": "f21cb999ef6512f56fa476e82a31ca7a83e8ccf4f48d5fd1646ced8c688f8575"
     },
     {
       "file": "hospitality.js",
       "bytes": 4150,
-      "sha256": "0761d3b2a8d78105c405553ba8fd9e0981d6a53ad3eca13d2c34cd8c1c5bac4b"
+      "sha256": "4d12547a689f3855776fb63669f2e97cdfbe16689be7df94bac13b0135d3cc67"
     },
     {
       "file": "hospitalityConfig.js",
@@ -833,12 +833,12 @@
     {
       "file": "imageLoading.js",
       "bytes": 3684,
-      "sha256": "87859e2ac195aff9d57a1432eefb90b18baa6886580189329ef97db561aa25de"
+      "sha256": "881b5a90dd861def3cdfeb3e77782e5cb9fe8c841cba3f266b9bf0aafa2134dc"
     },
     {
       "file": "index.html",
       "bytes": 614,
-      "sha256": "4d91a9877da6e1bf1bec87bbf45d69cafde19ba7c575ca513a881f69494cc674"
+      "sha256": "a6454558af5b5fc7334119e9f0c93ea9726338de64309ac18e57c021245e8028"
     },
     {
       "file": "integrated.css",
@@ -847,38 +847,38 @@
     },
     {
       "file": "learning.css",
-      "bytes": 6978,
-      "sha256": "e2fde7f0d70e7c4b47fce7f0ce6dc1ea456e300e19f8b6e9c8b02d1d16e6449f"
+      "bytes": 7529,
+      "sha256": "5ae153bcd92093807d91f88df61cf24627930ea09d3490ae76ed74010b5c28d5"
     },
     {
       "file": "learningAnalytics.js",
       "bytes": 8474,
-      "sha256": "99f4edb7b106bc62d993fd8a0953b7cf2fcf9cd04f9ffffc3513cdec85b8a4ea"
+      "sha256": "c32adb3e81039fe4ea9bd9ea504eea340c51235f9a64369f37a9b578d61c62e4"
     },
     {
       "file": "learningIntegration.js",
       "bytes": 1360,
-      "sha256": "00c0e7d7c8c1d7f3dcad33c817e872b463379fadd2aaaebed605467517f1a67c"
+      "sha256": "9696b4f0ccfb9cdf69b56e9b59ab471add2b0a801c5dc5b868cdce9126ce29f7"
     },
     {
       "file": "learningSession.js",
       "bytes": 16360,
-      "sha256": "c2dabd1b4676389754dd5f9d0cea8c47f311e0ff958d8e38e4fc8daa01dd655d"
+      "sha256": "c866ce08c13b37ae218cd81584ffa4852dd8cb8d597b0a4b9d2c7ad74adb9106"
     },
     {
       "file": "main.js",
       "bytes": 66366,
-      "sha256": "aebf8633b03f896749ec600b0bc9138161b6ed585abc7aea2af2eca11e1007f5"
+      "sha256": "c08855ab35e10f484b2ca172b3ca29ac24e6a536e26b61087dd97001bf551698"
     },
     {
       "file": "modeBalance.js",
       "bytes": 1680,
-      "sha256": "7be1edde2183611dfa8a150933d1f212cfa46f004085b7efe7885b6fc77c19ec"
+      "sha256": "271684169b6fe0930a7a67f4971654b0c651cf7db5b117804e5b231e4d08ca6a"
     },
     {
       "file": "modeUi.js",
       "bytes": 15583,
-      "sha256": "a40461a61b966c4480d61309f4a9370a8771385668abb8ff20334b2367dc5e47"
+      "sha256": "a79c47e49b37c23e6d29ecf3fe0606bc0a7385d576f07301d4782a6957aec798"
     },
     {
       "file": "motionExpansionCatalog.js",
@@ -888,7 +888,7 @@
     {
       "file": "motionSprites.js",
       "bytes": 4481,
-      "sha256": "b7cf6a51cecfcd4f3193da0d26c07d4c4b7a3328a72f4af760ac9ede14f4d7ba"
+      "sha256": "7792f785389e1ebf53323fa7bbeb3ec414284dcbf33a6397270db957ca9a67ca"
     },
     {
       "file": "phase4Config.js",
@@ -903,7 +903,7 @@
     {
       "file": "presentation.js",
       "bytes": 1866,
-      "sha256": "d06649fbe6fff9280ab2d234f9e250244408fbdf7e182cb25bbf749b88488ae2"
+      "sha256": "72923a47f093dd22fad727372661462317009cadc9b105c65f92bdf7f5e9651b"
     },
     {
       "file": "problems.js",
@@ -913,7 +913,7 @@
     {
       "file": "questionPack.js",
       "bytes": 8439,
-      "sha256": "bc99d81d39190c917da95e00af2399e71dc6485b79b6cea0c669a0a59ab7d1fe"
+      "sha256": "c6f1fd9a92d32b28979924be470f26440d90bb6179463d76a35be110dc3ed465"
     },
     {
       "file": "questionRenderer.js",
@@ -923,27 +923,27 @@
     {
       "file": "reading.js",
       "bytes": 2290,
-      "sha256": "6626168c1f67e10caadaee7ef52efcc9e8d89666c11babba16fde6cf957e3a88"
+      "sha256": "9f54a238c46e04feb4ac1c8e59c4e2ee9811ab6c098bbb5d68a7ece09f4fe9bf"
     },
     {
       "file": "saveRepository.js",
       "bytes": 3174,
-      "sha256": "b780a71111d27c25ba888772f6fe9067efed050a7bffea297b5a8f2140233890"
+      "sha256": "2277ba92eb09b9c67a5f4feca3b2ee3459d92d77a7e0df2f38cc6ec3d45c92ef"
     },
     {
       "file": "sessionFactory.js",
       "bytes": 1698,
-      "sha256": "4cc19e8a5468c03a44d0cb3afef128d9570dc56d5599cbe4d57cf14c0471b99d"
+      "sha256": "7f3243dfba0208081eb7859ef0fcae7c3780d153699a5721931c95bd2841c4eb"
     },
     {
       "file": "sessionModes.js",
       "bytes": 894,
-      "sha256": "61d7f7897e83d28b32ff7dfb2885ddd255a0b70441557c675a9b52d25697d544"
+      "sha256": "beeb31f97959c3c213f3edef39df37883c371e291e3e54e4340655c365a997ff"
     },
     {
       "file": "spatial.js",
       "bytes": 16558,
-      "sha256": "012850f2e35b6d964e6c2d9ea859c5772e380a25b138c628660ee442ea41b2a3"
+      "sha256": "8cc33ef2f23d431241fba090d2ff6638066cd27a5ea25b3466aca8443c32b1d2"
     },
     {
       "file": "specialPoseCatalog.js",
@@ -953,7 +953,7 @@
     {
       "file": "staff.js",
       "bytes": 9214,
-      "sha256": "cf875ba343c373eb24fbfae6b899fa3be4924209b8272e6f3e8b36df5045972f"
+      "sha256": "7bef0cae57f9e4e237c5c689decd4eb329f40c92bd169e42299a01ddd0c6a2eb"
     },
     {
       "file": "style.css",
@@ -964,6 +964,11 @@
       "file": "telemetry.js",
       "bytes": 1129,
       "sha256": "fd9f924afd9134c92ffa4dd7b12c08d0591d5d2f7de4132a8c1ec6ff259fdefb"
+    },
+    {
+      "file": "twinWorksheet.js",
+      "bytes": 10261,
+      "sha256": "2d7910138cfed03596c281aba0694ce41dec2f6b3f0b0433493300e95b56fd86"
     },
     {
       "file": "typography.css",
@@ -988,12 +993,12 @@
     {
       "file": "version.json",
       "bytes": 179,
-      "sha256": "de5d78d25c7516603f0056e361d4c6be5843b16064d788f55b96a4e7ca664998"
+      "sha256": "6bdb5ad0d49950c1bcade9997f186c397c6844e67da138d98abc08d253c6b0fd"
     },
     {
       "file": "webAsset.js",
       "bytes": 153,
-      "sha256": "a39e0c3f1c6b5b519a00d3905c1eafda611927dbdf73caca5b54a172ea4dfea8"
+      "sha256": "0e67fae6136ddd64276b1706c42b0a9b86f06f8a8bf87568599d571acf8be976"
     },
     {
       "file": "webAssetCatalog.js",
@@ -1001,6 +1006,6 @@
       "sha256": "494ab168e0cbeabf1ec596fd1a045ca2ba18a6161a477fca450c14ca420cb280"
     }
   ],
-  "totalBytes": 44879962,
+  "totalBytes": 44890891,
   "qaFilesExcluded": true
 }
