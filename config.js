@@ -1,4 +1,4 @@
-import { customerPoolForLevel } from './customerPools.js?v=1.3.0';
+import { customerPoolForLevel } from './customerPools.js?v=1.5.3';
 export const cafeLevels = [
     { level: 1, name: '포근한 골목 카페', maxCustomers: 3, expansionCost: 0, theme: 'alley', order: { minQuantity: 1, maxQuantity: 2, maxTypes: 2 }, customerPool: customerPoolForLevel(1) },
     { level: 2, name: '햇살 동네 카페', maxCustomers: 4, expansionCost: 3000, theme: 'sunny', order: { minQuantity: 1, maxQuantity: 3, maxTypes: 2 }, customerPool: customerPoolForLevel(2) },
@@ -10,7 +10,7 @@ export const cafeLevels = [
 export const warehouseLevels = [{ capacity: 5, cost: 0 }, { capacity: 8, cost: 1500 }, { capacity: 12, cost: 4000 }, { capacity: 16, cost: 9000 }, { capacity: 20, cost: 18000 }, { capacity: 25, cost: 30000 }];
 export const balance = {
     cafe: cafeLevels[0], stock: { initial: 0, capacity: 5, newMenuInitial: 0 }, productionPerCorrect: 1,
-    time: { defaultSeconds: 600, maxSeconds: 3600, presets: [600, 900, 1200, 1800, 2400, 3600] },
+    time: { defaultSeconds: 600, maxSeconds: 3600, presets: [300, 600, 900, 1200, 1800, 2400, 3600] },
     customer: { spawnSeconds: 4, entering: 1, moving: 2, ordering: 1.5, preparing: 1, serving: 2, eating: 5, paying: 1, leaving: 2 },
     order: cafeLevels[0].order, menuMultipliers: [1, 1.25, 1.55, 1.9, 2.3],
     menuUpgradeCostMultipliers: [4, 10, 30, 80], telemetry: { snapshotSeconds: 300 },

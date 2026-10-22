@@ -1,5 +1,5 @@
-import { traits, runBalance } from './cafeRun.js?v=1.3.0';
-import { escapeText } from './questionRenderer.js?v=1.3.0';
+import { traits, runBalance } from './cafeRun.js?v=1.5.3';
+import { escapeText } from './questionRenderer.js?v=1.5.3';
 export class CafeRunUi {
     current;
     panel;

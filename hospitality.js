@@ -1,4 +1,4 @@
-import { helperCatalog, hospitalityBalance as b } from './hospitalityConfig.js?v=1.3.0';
+import { helperCatalog, hospitalityBalance as b } from './hospitalityConfig.js?v=1.5.3';
 export class Hospitality {
     enabled = false;
     questions = [];
@@ -37,15 +37,15 @@ export class Hospitality {
         n += Math.min(b.buffCap, Math.round(x.quotedRevenue * .1));
         this.criticUntil = 0;
     } this.cash += n; return n; }
-    gift(g, cap) { let value = 0, count = 0; for (const m of [...g.menus].sort((a, b) => a.stock - b.stock || a.menuId.localeCompare(b.menuId))) {
+    gift(g, cap, maxItems = 3) { let value = 0, count = 0; for (const m of [...g.menus].sort((a, b) => a.stock - b.stock || a.menuId.localeCompare(b.menuId))) {
         const price = g.getPrice(m);
-        if (count < 3 && m.stock < m.maxStock && value + price <= cap) {
+        if (count < maxItems && m.stock < m.maxStock && value + price <= cap) {
             m.stock++;
             value += price;
             count++;
         }
     } this.giftValue += value; return value; }
-    reward(g, x) { if (!this.enabled || this.paid.has(x.id) || !x.paid || x.abandoned)
+    reward(g, x) { if (x.eventArrival || !this.enabled || this.paid.has(x.id) || !x.paid || x.abandoned)
         return; this.paid.add(x.id); if (x.signature) {
         this.signatureRevenue += x.paymentRevenue ?? 0;
         return;

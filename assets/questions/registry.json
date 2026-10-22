@@ -1,11 +1,14 @@
 [
   {
-    "packId": "fraction-addition-g4-s2",
-    "title": "4학년 수학 · 2학기 분수의 덧셈",
+    "packId": "MATH-G4-S2-U4-QUADRILATERAL-V1",
+    "title": "4학년 수학 2학기 4단원 · 사각형",
     "subject": "수학",
     "grade": 4,
     "semester": 2,
-    "unit": "분수의 덧셈",
-    "file": "assets/questions/fraction-addition-g4-s2.json"
+    "unit": "4단원 사각형",
+    "file": "assets/questions/quadrilateral-g4-s2.json",
+    "enabledForSelection": true,
+    "defaultForSelection": true,
+    "selectionLabel": "4학년 수학 · 사각형"
   }
 ]

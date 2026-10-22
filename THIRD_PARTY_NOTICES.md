@@ -11,3 +11,10 @@
 | Compiler | vendor TypeScript / Windows x64 runtime | 동봉 LICENSE | clean copy에서 동일 도구로 build/typecheck, runtime 배포에는 vendor 폴더를 복사하지 않음 |
 
 폰트의 기존 WOFF2 압축·원본 글리프/이름 보존 정책 및 source TTF/OFL 전문을 유지했다. 새 폰트나 외부 이미지·오디오를 가져오지 않았다. Last Order의 미준비 파일은 사용 파일로 잘못 기재하지 않으며 요청하지 않는다. 근거는 AUDIO_LICENSES.md, assets/fonts/README.md, conversion-validation.json, phase9-production-resources.json에 있다. 이 검증은 문서·저작권 표시·레지스트리·실파일 대응 확인이며 생성 아트의 외부 CC0 라이선스를 새로 주장하지 않는다.
+
+v1.5.2 후보의 `assets/art/motion-v152/` PNG 22장은 기존 프로젝트 캐릭터를 참조하여 image_gen으로 제작한 포즈 시트다. 외부 에셋 사이트에서 가져온 이미지가 아니며 외부 CC0 라이선스를 부여한 것으로 표시하지 않는다. 참조·생성 경로는 `reports/v152/generation.json`, `bookworm-eat-generation.json`, 프레임·투명도 검사는 `image-audit.json`에 기록했다. 원본 파일은 보존하며 런타임은 픽셀 사각형과 앵커 메타데이터로 프레임을 선택한다.
+
+v1.5.3 후보의 WebP는 기존 PNG로부터 만든 웹 전달용 파생 파일이다. 원본 102장의 바이트를 보존하며 외부 이미지·폰트·음원은 추가하지 않았다. 캐릭터·음식은 표시 크기를 고려해 해상도를 절반으로 만들고 WebP quality 92, 배경은 원래 해상도와 quality 94를 사용했다. WebP 인코딩 전후의 알파는 일치하며 RGB는 손실 압축이다. 변환 도구는 로컬 Pillow/libwebp이며 파생 이미지의 출처·권리는 기존 프로젝트 아트와 동일하게 추적한다. 절차와 해시·품질·제외 파일은 scripts/optimize-v153.py 및 reports/v153/에 기록했다.
+
+## 사각형 학습 문제팩 (v1.5.3)
+기존 사용자 승인 독립 창작 사각형 보완본의 고정 32문항과 유한 변형 158상태를 재사용합니다. 도형 SVG도 독립 창작 자료이며 출판사 원문·PDF·캡처를 포함하지 않습니다. 2026-10-22 사용자가 카페의 공개 학습 내용을 사각형 단원으로 교체하도록 요청했습니다. 이전 승인은 전체 파라미터 상태의 개인별 수동 검토를 뜻하지 않습니다.

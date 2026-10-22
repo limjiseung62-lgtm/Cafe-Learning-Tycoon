@@ -58,3 +58,5 @@ body:has(#investment-panel:not([hidden])) .first-guide{display:none}
 @media(max-width:700px){#run-status{padding:8px 10px}#run-status strong{font-size:16px}#run-choices{padding:8px}.run-sheet{padding:14px;max-height:calc(100dvh - 16px)}.run-sheet h2{font-size:21px}.run-card-grid{grid-template-columns:1fr;gap:8px}.run-card{min-height:0;padding:12px}.run-card strong{font-size:19px;margin:3px 0}.run-card p{font-size:13px;margin:4px 0}.run-card b{margin-top:6px}.run-sheet header button{min-width:88px;min-height:44px}.run-sheet header{position:sticky;top:-14px;background:#fff8e9;padding:8px 0;z-index:1}}
 
 .run-sheet header>div{min-width:0}.run-sheet header button{flex:0 0 auto;white-space:nowrap;padding:10px 12px}.run-sheet h2{word-break:keep-all}.run-card p{font-weight:400}#run-status>button{white-space:nowrap}
+
+.classroom-entry[hidden]{display:none!important}

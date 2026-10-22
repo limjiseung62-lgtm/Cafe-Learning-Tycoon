@@ -1,9 +1,9 @@
 {
-  "version": "1.3.0",
+  "version": "1.5.3",
   "status": "production",
   "publicDeploymentApproved": true,
-  "sourceCandidate": "1ac2c72aff8d2d1b361deb77a802dd43bbfe0fce",
-  "released": "2026-10-14",
+  "sourceCandidate": "2a6a4b0c0e6a3849fc83b5f78c10a8a40c06b796",
+  "released": "2026-10-22",
   "files": [
     {
       "file": ".nojekyll",
@@ -17,23 +17,23 @@
     },
     {
       "file": "THIRD_PARTY_NOTICES.md",
-      "bytes": 2210,
-      "sha256": "681e8c1c0005f7ead4bd142223fff2ec41aaf073d76a8b7aaf8103bab16d8ce6"
+      "bytes": 3915,
+      "sha256": "039273770a18abfd9d2d92e9fe17a130035e30c1b3e600c2e783aa6857a106ee"
+    },
+    {
+      "file": "animationPresentation.js",
+      "bytes": 972,
+      "sha256": "e96b282ce163b9c02dfcf72628cf39cd0dd7988ee9eea94c3f1621f24f914045"
     },
     {
       "file": "art.js",
-      "bytes": 2643,
-      "sha256": "0739ac6cf30b0c0cf6f6d5b4933f2c76d99509526b156f4c8969c8a4d08b431e"
+      "bytes": 2713,
+      "sha256": "f094d35a36232a5ef3dc32d4cb2f14f575ed292aad003b9ba92d1167c56e9573"
     },
     {
       "file": "assetFallback.js",
-      "bytes": 1897,
-      "sha256": "e3fd7c2b8afda35963dafb269bd2468066621fe43a757fb7677baee4c120a962"
-    },
-    {
-      "file": "assets/art/characters.png",
-      "bytes": 2440869,
-      "sha256": "646d0856f1768e7c3f348cb722719a5b1d50fa897b287f0873c09b4e475bee6d"
+      "bytes": 2231,
+      "sha256": "037f40958b1fe6a83b607c14d74db928f098bcac1857fe5f3f65b98a6f4371ff"
     },
     {
       "file": "assets/art/customer-registry.json",
@@ -41,364 +41,14 @@
       "sha256": "5de3620f04b0a612c27569a31d23f3b28757745212a11a75735cb861b43edf9b"
     },
     {
-      "file": "assets/art/customers/customer_athlete_sit_left.png",
-      "bytes": 2054299,
-      "sha256": "e728116e4219b53cf9fa7844ada9ab97a339bdaf8492f3d9218f29efcc9455fd"
-    },
-    {
-      "file": "assets/art/customers/customer_athlete_sit_right.png",
-      "bytes": 2067708,
-      "sha256": "d8863ff622b026db30c10c23041989d548b07a8962e278ba58a6ab756eb802f7"
-    },
-    {
-      "file": "assets/art/customers/customer_athlete_walk.png",
-      "bytes": 2096319,
-      "sha256": "ade89a31b99377145991bfe651a52c36a355e18f6aa1e1916ae9a3242c71d456"
-    },
-    {
-      "file": "assets/art/customers/customer_bookworm_sit_left.png",
-      "bytes": 1838745,
-      "sha256": "286b62f55bd1aa7e080c6a5e4693138b34257e342ffd8f7a6775c2873c156d2f"
-    },
-    {
-      "file": "assets/art/customers/customer_bookworm_sit_right.png",
-      "bytes": 1816135,
-      "sha256": "42a497d4fad7a317dcaef70747a5ab2ca8ccc97ba4eb7a87a13e2e9bd1ca1c80"
-    },
-    {
-      "file": "assets/art/customers/customer_bookworm_walk.png",
-      "bytes": 1819437,
-      "sha256": "b7167d852d43cec098e8deb4da6bc24c71136fe81cff5eb31ab48ce5ddb285f0"
-    },
-    {
-      "file": "assets/art/customers/customer_child_sit_left.png",
-      "bytes": 2094015,
-      "sha256": "98110497738cff5d2f3b2502ddd75dd39ecd35e0c42f51ce7886eea1a90fe92f"
-    },
-    {
-      "file": "assets/art/customers/customer_child_sit_right.png",
-      "bytes": 2133358,
-      "sha256": "4533be9273e5f8a7d54a5024f90f4d5c4986ed9cea97f81785217c01a28b7634"
-    },
-    {
-      "file": "assets/art/customers/customer_child_walk.png",
-      "bytes": 2084247,
-      "sha256": "a1f1a6a16dd63cab0cafa059cf855e01340531e1ed5661a0a6b64cb03a1e946f"
-    },
-    {
-      "file": "assets/art/customers/customer_fashion_sit_left.png",
-      "bytes": 2077014,
-      "sha256": "449b0e1c2a62427cb25d141bf5797cc10184b0d2256d76f866b37615c54b83a9"
-    },
-    {
-      "file": "assets/art/customers/customer_fashion_sit_right.png",
-      "bytes": 2026402,
-      "sha256": "d85ca141521e782ffaf118296276780dee9c4e628e12d03c699fa97cac219aef"
-    },
-    {
-      "file": "assets/art/customers/customer_fashion_walk.png",
-      "bytes": 2049005,
-      "sha256": "13a5cfc7e0360ae59550ec5d1cedc2f291d51041ed872e644145fe838418cb89"
-    },
-    {
-      "file": "assets/art/customers/customer_gentleman_sit_left.png",
-      "bytes": 2141078,
-      "sha256": "43c16d85b8e0d1c80621c258ee1c71d1963337249e007bfcf0eff672e9a69b66"
-    },
-    {
-      "file": "assets/art/customers/customer_gentleman_sit_right.png",
-      "bytes": 2134080,
-      "sha256": "ba8c4b7083f66325d18d1bc1b6295aca02afe42daf5fa42876d544a880b6e43b"
-    },
-    {
-      "file": "assets/art/customers/customer_gentleman_walk.png",
-      "bytes": 2218787,
-      "sha256": "0c5a0bf4b22648c8fc3abcf8e3388f0974ad03e0d05160653ced4466069b8b5f"
-    },
-    {
-      "file": "assets/art/customers/customer_office_sit_left.png",
-      "bytes": 1854399,
-      "sha256": "4f8014f3bdfc53701b308768073d61b1812d27c7d5d54e4c219c8f74a62bb762"
-    },
-    {
-      "file": "assets/art/customers/customer_office_sit_right.png",
-      "bytes": 1859949,
-      "sha256": "9bb85b8b1771d99333bab5ccf54bf265cb9b3ed73e848701b7881b9f2e3639fc"
-    },
-    {
-      "file": "assets/art/customers/customer_office_walk.png",
-      "bytes": 1891753,
-      "sha256": "fb58dc744aeb357d2f0076796488b1f862a019a9bc83508a774d7fd87973055a"
-    },
-    {
-      "file": "assets/art/customers/customer_painter_sit_left.png",
-      "bytes": 2094891,
-      "sha256": "b486b5e0a754f5dd1e2d4928dcdd2c9a9c28ae7aa37a713c001d941f9dfc8de2"
-    },
-    {
-      "file": "assets/art/customers/customer_painter_sit_right.png",
-      "bytes": 2087896,
-      "sha256": "bb81a4c7aa2a83acc973fc02d02f76f7509aa94f1d5da0f8f7b0c560a2bc6ea5"
-    },
-    {
-      "file": "assets/art/customers/customer_painter_walk.png",
-      "bytes": 2061576,
-      "sha256": "17350956a898fc88ebb307a71d15e47dfbc4f906f98c4dea17a1f85f927461d4"
-    },
-    {
-      "file": "assets/art/customers/customer_traveler_sit_left.png",
-      "bytes": 2088957,
-      "sha256": "ce5c6ed8677c916a2880fcc68fea9491876999e367ca92fb9e926ec0431eda7c"
-    },
-    {
-      "file": "assets/art/customers/customer_traveler_sit_right.png",
-      "bytes": 2097028,
-      "sha256": "ed2d7c8382afa8643eb9739ffb8334143026be00fda92299f99e5543ad10e91c"
-    },
-    {
-      "file": "assets/art/customers/customer_traveler_walk.png",
-      "bytes": 2066627,
-      "sha256": "6ef782464fa2fc24477b26fe39c959f0f398f18a44a11876df201f1bb607f87a"
-    },
-    {
-      "file": "assets/art/food.png",
-      "bytes": 2632685,
-      "sha256": "33804c72a6719e8f919e3193c1a598915f21144aa80f7078b9020a80bd5a266e"
-    },
-    {
-      "file": "assets/art/hospitality/critic.png",
-      "bytes": 2307039,
-      "sha256": "e8d87380e61f5e8acbff5d45a1d74dc91e9c8a9de5d8c3faff87488ddaf1dc92"
-    },
-    {
-      "file": "assets/art/hospitality/florist.png",
-      "bytes": 2580914,
-      "sha256": "b710088505cbb9c1c65ea874773316e39b80eaaab399b940fe956dc8f66d8f5c"
-    },
-    {
-      "file": "assets/art/hospitality/grandma.png",
-      "bytes": 2700229,
-      "sha256": "7408ae0c7466dd45a116aaada9b12f71a09a7d81c6acba364d68bd029bca6cfa"
-    },
-    {
-      "file": "assets/art/hospitality/influencer.png",
-      "bytes": 2571353,
-      "sha256": "deeed5ea7dc66426f555321adca59e61405a06b9e6caa6cdbe30d461c34e4e6d"
-    },
-    {
-      "file": "assets/art/hospitality/judge.png",
-      "bytes": 2655798,
-      "sha256": "7645c72ef85b07bbb4d4518e443917f0a0d2f775ed939d3adf90ca6a04fd91a7"
-    },
-    {
-      "file": "assets/art/hospitality/lucky.png",
-      "bytes": 2499238,
-      "sha256": "2b860dafb17e4a4c37e3400e09cfc105f3fd985dd2c1757dc107a3fd259a66b1"
-    },
-    {
-      "file": "assets/art/hospitality/patissier.png",
-      "bytes": 2480158,
-      "sha256": "4994dd895a400770371ba6009171aff1fe1458e5781cdb1e7e08eb3e9dac24ee"
-    },
-    {
-      "file": "assets/art/hospitality/repair.png",
-      "bytes": 2586499,
-      "sha256": "ffc45971581dadb67ae6c812694840a1aa11beff3abd2679ab8aa4486bb72033"
-    },
-    {
-      "file": "assets/art/hospitality/signature-plate.png",
-      "bytes": 1394151,
-      "sha256": "8fcba04a8e38649101ee20e8067457529b03ea761f847b62d1fc38b2b29981e0"
-    },
-    {
-      "file": "assets/art/hospitality/supplier.png",
-      "bytes": 2584984,
-      "sha256": "da78d07110da0bf49926d78fe40f905d6cc036a66bd4a50519e4b5ef36f82905"
-    },
-    {
-      "file": "assets/art/hospitality/tip.png",
-      "bytes": 2780176,
-      "sha256": "32ecc0337ff778e839ae9bd612c45821c3ac243beb6462e7560dd3f85a674995"
-    },
-    {
-      "file": "assets/art/hospitality/traveler.png",
-      "bytes": 2765392,
-      "sha256": "a44049bdf13ebbe791e805dc1a0eda8afd5c3f4a85f5bd0d708bf494c703bc9a"
-    },
-    {
       "file": "assets/art/manifest.json",
       "bytes": 3161,
       "sha256": "f04fb238231e0039698a7762f60d8bf2820ee741d6d9053dfc41c7a58b52bd55"
     },
     {
-      "file": "assets/art/poses/customer_grandma_sit_left.png",
-      "bytes": 2039589,
-      "sha256": "492f2a628f059fb75c088b89fa94f36448e5227c022ad1fd00c5989e273cc174"
-    },
-    {
-      "file": "assets/art/poses/customer_grandma_sit_right.png",
-      "bytes": 2089061,
-      "sha256": "eb82dec95e0349dfcd32892a3778010a95d3850ab4864845fc5d14e421938868"
-    },
-    {
-      "file": "assets/art/poses/customer_reader_sit_left.png",
-      "bytes": 1850703,
-      "sha256": "70d0e24fec34caf2c9eca4e98752a80f39d7e99f39724e19d81d30dac40a2296"
-    },
-    {
-      "file": "assets/art/poses/customer_reader_sit_right.png",
-      "bytes": 1929672,
-      "sha256": "dabc674d31dac6fec54595b716979acfcce0d91ef29b390f0c0c5d34d7495be6"
-    },
-    {
-      "file": "assets/art/poses/customer_student_sit_left.png",
-      "bytes": 1693976,
-      "sha256": "5d4477e6429e234d21619d01d2f1c1aa8ef5fb8bd2ed1726ee2d01dcdc257150"
-    },
-    {
-      "file": "assets/art/poses/customer_student_sit_right.png",
-      "bytes": 1713960,
-      "sha256": "ac2e5de38da6803c631d48183d7a51b20981cfcc500b4b8051bd0eff9da2f047"
-    },
-    {
-      "file": "assets/art/poses/customer_walker_sit_left.png",
-      "bytes": 1691926,
-      "sha256": "49fff3f72361cec0eb753fa953be46e8b8442aece538124d6113959936e358e2"
-    },
-    {
-      "file": "assets/art/poses/customer_walker_sit_right.png",
-      "bytes": 1781780,
-      "sha256": "e95463dc2cd152b8b4d08c3fbb5b300b9850c9df2eb1f3d13113b9548c597d3f"
-    },
-    {
       "file": "assets/art/poses/registry.json",
       "bytes": 2443,
       "sha256": "b67a8d1666728dbc4d39c90253beb37be1a081f79403872218cd82bbe0cb415f"
-    },
-    {
-      "file": "assets/art/room-10.png",
-      "bytes": 2836833,
-      "sha256": "ac56b8e745d245050aa057611acf6db60134066adc30686fe80e10ee240cb7c7"
-    },
-    {
-      "file": "assets/art/room-2.png",
-      "bytes": 2846195,
-      "sha256": "b0b77c31a71c2d0775f549df6a6589e09ae608c6ec3db67eb1741ade210ad35c"
-    },
-    {
-      "file": "assets/art/room-3.png",
-      "bytes": 2797299,
-      "sha256": "1df7fd7cc54eeaeec19f364112b1e6ff2b424cc12893a1b02f723be7cc8a040e"
-    },
-    {
-      "file": "assets/art/room-4.png",
-      "bytes": 2817433,
-      "sha256": "a1821a617eff0b75430293f0886a8bec36edba91a5d2addcc9ceb15a8602ef14"
-    },
-    {
-      "file": "assets/art/room-5.png",
-      "bytes": 2857481,
-      "sha256": "ca275a797b058b3db5c130299e0c1cf8328aefd0f287444ef6f9ded7328f63e1"
-    },
-    {
-      "file": "assets/art/room-6.png",
-      "bytes": 2868890,
-      "sha256": "080fe56f63f0ac2f69a67256dcaafa20f4438058bda78c93c3f892233ca22fc3"
-    },
-    {
-      "file": "assets/art/room-7.png",
-      "bytes": 3137907,
-      "sha256": "084646a935b38004932a198a04edb2ac3ec736d933c70e23ecd98ca20c050e1e"
-    },
-    {
-      "file": "assets/art/room-8.png",
-      "bytes": 2772361,
-      "sha256": "0ce9675a3e20a4ee9501d764d49fa914f667e52a0a1338208358b7738ba72bfd"
-    },
-    {
-      "file": "assets/art/room-9.png",
-      "bytes": 3018864,
-      "sha256": "76d08c612fd7e54a5179d6e3b74b79baa48398b11937d97767697095a1532eba"
-    },
-    {
-      "file": "assets/art/room.png",
-      "bytes": 2878411,
-      "sha256": "eb305b5f1eacbb0e2b9e5dc4b28772acc22503401b7d3a1f7f26cc56ff2a7f86"
-    },
-    {
-      "file": "assets/art/special/customer_special_gourmand_sit_left.png",
-      "bytes": 835040,
-      "sha256": "80f38da78da4ddeb877363de0b6d342963eafec1d087336a07adb9fc9b871791"
-    },
-    {
-      "file": "assets/art/special/customer_special_gourmand_sit_right.png",
-      "bytes": 841617,
-      "sha256": "3770ec619df34974859c48516f46c0bf86a37498cd7e1d77d24d0b3eb61065c7"
-    },
-    {
-      "file": "assets/art/special/customer_special_gourmand_walk.png",
-      "bytes": 869329,
-      "sha256": "0f37b727483d6921bbd33c618016357131f18427de56068f3e306a962cfa6c2c"
-    },
-    {
-      "file": "assets/art/special/customer_special_hurried_sit_left.png",
-      "bytes": 808482,
-      "sha256": "01d08eed526daf5fbfb72e734236f622e8b7379a1ce8faced2c4bd5ba2b63f94"
-    },
-    {
-      "file": "assets/art/special/customer_special_hurried_sit_right.png",
-      "bytes": 807649,
-      "sha256": "fe7789b1ccb2583a05de953d9ab2600534eb5e8b31eddc1cb851283d41627435"
-    },
-    {
-      "file": "assets/art/special/customer_special_hurried_walk.png",
-      "bytes": 842051,
-      "sha256": "fea95623f9968c98fbc2a4c73a8d2cb385558715e7be50575cd35cc09cea910e"
-    },
-    {
-      "file": "assets/art/special/customer_special_regular_sit_left.png",
-      "bytes": 796438,
-      "sha256": "5e33c7cdfbd454f04011243f2ae0b3b329ac8da67548656380450f03b271ac36"
-    },
-    {
-      "file": "assets/art/special/customer_special_regular_sit_right.png",
-      "bytes": 794516,
-      "sha256": "f7d849b2c80bb48a0e3a7715cbc7643ab0c2d005eb085ec47fd147b7417bf772"
-    },
-    {
-      "file": "assets/art/special/customer_special_regular_walk.png",
-      "bytes": 845029,
-      "sha256": "5f6bf0d37729f0d40f989265228067193c7c09d47d17c4cfe4ae0c0a9c219874"
-    },
-    {
-      "file": "assets/art/special/customer_special_spender_sit_left.png",
-      "bytes": 757119,
-      "sha256": "fb222f42962892ef996e504fa4a9c64b83b5d62103ae1ff32c6392ca3598030a"
-    },
-    {
-      "file": "assets/art/special/customer_special_spender_sit_right.png",
-      "bytes": 755201,
-      "sha256": "da71acdfe4c1f270f5fb200af677dd70c6870759382db5d7d143303b40dd35c9"
-    },
-    {
-      "file": "assets/art/special/customer_special_spender_walk.png",
-      "bytes": 822434,
-      "sha256": "fe43e9d59702924bd336caeea1aa74b2cf89c77ac705a50b8bbb8af7f9fababa"
-    },
-    {
-      "file": "assets/art/special/customer_special_vip_sit_left.png",
-      "bytes": 814865,
-      "sha256": "169704f8b94a597ec83effb3b5f811b4d52571160a389c74e71756d5c958ef53"
-    },
-    {
-      "file": "assets/art/special/customer_special_vip_sit_right.png",
-      "bytes": 814034,
-      "sha256": "89204fb7ae920ef789379011e87e2ea7021487b51361b0eefbe936cd15b8a426"
-    },
-    {
-      "file": "assets/art/special/customer_special_vip_walk.png",
-      "bytes": 831998,
-      "sha256": "472192d19a7140f071b191fc05189871d0326ea2e7d59351605c505fc077ef15"
     },
     {
       "file": "assets/art/special/special-registry.json",
@@ -526,24 +176,519 @@
       "sha256": "e2e8b3def3f973df7d45fe56e840170fa065853986a544ae2867e6633476fd67"
     },
     {
-      "file": "assets/questions/fraction-addition-g4-s2.json",
-      "bytes": 202301,
-      "sha256": "44d15ec75bfa825aa8406c92cabec0950049ab040564b85e869391b1d8e5476e"
+      "file": "assets/questions/quadrilateral-g4-s2.json",
+      "bytes": 1105904,
+      "sha256": "880ed03c7363ff5bd9e04e2eabcf89acdd0f74d15f8f1d68ca291494eaceffbf"
     },
     {
       "file": "assets/questions/registry.json",
-      "bytes": 263,
-      "sha256": "9856519f4780f3fb9f136b87f51a5a9c1a1d976cc2c9fd33acbbbd0df2512343"
+      "bytes": 387,
+      "sha256": "57aa3fd986903bc371ab1186642b31b6b51d14aaa3eebb1aa53e9ccbabf9176f"
+    },
+    {
+      "file": "assets/web/art/characters.webp",
+      "bytes": 152618,
+      "sha256": "4902caeadf409f7884c3c1efa2cc5eef9fe42d5fbfe4474b653358d282ebcc5d"
+    },
+    {
+      "file": "assets/web/art/customers/customer_athlete_sit_left.webp",
+      "bytes": 97400,
+      "sha256": "d92a05f0a26ff4aa8f5a19c232860b8d8e2036687cf7590e9461f24a97749d0d"
+    },
+    {
+      "file": "assets/web/art/customers/customer_athlete_sit_right.webp",
+      "bytes": 97444,
+      "sha256": "6be6c7414c3457321f9ba7ee09620374d087d1cc07b67d98c2300fa1a52cc963"
+    },
+    {
+      "file": "assets/web/art/customers/customer_athlete_walk.webp",
+      "bytes": 97384,
+      "sha256": "fa0d95c3d05a390c3face235f49f95fb097953748fbe662902b6650e0dee9dd2"
+    },
+    {
+      "file": "assets/web/art/customers/customer_bookworm_sit_left.webp",
+      "bytes": 71350,
+      "sha256": "f4fc2089da9acfb517a7143429e467cfd4be529bf95725cd210f692ce37a7146"
+    },
+    {
+      "file": "assets/web/art/customers/customer_bookworm_sit_right.webp",
+      "bytes": 70516,
+      "sha256": "3c3beb76d6be89ccf063cdf2de63f62afe587dc448a4ef457718407e9b322fbe"
+    },
+    {
+      "file": "assets/web/art/customers/customer_bookworm_walk.webp",
+      "bytes": 68248,
+      "sha256": "010cffd11c793b5a89bd5070dca5f2b0b1098e851f5ec3d1432e8089ebf613a0"
+    },
+    {
+      "file": "assets/web/art/customers/customer_child_sit_left.webp",
+      "bytes": 82038,
+      "sha256": "9461aa9a048897995a0130e1cfddf79424ab86e4e593c3423745867cd5bd1f7e"
+    },
+    {
+      "file": "assets/web/art/customers/customer_child_sit_right.webp",
+      "bytes": 85264,
+      "sha256": "0771756903f5cf60bd7a21d046720a598444bf36a06863e5d46755d0b2b927b2"
+    },
+    {
+      "file": "assets/web/art/customers/customer_child_walk.webp",
+      "bytes": 78720,
+      "sha256": "d59d5487582616de0dbdc897c93bcd5b7f07adab1134466ebd736dda40cd5fcc"
+    },
+    {
+      "file": "assets/web/art/customers/customer_fashion_sit_left.webp",
+      "bytes": 82124,
+      "sha256": "f24005c898f8323e39aa9e9792193636505394ba38a6be94239135758219fda8"
+    },
+    {
+      "file": "assets/web/art/customers/customer_fashion_sit_right.webp",
+      "bytes": 79190,
+      "sha256": "7fb4fe70049191e8e0f4e099edb1021f0020613a48cf16e2b6008507193eca59"
+    },
+    {
+      "file": "assets/web/art/customers/customer_fashion_walk.webp",
+      "bytes": 79328,
+      "sha256": "863f5d56b4fb68b76b119a3202d51ccc2c2881b963927ccb156f34b4004d79f4"
+    },
+    {
+      "file": "assets/web/art/customers/customer_gentleman_sit_left.webp",
+      "bytes": 79784,
+      "sha256": "ca1dc97846ddafd12dae0832495b46d08f8eb3a186241ccd673a18ee27e258c2"
+    },
+    {
+      "file": "assets/web/art/customers/customer_gentleman_sit_right.webp",
+      "bytes": 78664,
+      "sha256": "8606fe5d6c740a79f5ca01534616a3e194903fec2ec28d261cd567a1af5153bc"
+    },
+    {
+      "file": "assets/web/art/customers/customer_gentleman_walk.webp",
+      "bytes": 80478,
+      "sha256": "13d46dfa14d63f30f50c958987e51859484ada09c1ce5976d0cd0d59db4db3ae"
+    },
+    {
+      "file": "assets/web/art/customers/customer_office_sit_left.webp",
+      "bytes": 67094,
+      "sha256": "dcbb0dd09eb3618e5a8ca0cfd1fe7f7cea24d178f55b16e7f8fd0811149b3b29"
+    },
+    {
+      "file": "assets/web/art/customers/customer_office_sit_right.webp",
+      "bytes": 64490,
+      "sha256": "8674383955400ee4d76c83fbff43d6e15f8a269993005228163d275c0da37e42"
+    },
+    {
+      "file": "assets/web/art/customers/customer_office_walk.webp",
+      "bytes": 68128,
+      "sha256": "15e4fde7471d46d090581d47a02ade87fbd5d3fcf8faa185b5a5ed33be32793d"
+    },
+    {
+      "file": "assets/web/art/customers/customer_painter_sit_left.webp",
+      "bytes": 96728,
+      "sha256": "31e292bff7b0d37b5fd385a3552ff6c0e5979e905ad8147bdf55250ff3c4b4c4"
+    },
+    {
+      "file": "assets/web/art/customers/customer_painter_sit_right.webp",
+      "bytes": 96964,
+      "sha256": "53d74e9dc7d4a9e7aedafd437f1472b2ee63373fdcd24a878eba9b868c71bf07"
+    },
+    {
+      "file": "assets/web/art/customers/customer_painter_walk.webp",
+      "bytes": 92108,
+      "sha256": "5c815dffc6e398636fcbcef7a6985c5d3b85487f653f4d5b74b5e93963edfa98"
+    },
+    {
+      "file": "assets/web/art/customers/customer_traveler_sit_left.webp",
+      "bytes": 86384,
+      "sha256": "15df7cef7f3b637c8567140da2eb9eb050bba3f9821e26df1e544178644dcb52"
+    },
+    {
+      "file": "assets/web/art/customers/customer_traveler_sit_right.webp",
+      "bytes": 86996,
+      "sha256": "595622058e1f88e18553121f71872660ab70d805b1767464eda04bd91d18a6a1"
+    },
+    {
+      "file": "assets/web/art/customers/customer_traveler_walk.webp",
+      "bytes": 82460,
+      "sha256": "a9f7e7ea64608419c335dea6f998514f2f0c348c333b9a60698c4164897d8bbd"
+    },
+    {
+      "file": "assets/web/art/food.webp",
+      "bytes": 178038,
+      "sha256": "6f2f59bdca49aaa7208ba33b9f6220467106f74dba9865fd9573ada9473bf399"
+    },
+    {
+      "file": "assets/web/art/hospitality/critic.webp",
+      "bytes": 119714,
+      "sha256": "7c88fb4e916f50f487a77be50df342b002cdefb1cf1b5aadf513143369903988"
+    },
+    {
+      "file": "assets/web/art/hospitality/florist.webp",
+      "bytes": 145086,
+      "sha256": "e613859da66c483fe195f4e1d1f069e2c015a2a89a1a1892a93e493ac4862873"
+    },
+    {
+      "file": "assets/web/art/hospitality/grandma.webp",
+      "bytes": 149450,
+      "sha256": "47480441a7a98ac5f07862cf8f4176f076eefdc09a7ab513c572691f805bef7b"
+    },
+    {
+      "file": "assets/web/art/hospitality/influencer.webp",
+      "bytes": 141386,
+      "sha256": "0385662cce3113919888f573d71fe3f694f5431abd3c90c37a8147e4410de31f"
+    },
+    {
+      "file": "assets/web/art/hospitality/judge.webp",
+      "bytes": 144036,
+      "sha256": "e448bba18f65082ea9a6fef83a6a8d443c7248c66b163218bf36dcaa3c5e4b90"
+    },
+    {
+      "file": "assets/web/art/hospitality/lucky.webp",
+      "bytes": 138522,
+      "sha256": "b6cf944ca85b1f9b0c93f52e7b3a1302e35cc55897d9c66ce78cbb6db8675987"
+    },
+    {
+      "file": "assets/web/art/hospitality/patissier.webp",
+      "bytes": 123618,
+      "sha256": "6771b294c49090d1ca2aee328e4f2d845191021f1399c6ff1158590d68e994af"
+    },
+    {
+      "file": "assets/web/art/hospitality/repair.webp",
+      "bytes": 137582,
+      "sha256": "bf8116a1c9bd17dffad87f95d70150fa794f3121e9a8beb9699a09da58b9de15"
+    },
+    {
+      "file": "assets/web/art/hospitality/signature-plate.webp",
+      "bytes": 88428,
+      "sha256": "71972b59962deaff757ddf8ce48c89094786c061e968bf46a4cb99a35135d89d"
+    },
+    {
+      "file": "assets/web/art/hospitality/supplier.webp",
+      "bytes": 137092,
+      "sha256": "f2670fd096d060f26472cb2610d67e5f06f5ba9ce0f7b5e84dd2ad7d7009253a"
+    },
+    {
+      "file": "assets/web/art/hospitality/tip.webp",
+      "bytes": 175766,
+      "sha256": "4e3315a3fa04ada7b06d8aabb24a0baa2997989f26fb0dee73e3ee332b4c8e1e"
+    },
+    {
+      "file": "assets/web/art/hospitality/traveler.webp",
+      "bytes": 170756,
+      "sha256": "d59df9e433fe5d71b5aa561431764e528f5a38f5103db7b9af14cc1efd0cb9bf"
+    },
+    {
+      "file": "assets/web/art/motion-v151/bookworm-actions.webp",
+      "bytes": 123318,
+      "sha256": "b866c298e211c00d208801d201dad6171d8704c26a31cb617b1a1c9c6a7399de"
+    },
+    {
+      "file": "assets/web/art/motion-v151/owner-actions.webp",
+      "bytes": 87142,
+      "sha256": "27b68689d079247b61b12fd48795ba79398f9470ea2bea95396c5c77d2cdd315"
+    },
+    {
+      "file": "assets/web/art/motion-v151/spring-actions.webp",
+      "bytes": 102040,
+      "sha256": "8971e7b449fd1a3ede9310ccf265864fa29bfa0c2e6641fae3feb47ce49e572d"
+    },
+    {
+      "file": "assets/web/art/motion-v151/student-actions-v2.webp",
+      "bytes": 117520,
+      "sha256": "d51fb854c67e5776950c1e1fd4b56fdb6f340cfc03d88ce7f6f80f818db2e762"
+    },
+    {
+      "file": "assets/web/art/motion-v152/athlete.webp",
+      "bytes": 195476,
+      "sha256": "af3527d1ff1dd8b844d306cd81e7efc2be9dcbac7c64445ac9d8ab3910d9a0fc"
+    },
+    {
+      "file": "assets/web/art/motion-v152/bookworm-actions-eat.webp",
+      "bytes": 97738,
+      "sha256": "8a7a843bc0f7ffbfd81c5f10153a88efc47b33e9f17353ea34a2d2c86a37a0b6"
+    },
+    {
+      "file": "assets/web/art/motion-v152/bookworm.webp",
+      "bytes": 123324,
+      "sha256": "b468de3e0dccc65a5d4d9a769cd53a10020a74a7bf03516549b66ec8374ede18"
+    },
+    {
+      "file": "assets/web/art/motion-v152/child.webp",
+      "bytes": 164572,
+      "sha256": "a670de64e1fa0a608e1e317ae5c758127889b7256d0b5e64944fa33aa8dbab4f"
+    },
+    {
+      "file": "assets/web/art/motion-v152/fashion.webp",
+      "bytes": 153302,
+      "sha256": "1513f74ca106867f10180f5bce96bb6d0d12e275a867691de46ac500b1e3d24c"
+    },
+    {
+      "file": "assets/web/art/motion-v152/gentleman.webp",
+      "bytes": 144916,
+      "sha256": "04dc08d00f0fec095ead26de414445bcad10e3da0aaff3db0fdf3150e5db5f2e"
+    },
+    {
+      "file": "assets/web/art/motion-v152/grandma.webp",
+      "bytes": 147038,
+      "sha256": "4636e12921e0680dd1e3e16e1e8bbab12c95ea10dd9648096f6f430c2915c576"
+    },
+    {
+      "file": "assets/web/art/motion-v152/office.webp",
+      "bytes": 135040,
+      "sha256": "c292a50d6ba274490812a6dfad6081461f692d567a6191cd420e7fccfa9013c2"
+    },
+    {
+      "file": "assets/web/art/motion-v152/painter.webp",
+      "bytes": 177682,
+      "sha256": "0f78128a3491fd097b3dbd05ec3ca91ff387afd344242c39f6e6467c9d1bca33"
+    },
+    {
+      "file": "assets/web/art/motion-v152/reader.webp",
+      "bytes": 124982,
+      "sha256": "be6e404185b1418d6044b739accf5ac7e72d2fc7c01cac9116cd29c0bf0587d0"
+    },
+    {
+      "file": "assets/web/art/motion-v152/special-gourmand.webp",
+      "bytes": 173154,
+      "sha256": "37ad1fa268000620320332ad359cac35b9c3895c23d6754e4b442dd24bcc47b3"
+    },
+    {
+      "file": "assets/web/art/motion-v152/special-hurried.webp",
+      "bytes": 159490,
+      "sha256": "c5e90664b795f4e13c5804be2baf39a20072c58dd55329139b06dd6210b350f2"
+    },
+    {
+      "file": "assets/web/art/motion-v152/special-regular.webp",
+      "bytes": 161974,
+      "sha256": "82546bdd10d1445b2952d6f668f2e36c70042d88142250c25e123dda162f3e15"
+    },
+    {
+      "file": "assets/web/art/motion-v152/special-spender.webp",
+      "bytes": 122932,
+      "sha256": "626ceb7e0b4f42597e1d196e7e2452f07827bbda5848a24807550f666223cce8"
+    },
+    {
+      "file": "assets/web/art/motion-v152/special-vip.webp",
+      "bytes": 152274,
+      "sha256": "97acc9e92819e291b79d7fd89990e6a7cce80cc679b698017b02fb67df1a2f1a"
+    },
+    {
+      "file": "assets/web/art/motion-v152/staff-2.webp",
+      "bytes": 97460,
+      "sha256": "86de42c3020c35a6706968735fd95b4e714a8dec36ded9f3a081dda56a1d94cb"
+    },
+    {
+      "file": "assets/web/art/motion-v152/staff-3.webp",
+      "bytes": 111256,
+      "sha256": "58bf58a4c284fafe8df6f8cc00a37c202b1b6e5de0790dd5de3b77f96b460b58"
+    },
+    {
+      "file": "assets/web/art/motion-v152/staff-4.webp",
+      "bytes": 102050,
+      "sha256": "08174c0753e9668fbb3ece01f2b15350384d28ed533fd17d75e38152590baf71"
+    },
+    {
+      "file": "assets/web/art/motion-v152/staff-5.webp",
+      "bytes": 67460,
+      "sha256": "da3acf8b8a61cfd059315d1b409d1e6a52090353c538952ea2f560178a5c4181"
+    },
+    {
+      "file": "assets/web/art/motion-v152/student.webp",
+      "bytes": 131570,
+      "sha256": "227f4191c169c3b3333406be0cdea3be4b966b95098b5e0f35f73d1ef9a70492"
+    },
+    {
+      "file": "assets/web/art/motion-v152/traveler.webp",
+      "bytes": 165120,
+      "sha256": "f0abdff7790f77290837fd10dc404b8832b52b188369c60208726ecdc647131b"
+    },
+    {
+      "file": "assets/web/art/motion-v152/walker.webp",
+      "bytes": 162590,
+      "sha256": "1873060c7b3c4149e453fd482b80b8a5e244dc3fe06733a03b2fbf6de87dd0e6"
+    },
+    {
+      "file": "assets/web/art/poses/customer_grandma_sit_left.webp",
+      "bytes": 78854,
+      "sha256": "a471d7036db58ac86074d4a6357cf1f4bbfdfdad8148a7f694216b998d5cacd2"
+    },
+    {
+      "file": "assets/web/art/poses/customer_grandma_sit_right.webp",
+      "bytes": 82188,
+      "sha256": "5a76dcd1d7483f97d5f3d4c4b39a59eec1c71158b140c26992b1c4645e22ec5b"
+    },
+    {
+      "file": "assets/web/art/poses/customer_reader_sit_left.webp",
+      "bytes": 65252,
+      "sha256": "e44ba89ca231ecfb136a1fc4dd95d2e4897dc2495eb704bb9fdcab0bc453582d"
+    },
+    {
+      "file": "assets/web/art/poses/customer_reader_sit_right.webp",
+      "bytes": 66350,
+      "sha256": "5978261a7956f47d10e8ea4b8694f639ab7070331994a997e8bcf82dd1b3c4af"
+    },
+    {
+      "file": "assets/web/art/poses/customer_student_sit_left.webp",
+      "bytes": 63966,
+      "sha256": "0aa5bb2cddf2fbb0e6ded59b90146397c07b1ad0d5cdde75bacd76d3bdfd3cc7"
+    },
+    {
+      "file": "assets/web/art/poses/customer_student_sit_right.webp",
+      "bytes": 62882,
+      "sha256": "243db1354f31a2d5d40362457cbadb56d90f1e014ebfbe5775bcc08412d896f8"
+    },
+    {
+      "file": "assets/web/art/poses/customer_walker_sit_left.webp",
+      "bytes": 67412,
+      "sha256": "a8b81c4c92387c23350b956d0ae83b330addb1f1d540a9d5ed95fafb97cfb343"
+    },
+    {
+      "file": "assets/web/art/poses/customer_walker_sit_right.webp",
+      "bytes": 70960,
+      "sha256": "fcc48b55720adcecc040c6257f4f1182417faa3303f1797a2a68e4b69c2f9062"
+    },
+    {
+      "file": "assets/web/art/room-10.webp",
+      "bytes": 568294,
+      "sha256": "9af40a7f8f2f76dad2869a9f6d8bdb6b4f4b330050f21e7b7a6e2ae9dba34c22"
+    },
+    {
+      "file": "assets/web/art/room-2.webp",
+      "bytes": 553052,
+      "sha256": "e1e0a8c944f80f0b4f91e7e20b5cdf1af14f16b943fb62b459a4150416fac6d6"
+    },
+    {
+      "file": "assets/web/art/room-3.webp",
+      "bytes": 541792,
+      "sha256": "ee8f13025a94e87f92f9449a8c5a8ff0c9237d62c44d59d052ffe82bb62c97a2"
+    },
+    {
+      "file": "assets/web/art/room-4.webp",
+      "bytes": 550584,
+      "sha256": "ddef65d0d1301ae8fb640a3306ab602eb443f689e6544b94b3290ed69f40d439"
+    },
+    {
+      "file": "assets/web/art/room-5.webp",
+      "bytes": 556910,
+      "sha256": "6883762b493d96614d662548b2cf64c8900c245e5fcb26c9fb4591d4bb5695ea"
+    },
+    {
+      "file": "assets/web/art/room-6.webp",
+      "bytes": 562032,
+      "sha256": "f0e14ebd4d5827e8e66f819aba7018720bd9bdeb1b63030b315fb0e2c8151e6a"
+    },
+    {
+      "file": "assets/web/art/room-7.webp",
+      "bytes": 634002,
+      "sha256": "1e12974b6397c4c3c5cc24e9b12994ff3ed4152419a6df6209ff378648412da1"
+    },
+    {
+      "file": "assets/web/art/room-8.webp",
+      "bytes": 548382,
+      "sha256": "782022eb28e0fd58f69a635d0296c524250b0be1cb3124f562fb4a222d45f2ca"
+    },
+    {
+      "file": "assets/web/art/room-9.webp",
+      "bytes": 610810,
+      "sha256": "6c727717d6722013ea639a657d90a58d4a17efa48dca67d30c779918796b58fb"
+    },
+    {
+      "file": "assets/web/art/room.webp",
+      "bytes": 564544,
+      "sha256": "5e6c5f368fa86380d0846780b0127c702a0545caf6ba1a379fc0950fd0109f6b"
+    },
+    {
+      "file": "assets/web/art/special/customer_special_gourmand_sit_left.webp",
+      "bytes": 48280,
+      "sha256": "44e341945a545ebef8a9073175f57a3a486bde4877d38fcb87a32d170a452f3a"
+    },
+    {
+      "file": "assets/web/art/special/customer_special_gourmand_sit_right.webp",
+      "bytes": 49552,
+      "sha256": "14741309135b56aca134b65c936e509800f9a1dd53aae3c8305a57c2f438f674"
+    },
+    {
+      "file": "assets/web/art/special/customer_special_gourmand_walk.webp",
+      "bytes": 51994,
+      "sha256": "d5f55fd986384017a6ceb7e1eb09808ac93c8c8f4e85bbc212ca0f25e7a9f646"
+    },
+    {
+      "file": "assets/web/art/special/customer_special_hurried_sit_left.webp",
+      "bytes": 41828,
+      "sha256": "edd6fe6ddcbee83081d63b77f2ad5312cc856c605ea2f9b6d69f75df06c5769e"
+    },
+    {
+      "file": "assets/web/art/special/customer_special_hurried_sit_right.webp",
+      "bytes": 42686,
+      "sha256": "0426cb104b2221ebfc45726b61cb64e0b351f0dab60857ce6c53f0ce5e9a9df0"
+    },
+    {
+      "file": "assets/web/art/special/customer_special_hurried_walk.webp",
+      "bytes": 47166,
+      "sha256": "333f37b2ac12ed2524cf19bef5a34dacbecc103bc731b87a1c9e5b60874c1515"
+    },
+    {
+      "file": "assets/web/art/special/customer_special_regular_sit_left.webp",
+      "bytes": 41518,
+      "sha256": "227c88b2c8a2dace5ae8680167b1f2c50e42c3d777ee2b3dd7f26f07d34c927c"
+    },
+    {
+      "file": "assets/web/art/special/customer_special_regular_sit_right.webp",
+      "bytes": 40626,
+      "sha256": "257f0c604c5bc0bf8ab8b690c92712b08e7e4a6a0c8998e31f1ad71e684fcef4"
+    },
+    {
+      "file": "assets/web/art/special/customer_special_regular_walk.webp",
+      "bytes": 46724,
+      "sha256": "362d2baffd4e82d183bec289b8eb6f0793338f0a1742f02353bde47a8c62c6e6"
+    },
+    {
+      "file": "assets/web/art/special/customer_special_spender_sit_left.webp",
+      "bytes": 36418,
+      "sha256": "51bf8ae9bd264897bdcd988c719acff063926c212de1b7f0d8e5a7b89d0218f4"
+    },
+    {
+      "file": "assets/web/art/special/customer_special_spender_sit_right.webp",
+      "bytes": 35936,
+      "sha256": "f71d9ee92d3bae87c1feffd983454ce54f448e8c8664bac5686b77a3b2b54b21"
+    },
+    {
+      "file": "assets/web/art/special/customer_special_spender_walk.webp",
+      "bytes": 42808,
+      "sha256": "ae576bbf3313abadff52372681d2b328e7a8862214a89557d40a0468379fb673"
+    },
+    {
+      "file": "assets/web/art/special/customer_special_vip_sit_left.webp",
+      "bytes": 47332,
+      "sha256": "735966ca15fe464f18b89b261221fcc94175f4d6dd734d1dc22e2a65fd2e7574"
+    },
+    {
+      "file": "assets/web/art/special/customer_special_vip_sit_right.webp",
+      "bytes": 46230,
+      "sha256": "d17f66b6fe65abfbb17e2fa477a255e6c4af7102ac46c0a5f4839149a33b347f"
+    },
+    {
+      "file": "assets/web/art/special/customer_special_vip_walk.webp",
+      "bytes": 50818,
+      "sha256": "734a65905fd23a88ff33e2a7c9ebe8bc78e098c13edd9f83d94f03d5a1ad79f8"
     },
     {
       "file": "audioManager.js",
       "bytes": 6589,
-      "sha256": "3b7fca20a648672a06d609456df2cddc8f11ba05c5e5a180bad17117825a34b2"
+      "sha256": "642050dc6084b685e4920b1f118414610381367794592b71734f37a54c4a177c"
     },
     {
       "file": "audioRegistry.js",
       "bytes": 1307,
       "sha256": "37fb92d1f2a4d11a75fe3918ef9f70f6b07bb9cdcc651187cbfcb0ff30e60fb0"
+    },
+    {
+      "file": "cafeEvents.js",
+      "bytes": 12745,
+      "sha256": "f45709a0742e00928d64d86e86a899db34630bb15863046e53be7f5bf94ddb37"
+    },
+    {
+      "file": "cafeResults.js",
+      "bytes": 14020,
+      "sha256": "888e5dd23b4524442fe1d88b06f91f97215b892788c6acf01d3f8eef2026060e"
     },
     {
       "file": "cafeRun.js",
@@ -553,12 +698,27 @@
     {
       "file": "cafeRunUi.js",
       "bytes": 7040,
-      "sha256": "4a98c684d6148960c68db04df73c29d7b5f7f6072fe3571b1d31eff8986294da"
+      "sha256": "27b62f518508e829759e4ee824561402af821f743f4d70349b2146707da3a9e9"
+    },
+    {
+      "file": "characterMotion.js",
+      "bytes": 3493,
+      "sha256": "3ff2d633d6875a36d30bdf32412e419ddf2c32260a00d3ee823cc70c40402727"
+    },
+    {
+      "file": "classroomCheckpoint.js",
+      "bytes": 4913,
+      "sha256": "d6facbe405733b9bbb6b3784d13cb169e4d22ed356ebb0afca46e7d28a81ed99"
+    },
+    {
+      "file": "classroomUi.js",
+      "bytes": 174,
+      "sha256": "ae4f5feb6c69a8b2551dbe4e54fce1b11a48f5b01ab23c0b3121db689b541bd2"
     },
     {
       "file": "config.js",
-      "bytes": 2551,
-      "sha256": "34f247d8340838b0d97de6a64984110b6f86f971d34b0d9d9f6b29d37c3ce0c2"
+      "bytes": 2556,
+      "sha256": "6031cae788995ac7de7a55b6b314f55844be74af1f518c24eb6f4a7a6f1b54de"
     },
     {
       "file": "customerPools.js",
@@ -572,23 +732,48 @@
     },
     {
       "file": "customerPoses.js",
-      "bytes": 2664,
-      "sha256": "a3b195d1488c7641a1fd15b7c6d7fadd3acda13f9cc9d5be96e3ac00ebc56f3a"
+      "bytes": 2613,
+      "sha256": "dd75fb489fc09437ad12146b38c0e369de853a1fd1250d304dc81a15758daf8b"
     },
     {
       "file": "customerRules.js",
       "bytes": 1662,
-      "sha256": "40b7a9811cb8406ef4f2875d5f3e166834b80853d7b262c623b9e962acee54ee"
+      "sha256": "91904cc63204035c71be1af5880e2f0d58496dc14a4f9e125a9c879619136ee2"
     },
     {
       "file": "data.js",
       "bytes": 7350,
-      "sha256": "326e0abe323d167c509a328f2600b7e62c25b3d75cfa3d2a5a295394498a5ee4"
+      "sha256": "4e930abaea72f65d19837e943ec77eb2697852cd5f357eb155f170d6d1dcbae8"
     },
     {
       "file": "departureDialogue.js",
       "bytes": 8192,
-      "sha256": "61274ae508a04ab7d342ac021f3f8f90a96083d37fbfe1e325c23a5ff6fa2302"
+      "sha256": "aeb6aa2a4723a4e1e821d68d4b98d58e093c699b0057c96e2b3eb9d416084e17"
+    },
+    {
+      "file": "eventConfig.js",
+      "bytes": 3761,
+      "sha256": "858571a13c843be5d25386a97aba2b2f09febea4b3cbd11abd40c844b4e66378"
+    },
+    {
+      "file": "eventPresentation.js",
+      "bytes": 600,
+      "sha256": "955d248ab6b8d78e287e5ae4d4eacd3d910fdb94f5aa930aba8c88efefc9392e"
+    },
+    {
+      "file": "eventRecovery.js",
+      "bytes": 4475,
+      "sha256": "441bcf66c1982baf158f41d5a718742c2cf37e6475874e6dc588a28f70f660fd"
+    },
+    {
+      "file": "eventUi.js",
+      "bytes": 4166,
+      "sha256": "bee6617726f22f71f819280816ff5545ca40cb0d1dedc9be30bd5785a8b1272a"
+    },
+    {
+      "file": "events.css",
+      "bytes": 10498,
+      "sha256": "4d83dea4fabff8ab0508f2b467e5b2f4a23139e0e70736b8b3c509c2d132cdc6"
     },
     {
       "file": "feedback.css",
@@ -598,37 +783,42 @@
     {
       "file": "finalUx.js",
       "bytes": 6736,
-      "sha256": "346729ae9c3474253e51a146dafe2d8e3d37de9faf43028ede19847b1dbfe41d"
+      "sha256": "8f36bf533776571b78fc9510d26f18324436c16cc9c7139f79f190981fb5046a"
     },
     {
       "file": "foodVisual.js",
       "bytes": 362,
-      "sha256": "267e6b3c276feafcd4cc4b3c100ef43ba1e6e43f65ab58450c265e9ec328b41a"
+      "sha256": "987bac7996a752a25a3d1263f593be65e4283fc3e55d7799debecac46fc59068"
     },
     {
       "file": "game.js",
-      "bytes": 29541,
-      "sha256": "a75136ddfa9dddc789eb0efbfed4f8ae5e9d108185a3cca52af224b89da7b3e6"
+      "bytes": 30727,
+      "sha256": "aa3c56c9442553bdebbf1e0061a4ebef66bea0368427d59391cf3dd9ef99c648"
     },
     {
       "file": "gameFeel.js",
       "bytes": 12221,
-      "sha256": "3b6b899017af031c9696d708df1d6368a929cbbce344793833d46f9af1a0330f"
+      "sha256": "57092aca58b2f62922610bcf9b75661253422ae6204118cb9d0d28f4384a8ca1"
     },
     {
       "file": "growthSave.js",
-      "bytes": 4231,
-      "sha256": "e467ee69e5ac62c9900b3369fdb3adb5fa0237f6f276ea252883f1c313c387ae"
+      "bytes": 4378,
+      "sha256": "6c087b7a5d4147d3b1321ca77acd6f5ddc046ebe623a6b0e7fcee2867c222766"
     },
     {
       "file": "growthSession.js",
-      "bytes": 3059,
-      "sha256": "fa487559e7ea0c1d776c58c382042a31c5d0cefc15844d69dd638436b196f083"
+      "bytes": 3221,
+      "sha256": "0da5ce603944145b1d4afd16c30a3a6ef179348dcc33426ece6b9e2729933c82"
+    },
+    {
+      "file": "guestCheckpoint.js",
+      "bytes": 2751,
+      "sha256": "0e2b559ca9cdf3a31f6c7607e53d44ace8845f48dfcdef60c96712a5978d2f5f"
     },
     {
       "file": "hospitality.js",
-      "bytes": 4111,
-      "sha256": "e9e9e7050b46a051acee15191c51f8ffd03f69ff232a8d5fd86a0f0b3b324c4c"
+      "bytes": 4150,
+      "sha256": "c88a4395dbfe5e7a6c12fbccafd3063f0ba74f8a970ab6b4134aacd399046add"
     },
     {
       "file": "hospitalityConfig.js",
@@ -641,44 +831,64 @@
       "sha256": "811a8dc8876b3e8f6f3abb0b04c79f7db5d2dba12344410513dd7f4ff84066a5"
     },
     {
+      "file": "imageLoading.js",
+      "bytes": 3684,
+      "sha256": "a3f10a519cab6794ede50e0c37e5005a5f1716e68cfb4623f47edd7b0e9f299a"
+    },
+    {
       "file": "index.html",
-      "bytes": 565,
-      "sha256": "313c37167971fae861422445a713f4535ff6618254e635878fb719cde6c394d5"
+      "bytes": 614,
+      "sha256": "ef7762a606abe6837c72ffe1b766c86c180ac00d39a1ef95542b4a7ec73dd210"
     },
     {
       "file": "integrated.css",
-      "bytes": 12528,
-      "sha256": "c92b2f65f485f369627d47d0a19349bac74f70d6af259d069cdbf213dd35629b"
+      "bytes": 12578,
+      "sha256": "f9bf1d5e3711d1dadb45ef352ca968fa1c53ae3c2902cc45565177d8ac096ad8"
     },
     {
       "file": "learning.css",
-      "bytes": 627,
-      "sha256": "54b6e93ee86e1af4c63ef82b7e621b1382644c988ea779275d8c677917da1289"
+      "bytes": 6319,
+      "sha256": "7dcaff65455f314d6509ddfe4d6f7f99631a6907f16a42e44c803ba516e53ab1"
+    },
+    {
+      "file": "learningAnalytics.js",
+      "bytes": 8167,
+      "sha256": "353840933dc90861acce6a274b29a8784d31dec9b8c91548921e0cae76d453a3"
     },
     {
       "file": "learningIntegration.js",
-      "bytes": 1309,
-      "sha256": "b7426416f269668660129c59ffedcbb9a169092f3fd207ff80c6f3d83b2cca86"
+      "bytes": 1360,
+      "sha256": "84c63785250e9945de918fb0c6933a638a2adb86cff62a7ac3b576792b92cafe"
     },
     {
       "file": "learningSession.js",
-      "bytes": 9163,
-      "sha256": "e6a62dc0f4eb0aedbe35853e128f50b8c11c8b6a684354c61bef4224699c20a9"
+      "bytes": 16360,
+      "sha256": "245d952adf7371f7f89f65878dc46c69e942b62b4a8c1c4f1713fbebf8f96b3f"
     },
     {
       "file": "main.js",
-      "bytes": 53740,
-      "sha256": "8d4d776aa9d1ea94bd5635e264a5c24d7f3f7f59823ca0e0bdcb1878d4f5b3dd"
+      "bytes": 66324,
+      "sha256": "0888ecff273a1e963c01f72583d2aa6e00d990e095b4a437858e89d6fd213fb2"
     },
     {
       "file": "modeBalance.js",
       "bytes": 1680,
-      "sha256": "430e915b1a4c9cea3042c678752301ed497dee31e310da5986dee31aaec145e0"
+      "sha256": "25bfb84ada2cb3cabae00cd6e20797c249b3caa534c5ed4baa7713a7524c4815"
     },
     {
       "file": "modeUi.js",
-      "bytes": 15003,
-      "sha256": "b81281c8e2d48c7fb1e5689c9d99d9eb208916ccc1f0b5c535b85933f5f79942"
+      "bytes": 15583,
+      "sha256": "9c3b49a21913caf5a040d97c475b15dad124497919a37591f85ec392303f2801"
+    },
+    {
+      "file": "motionExpansionCatalog.js",
+      "bytes": 68648,
+      "sha256": "f2ca622abe6c08392d354fb67193aad5453de4cc7354ab584b9e2e6aa029bedb"
+    },
+    {
+      "file": "motionSprites.js",
+      "bytes": 4481,
+      "sha256": "83ee2771fd973b4f8d16099a35e5a699eb2bd3b23f85c2a1b8ec2c95983050e2"
     },
     {
       "file": "phase4Config.js",
@@ -693,7 +903,7 @@
     {
       "file": "presentation.js",
       "bytes": 1866,
-      "sha256": "f0ac534c28ac5edb64294d1c41beec87291b5e09793dc0fee7056f86c3a51220"
+      "sha256": "fcf4920a06ebd6154d538370dc22c8025a233fe908367b67e85da1e34bfc852e"
     },
     {
       "file": "problems.js",
@@ -702,33 +912,38 @@
     },
     {
       "file": "questionPack.js",
-      "bytes": 5370,
-      "sha256": "8c7827fab74f5b691085c9dce0d10e2e51d63edff590644b458208018774c63b"
+      "bytes": 8439,
+      "sha256": "77306d71c2de57f8acd2db0b476af13f9d2b7471f3188bba2f149f535a9ae42a"
     },
     {
       "file": "questionRenderer.js",
-      "bytes": 1002,
-      "sha256": "345c83331f359438cf0ab7c553b39a3c14f125d172fc8704562426d45bcb294e"
+      "bytes": 1859,
+      "sha256": "b48ba521ab0596fe2c1cb73154ce504328b8e038a76adb9feb1f6bfa7227f16e"
+    },
+    {
+      "file": "reading.js",
+      "bytes": 2290,
+      "sha256": "b61bc53ebfa5e98321a64fe075c208dc53d7dfbbe38c5931c5e37d00f16352b8"
     },
     {
       "file": "saveRepository.js",
       "bytes": 3174,
-      "sha256": "97c7e9fa1c6d827bf5a0c11f6e5ad9862da8bb2e4aa97ba63e60c3b87d84c901"
+      "sha256": "b276ccc66dce84d66127ddf3c056b67b61df2c0ddc0e1c17164bab90afdc79c5"
     },
     {
       "file": "sessionFactory.js",
-      "bytes": 1531,
-      "sha256": "e2d0ef9fbe3ed8ea1b36af05b365e2933b5f26275ba9ba28a0299104f25e084d"
+      "bytes": 1698,
+      "sha256": "1fd72b671324732b6c598adabd6b39ea65c40af86c8b0e4efc580c7b74efa822"
     },
     {
       "file": "sessionModes.js",
       "bytes": 894,
-      "sha256": "0b8b1062dca51b79763aaf459efbf15ff3c857bed19ed2ce0f874e083f9d47e1"
+      "sha256": "129213b9be6df7ae459b89927adda4732a8f2a8bafb0345504c20ad7fbd8b83e"
     },
     {
       "file": "spatial.js",
       "bytes": 16558,
-      "sha256": "24d47546970b95ce26eec1aa37245870c1d14caa92ea09a6a5046167539105c9"
+      "sha256": "9cc0122055243f452158e335461fcbeaef19b5ab42d77ae8d77d7c9253fca25f"
     },
     {
       "file": "specialPoseCatalog.js",
@@ -738,12 +953,12 @@
     {
       "file": "staff.js",
       "bytes": 9214,
-      "sha256": "4e89814b5b0f33f2427e405dbd9d26ced0d6655d5ae95d8fea324b9853714c18"
+      "sha256": "4f5efe90d5628f38358741c587722aa67214466ffff0c6842aeb286f018d59ef"
     },
     {
       "file": "style.css",
-      "bytes": 33821,
-      "sha256": "064a2c8e9d66f3d22226a5b0f7be9ea375e17e0c9810824dc3a98fe63329a98b"
+      "bytes": 33841,
+      "sha256": "8eedf347be615357f27cb57091061ebaf2dcebfeea008681f24afc608076f791"
     },
     {
       "file": "telemetry.js",
@@ -773,9 +988,19 @@
     {
       "file": "version.json",
       "bytes": 179,
-      "sha256": "4dbe744295f73310b7b76f58efcb72736683938f6d3e4da3333808ca023c1d62"
+      "sha256": "fa34a59524a29782d0438a56dc9db8de1686f92f5b1ebc13bef455a816f404ca"
+    },
+    {
+      "file": "webAsset.js",
+      "bytes": 153,
+      "sha256": "d6a8475e2c74eaacdb92a04a58d4a702b6eed3aa3240fa37fc38b09672f35e74"
+    },
+    {
+      "file": "webAssetCatalog.js",
+      "bytes": 20852,
+      "sha256": "494ab168e0cbeabf1ec596fd1a045ca2ba18a6161a477fca450c14ca420cb280"
     }
   ],
-  "totalBytes": 168954329,
+  "totalBytes": 44862457,
   "qaFilesExcluded": true
 }
