@@ -1,6 +1,6 @@
-import { classroomCafeCheckpoint, restoreClassroomCafe } from './classroomCheckpoint.js?v=1.5.5';
-import { createClassMatch } from './sessionFactory.js?v=1.5.5';
-import { questionCatalog } from './questionPack.js?v=1.5.5';
+import { classroomCafeCheckpoint, restoreClassroomCafe } from './classroomCheckpoint.js?v=1.5.6';
+import { createClassMatch } from './sessionFactory.js?v=1.5.6';
+import { questionCatalog } from './questionPack.js?v=1.5.6';
 const key = 'cafe.v15.session-recovery';
 export class EventRecovery {
     current;

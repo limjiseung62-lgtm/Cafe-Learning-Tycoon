@@ -1,6 +1,6 @@
-import { imageReady, imageLoadingStatus } from './imageLoading.js?v=1.5.5';
-import { webAsset } from './webAsset.js?v=1.5.5';
-import { expandedGuestPoses, expandedWorkerPoses } from './motionExpansionCatalog.js?v=1.5.5';
+import { imageReady, imageLoadingStatus } from './imageLoading.js?v=1.5.6';
+import { webAsset } from './webAsset.js?v=1.5.6';
+import { expandedGuestPoses, expandedWorkerPoses } from './motionExpansionCatalog.js?v=1.5.6';
 export const motionSheets = {
     bookworm: { file: 'assets/art/motion-v151/bookworm-actions.png', width: 1536, height: 1024, columns: 3, rows: 1 },
     owner: { file: 'assets/art/motion-v151/owner-actions.png', width: 2172, height: 724, columns: 3, rows: 1 },

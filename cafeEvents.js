@@ -1,4 +1,4 @@
-import { eventBalance as b, eventSchedule, missionCatalog, incidentCatalog } from './eventConfig.js?v=1.5.5';
+import { eventBalance as b, eventSchedule, missionCatalog, incidentCatalog } from './eventConfig.js?v=1.5.6';
 export class CafeEvents {
     enabled = false;
     duration = 0;

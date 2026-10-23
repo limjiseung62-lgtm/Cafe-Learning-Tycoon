@@ -1,6 +1,6 @@
-import { questionCatalog, validatePack } from './questionPack.js?v=1.5.5';
-import { escapeText, renderQuestionText, renderDiagram } from './questionRenderer.js?v=1.5.5';
-import { passageHtml } from './reading.js?v=1.5.5';
+import { questionCatalog, validatePack } from './questionPack.js?v=1.5.6';
+import { escapeText, renderQuestionText, renderDiagram } from './questionRenderer.js?v=1.5.6';
+import { passageHtml } from './reading.js?v=1.5.6';
 const shareable = (q) => { const flags = q; return !q.material && flags.publicExportAllowed !== false && flags.sourceType !== 'publisher-copyright'; };
 const fingerprint = (question, diagram = '', choices = []) => JSON.stringify([question.trim(), diagram, [...choices].sort()]);
 /** Select already validated alternatives; never invent a question or export a restricted original. */

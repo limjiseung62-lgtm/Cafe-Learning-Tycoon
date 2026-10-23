@@ -1,6 +1,6 @@
-import { customers, menuDefinitions } from './data.js?v=1.5.5';
-import { specialDefinition, specialTypes } from './phase4Config.js?v=1.5.5';
-import { hospitalityDefinition, helperCatalog } from './hospitalityConfig.js?v=1.5.5';
+import { customers, menuDefinitions } from './data.js?v=1.5.6';
+import { specialDefinition, specialTypes } from './phase4Config.js?v=1.5.6';
+import { hospitalityDefinition, helperCatalog } from './hospitalityConfig.js?v=1.5.6';
 export function decodeGuestCheckpoint(value, g, level) {
     try {
         const items = value;

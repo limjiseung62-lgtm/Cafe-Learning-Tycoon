@@ -1,5 +1,5 @@
-import { gradeAnswer } from './reading.js?v=1.5.5';
-import { normalizeAnswer } from './questionPack.js?v=1.5.5';
+import { gradeAnswer } from './reading.js?v=1.5.6';
+import { normalizeAnswer } from './questionPack.js?v=1.5.6';
 export const learningConfig = { remediationGap: 3, recentWindow: 3, maxQueue: 32 };
 export class LearningSession {
     provider;
@@ -37,6 +37,11 @@ export class LearningSession {
                 this.remediation.push({ source, due: this.options.remediationGap ?? learningConfig.remediationGap });
         }
     }
+    // Only explicit numeric difficulty metadata defines stages; grouped reading retains passage order.
+    get progressive() { return !this.pool.some(q => q.readingContext) && this.pool.every(q => Number.isInteger(q.difficulty) && q.difficulty >= 1); }
+    // Explicit gourmet challenges and scheduled remediation keep their existing educational policies.
+    orderQueue() { if (this.progressive)
+        this.queue.sort((a, b) => a.difficulty - b.difficulty); }
     present(questionId, eligibleIds) { if (this.active && !this.answered)
         return null; let q = this.pool.find(q => q.questionId === questionId); if (!q)
         return null; if (this.options.deferExactReviewUntilPoolEnd && eligibleIds?.length) {
@@ -102,9 +107,12 @@ export class LearningSession {
                     this.queue = fresh;
                 this.reserved.clear();
             }
-            let index = grouped ? 0 : this.queue.findIndex(x => !this.recent.includes(x.questionId) && x.questionId !== this.active?.questionId && (!preference || (preference === 'challenge' ? x.difficulty >= 2 : !x.readingContext && !x.prompt.includes('\n'))));
+            this.orderQueue();
+            const stage = this.progressive && preference !== 'challenge' ? this.queue[0].difficulty : undefined;
+            const inStage = (x) => stage === undefined || x.difficulty === stage;
+            let index = grouped ? 0 : this.queue.findIndex(x => inStage(x) && !this.recent.includes(x.questionId) && x.questionId !== this.active?.questionId && (!preference || (preference === 'challenge' ? x.difficulty >= 2 : !x.readingContext && !x.prompt.includes('\n'))));
             if (index < 0)
-                index = this.queue.findIndex(x => x.questionId !== this.active?.questionId);
+                index = this.queue.findIndex(x => inStage(x) && x.questionId !== this.active?.questionId);
             if (index < 0)
                 index = 0;
             q = { ...this.queue.splice(index, 1)[0], isRemediation: false, isTwin: false };
@@ -184,6 +192,7 @@ export class LearningSession {
             return false;
         this.reserved = new Set(s.reserved ?? []);
         this.queue = queue;
+        this.orderQueue();
         this.active = active;
         this.remediation = remediation;
         this.recent = [...s.recent];

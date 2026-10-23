@@ -1,7 +1,7 @@
-import { CafeGame } from './game.js?v=1.5.5';
-import { menuDefinitions } from './data.js?v=1.5.5';
-import { policyFor } from './sessionModes.js?v=1.5.5';
-import { createGrowthSave, validateGrowthSave } from './growthSave.js?v=1.5.5';
+import { CafeGame } from './game.js?v=1.5.6';
+import { menuDefinitions } from './data.js?v=1.5.6';
+import { policyFor } from './sessionModes.js?v=1.5.6';
+import { createGrowthSave, validateGrowthSave } from './growthSave.js?v=1.5.6';
 const growthBases = new WeakMap();
 export function growthBaseFor(game) { return growthBases.get(game); }
 export function createClassMatch(seconds = policyFor().sessionSeconds, random = Math.random) { return new CafeGame(seconds, random, 300, { mode: 'CLASS_MATCH', phase4: true }); }

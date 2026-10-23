@@ -1,7 +1,7 @@
-import { decodeGuestCheckpoint } from './guestCheckpoint.js?v=1.5.5';
-import { validEventCheckpoint } from './cafeEvents.js?v=1.5.5';
+import { decodeGuestCheckpoint } from './guestCheckpoint.js?v=1.5.6';
+import { validEventCheckpoint } from './cafeEvents.js?v=1.5.6';
 export const incompleteRunHistory = new WeakSet();
-import { menuDefinitions } from './data.js?v=1.5.5';
+import { menuDefinitions } from './data.js?v=1.5.6';
 export function classroomCafeCheckpoint(g) { return { version: 1, ...g.events.enabled ? { eventState: g.events.checkpoint(), guests: structuredClone(g.guests) } : {}, cafeLevel: g.cafeLevel, money: g.money, warehouseLevel: g.warehouseLevel, menus: g.menus.map(m => ({ id: m.menuId, level: m.currentLevel, stock: m.stock })), staff: g.service.paid.map(w => ({ level: w.level })), stats: { ...g.stats }, production: g.successfulProduction, regularMemory: { ...g.regularMemory }, itemPurchases: { ...g.itemPurchases }, golden: g.goldenRemaining, booster: g.boosterRemaining, vip: g.vipPending, run: g.run ? { selected: [...g.run.selected], finalPaid: g.run.finalPaid, finalAssigned: incompleteRunHistory.has(g) ? null : g.run.finalAssigned, finalRewarded: g.run.finalRewarded, bonusRevenue: g.run.bonusRevenue } : null }; }
 export function restoreClassroomCafe(g, value) {
     if (g.mode !== 'CLASS_MATCH')
