@@ -1,5 +1,22 @@
-import { validateGrowthSave, migrateGrowthSave } from './growthSave.js?v=1.5.6';
+import { hasGrowthWriteLock, supportsGrowthLock } from './growthWriteLock.js?v=2.0.0';
+import { validateGrowthSave, migrateGrowthSave } from './growthSave.js?v=2.0.0';
 export const growthStorageKey = 'cafe-learning-tycoon.growth.v1';
+/** A local candidate reads a legacy cafe until its first write, then uses its own copy. */
+export class CandidateSaveRepository {
+    target;
+    original;
+    constructor(target, original) {
+        this.target = target;
+        this.original = original;
+    }
+    read() { const own = this.target.read(); return own.status === 'empty' ? this.original.read() : own; }
+    write(save, expected) { if (this.target.read().status === 'empty' && expected) {
+        const source = this.original.read();
+        if (source.status === 'ready' && JSON.stringify(source.save) !== JSON.stringify(expected))
+            return { ok: false, message: '원본 카페가 변경됐어요. 다시 열어 주세요.' };
+    } return this.target.write(save, expected); }
+    replace(save, confirmed) { return this.target.replace(save, confirmed); }
+}
 export class LocalSaveRepository {
     storage;
     key;
@@ -14,7 +31,7 @@ export class LocalSaveRepository {
         const raw = this.storage.getItem(this.key);
         if (raw === null)
             return { status: 'empty' };
-        if (raw.length > 100000)
+        if (raw.length > 4000000)
             throw Error('oversized');
         const value = JSON.parse(raw);
         const save = migrateGrowthSave(value);
@@ -43,6 +60,31 @@ export class LocalSaveRepository {
             if (JSON.stringify(value) !== JSON.stringify(expected))
                 return { ok: false, message: '다른 창에서 카페가 변경됐어요. 다시 열어 주세요.' };
         }
+        if (save.portfolio && current !== null && !this.storage.getItem(this.key + '.before-portfolio-v1'))
+            this.storage.setItem(this.key + '.before-portfolio-v1', current);
+        let hasRoster = false, hasLayouts = false;
+        if (current !== null) {
+            try {
+                const parsed = JSON.parse(current);
+                hasRoster = !!parsed?.roster;
+                hasLayouts = !!parsed?.layouts;
+            }
+            catch { }
+        }
+        if (save.roster && current !== null && !hasRoster && !this.storage.getItem(this.key + '.before-roster-v2'))
+            this.storage.setItem(this.key + '.before-roster-v2', current);
+        if (save.layouts && current !== null && !hasLayouts && !this.storage.getItem(this.key + '.before-layout-v1'))
+            this.storage.setItem(this.key + '.before-layout-v1', current);
+        if (save.freeLayouts && current !== null && !this.storage.getItem(this.key + '.before-free-layout-v2'))
+            this.storage.setItem(this.key + '.before-free-layout-v2', current);
+        if (save.longTerm?.furniture && current !== null && !this.storage.getItem(this.key + '.before-theme-furniture-v1'))
+            this.storage.setItem(this.key + '.before-theme-furniture-v1', current);
+        if (save.specialization && current !== null && !this.storage.getItem(this.key + '.before-specialization-v1'))
+            this.storage.setItem(this.key + '.before-specialization-v1', current);
+        if (save.miniCollection && current !== null && !this.storage.getItem(this.key + '.before-mini-v1'))
+            this.storage.setItem(this.key + '.before-mini-v1', current);
+        if (save.village && current !== null && !this.storage.getItem(this.key + '.before-village-v1'))
+            this.storage.setItem(this.key + '.before-village-v1', current);
         this.storage.setItem(this.key, JSON.stringify(save));
         return { ok: true, message: '저장됨 ✓' };
     }
@@ -62,4 +104,10 @@ export class LocalSaveRepository {
     catch {
         return { ok: false, message: '기존 저장을 보관할 수 없어 초기화하지 않았습니다.' };
     } }
+}
+export class BrowserGrowthRepository extends LocalSaveRepository {
+    write(save, expected) { if ((save.roster || supportsGrowthLock()) && !hasGrowthWriteLock())
+        return { ok: false, message: '다른 창의 저장을 보호하기 위해 카페를 다시 열어 주세요.' }; return super.write(save, expected); }
+    replace(save, confirmed) { if ((save.roster || supportsGrowthLock()) && !hasGrowthWriteLock())
+        return { ok: false, message: '카페 저장 권한을 먼저 확인해 주세요.' }; return super.replace(save, confirmed); }
 }

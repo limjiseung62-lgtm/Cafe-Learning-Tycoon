@@ -1,4 +1,5 @@
-import { TutorialPreference, TutorialTracker } from './uxState.js?v=1.5.6';
+import { deploymentLocalStorage } from './deploymentStorage.js?v=2.0.0';
+import { TutorialPreference, TutorialTracker } from './uxState.js?v=2.0.0';
 export class FinalUx {
     current;
     preference;
@@ -12,7 +13,7 @@ export class FinalUx {
         this.current = current;
         if (storage === undefined) {
             try {
-                storage = localStorage;
+                storage = deploymentLocalStorage;
             }
             catch {
                 storage = null;

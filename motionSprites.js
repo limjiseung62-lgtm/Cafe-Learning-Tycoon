@@ -1,6 +1,7 @@
-import { imageReady, imageLoadingStatus } from './imageLoading.js?v=1.5.6';
-import { webAsset } from './webAsset.js?v=1.5.6';
-import { expandedGuestPoses, expandedWorkerPoses } from './motionExpansionCatalog.js?v=1.5.6';
+import { recruitFrame } from "./recruitArt.js?v=2.0.0";
+import { imageReady, imageLoadingStatus } from './imageLoading.js?v=2.0.0';
+import { webAsset } from './webAsset.js?v=2.0.0';
+import { expandedGuestPoses, expandedWorkerPoses } from './motionExpansionCatalog.js?v=2.0.0';
 export const motionSheets = {
     bookworm: { file: 'assets/art/motion-v151/bookworm-actions.png', width: 1536, height: 1024, columns: 3, rows: 1 },
     owner: { file: 'assets/art/motion-v151/owner-actions.png', width: 2172, height: 724, columns: 3, rows: 1 },
@@ -40,7 +41,10 @@ export function guestMotionAsset(identity, motion, phase = 0) {
     const box = frame === 0 ? [58, 88, 458, 912] : frame === 1 ? [556, 88, 467, 912] : [1060, 20, 460, 988];
     return { file: motionSheets.bookworm.file, width: 1536, height: 1024, box, anchorX: box[0] + box[2] * .6, anchorY: frame === 2 ? 1008 : 795, nativeFacing: 'left', displayScale: 1 };
 }
-export function workerFrame(id, motion) {
+export function workerFrame(id, motion, facing = 'right') {
+    const recruit = recruitFrame(id, motion, facing);
+    if (recruit)
+        return recruit;
     const frame = motion === 'PICKUP' ? 0 : motion === 'CARRY' ? 1 : motion === 'SERVE' ? 2 : -1;
     if (frame < 0)
         return null;
@@ -54,14 +58,14 @@ export function workerFrame(id, motion) {
     return { file: sheet.file, width: sheet.width, height: sheet.height, box: [x, 0, w, sheet.height], nativeFacing: id === 'staff-1' && frame < 2 ? 'left' : 'right', tray };
 }
 export function workerPoseArt(id, motion, facing = 'right') {
-    const f = workerFrame(id, motion);
+    const f = workerFrame(id, motion, facing);
     if (!f || !available(f.file))
         return null;
     const [x, y, w, h] = f.box;
     return '<span class="worker-art art-sprite actual-worker-pose" aria-hidden="true" data-frame="' + motion + '" style="--worker-flip:' + (facing === f.nativeFacing ? 1 : -1) + ';background-image:url(' + webAsset(f.file) + ');background-size:' + (f.width / w * 100) + '% ' + (f.height / h * 100) + '%;background-position:' + (f.width === w ? 0 : x / (f.width - w) * 100) + '% ' + (f.height === h ? 0 : y / (f.height - h) * 100) + '%;aspect-ratio:' + w + '/' + h + '"></span>';
 }
 export function workerTrayPlacement(id, motion, facing) {
-    const f = workerFrame(id, motion);
+    const f = workerFrame(id, motion, facing);
     if (!f)
         return null;
     const ratio = 1.9 * f.box[2] / f.box[3], center = .5 + (f.tray.x - .5) * ratio * (facing === f.nativeFacing ? 1 : -1), width = f.tray.width * ratio;

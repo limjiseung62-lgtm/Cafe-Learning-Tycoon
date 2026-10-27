@@ -1,10 +1,25 @@
-import { staffBalance } from './config.js?v=1.5.6';
+import { staffBalance } from './config.js?v=2.0.0';
 export const staffDefinitions = [{ staffId: 'staff-1', name: '봄이', visualKey: 'spring' }, { staffId: 'staff-2', name: '준이', visualKey: 'jun' }, { staffId: 'staff-3', name: '하루', visualKey: 'haru' }, { staffId: 'staff-4', name: '루나', visualKey: 'luna' }, { staffId: 'staff-5', name: '도담', visualKey: 'dodam' }];
 export const staffVisuals = { owner: { face: '🧑‍🍳', apron: '#795f42', accessory: '☕' }, spring: { face: '👩', apron: '#d4898f', accessory: '🌸' }, jun: { face: '👨‍🦱', apron: '#7d9cc1', accessory: '🎧' }, haru: { face: '👩‍🦰', apron: '#9aaf70', accessory: '🌿' }, luna: { face: '👩‍🦳', apron: '#ac8dbb', accessory: '⭐' }, dodam: { face: '👨‍🦲', apron: '#d8a562', accessory: '🎀' } };
 export class StaffSystem {
     movement = null;
+    pickupFlow = { sharedPickup: false, chainOrders: false };
+    pickupClaims = new Map();
+    pickupFor(w) { if (!this.movement)
+        return this.pickup; const own = this.pickupClaims.get(w.staffId); if (own !== undefined)
+        return this.movement.pickups[own]; const fallback = this.workers.indexOf(w); if (!this.pickupFlow.sharedPickup)
+        return this.movement.pickups[fallback]; const occupied = new Set([...this.pickupClaims].filter(([id]) => id !== w.staffId).map(([, i]) => i)), target = w.orderId === null ? this.pickup : this.seats[this.currentOrders.get(w.orderId)?.seat ?? -1] ?? this.pickup; let best = fallback, cost = Infinity; for (let i = 0; i < this.movement.pickups.length; i++) {
+        if (occupied.has(i))
+            continue;
+        const p = this.movement.pickups[i], d = (a, b) => Math.hypot(a.x - b.x, (a.y - b.y) * 2 / 3), c = d(w.position, p) + d(p, { x: target.x, y: target.y + 5 });
+        if (c < cost) {
+            best = i;
+            cost = c;
+        }
+    } this.pickupClaims.set(w.staffId, best); return this.movement.pickups[best]; }
+    currentOrders = new Map();
     routes = new Map();
-    configureMovement(movement, orderSeats) { this.movement = movement; this.routes.clear(); for (const w of this.workers) {
+    configureMovement(movement, orderSeats) { this.movement = movement; this.routes.clear(); this.pickupClaims.clear(); for (const w of this.workers) {
         const i = this.workers.indexOf(w), seat = w.orderId === null ? undefined : this.seats[orderSeats.get(w.orderId) ?? -1];
         w.position = w.state === 'SERVING' && seat ? { x: seat.x, y: seat.y + 5 } : ['MOVING_TO_TABLE', 'PICKING_UP'].includes(w.state) ? { ...movement.pickups[i] } : { ...movement.homes[i] };
     } }
@@ -21,11 +36,13 @@ export class StaffSystem {
     completedOrders = 0;
     create(staffId, name, visualKey, owner = false) { return { staffId, name, visualKey, owner, level: 1, ...staffBalance.levels[0], state: 'IDLE', position: { x: 78, y: 22 }, orderId: null, cargo: [], remaining: [], elapsed: 0, idleTime: 0, busyTime: 0, upgradeFeedbackUntil: 0 }; }
     get paid() { return this.workers.filter(w => !w.owner); }
-    hire() { const d = staffDefinitions[this.paid.length]; if (!d)
+    claimDuration;
+    hire(definition) { const d = definition ?? staffDefinitions[this.paid.length]; if (!d || this.paid.some(w => w.staffId === d.staffId) || this.paid.length >= 5)
         return null; const w = this.create(d.staffId, d.name, d.visualKey); w.position = this.movement ? { ...this.movement.homes[this.workers.length] } : { x: 14 + this.paid.length * 12, y: 22 }; this.workers.push(w); return w; }
     upgrade(w, now) { w.level++; Object.assign(w, staffBalance.levels[w.level - 1]); w.upgradeFeedbackUntil = now + 3; }
     setLayout(pickup, seats) { this.pickup = { ...pickup }; this.seats = seats.map(p => ({ ...p })); }
-    change(w, state) { w.state = state; w.elapsed = 0; this.routes.delete(w.staffId); }
+    change(w, state) { if (!['MOVING_TO_PICKUP', 'PICKING_UP'].includes(state))
+        this.pickupClaims.delete(w.staffId); w.state = state; w.elapsed = 0; this.routes.delete(w.staffId); }
     release(w) { w.orderId = null; w.cargo = []; w.remaining = []; this.change(w, 'RETURNING'); }
     move(w, to, dt) {
         if (this.movement) {
@@ -80,6 +97,7 @@ export class StaffSystem {
     }
     tick(dt, orders, now, onComplete) {
         const active = new Map(orders.filter(o => o.active).map(o => [o.id, o]));
+        this.currentOrders = active;
         // Claims are established synchronously; later workers cannot take the same order.
         const claimed = new Set(this.workers.map(w => w.orderId).filter((id) => id !== null));
         for (const w of this.workers) {
@@ -87,7 +105,7 @@ export class StaffSystem {
                 claimed.delete(w.orderId);
                 this.release(w);
             }
-            if (w.state === 'IDLE' && !(w.owner && this.manualOwner && !this.paid.length)) {
+            if ((w.state === 'IDLE' || w.state === 'RETURNING' && this.pickupFlow.chainOrders) && !(w.owner && this.manualOwner && !this.paid.length)) {
                 const order = orders.filter(o => o.ready && o.active && !claimed.has(o.id)).sort((a, b) => a.orderedAt - b.orderedAt || a.id - b.id)[0];
                 if (order) {
                     w.orderId = order.id;
@@ -105,11 +123,11 @@ export class StaffSystem {
             switch (w.state) {
                 case 'IDLE': break;
                 case 'CLAIMING_ORDER':
-                    if (w.elapsed >= staffBalance.claimSeconds)
+                    if (w.elapsed >= (this.claimDuration?.(w) ?? staffBalance.claimSeconds))
                         this.change(w, 'MOVING_TO_PICKUP');
                     break;
                 case 'MOVING_TO_PICKUP':
-                    if (this.move(w, this.movement?.pickups[this.workers.indexOf(w)] ?? this.pickup, dt))
+                    if (this.move(w, this.pickupFor(w), dt))
                         this.change(w, 'PICKING_UP');
                     break;
                 case 'PICKING_UP':

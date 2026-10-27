@@ -1,4 +1,4 @@
-import { audioRegistry } from './audioRegistry.js?v=1.5.6';
+import { audioRegistry } from './audioRegistry.js?v=2.0.0';
 export const audioPreferenceKey = 'cafe-learning-tycoon.audio.v1';
 const clamp = (n, fallback) => typeof n === 'number' && Number.isFinite(n) ? Math.max(0, Math.min(1, n)) : fallback;
 export function normalizeAudioPreferences(v = {}) { return { muted: v.muted === true, musicEnabled: v.musicEnabled !== false, effectsEnabled: v.effectsEnabled !== false, musicVolume: clamp(v.musicVolume, .22), effectsVolume: clamp(v.effectsVolume, .5) }; }

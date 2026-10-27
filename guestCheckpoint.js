@@ -1,6 +1,7 @@
-import { customers, menuDefinitions } from './data.js?v=1.5.6';
-import { specialDefinition, specialTypes } from './phase4Config.js?v=1.5.6';
-import { hospitalityDefinition, helperCatalog } from './hospitalityConfig.js?v=1.5.6';
+import { specializationById } from './specializationConfig.js?v=2.0.0';
+import { customers, menuDefinitions } from './data.js?v=2.0.0';
+import { specialDefinition, specialTypes } from './phase4Config.js?v=2.0.0';
+import { hospitalityDefinition, helperCatalog } from './hospitalityConfig.js?v=2.0.0';
 export function decodeGuestCheckpoint(value, g, level) {
     try {
         const items = value;
@@ -12,6 +13,8 @@ export function decodeGuestCheckpoint(value, g, level) {
         for (const item of items) {
             if (!item || !Number.isSafeInteger(item.id) || item.id < 1 || !Number.isSafeInteger(item.seat) || item.seat < 0 || item.seat >= max || !['ENTERING', 'MOVING_TO_SEAT', 'ORDERING', 'WAITING_FOR_FOOD', 'PREPARING', 'SERVING', 'EATING', 'PAYING', 'LEAVING'].includes(item.state) || !['paid', 'abandoned', 'stockoutRecorded'].every(k => typeof item[k] === 'boolean') || !['elapsed', 'patienceRemaining', 'quotedRevenue', 'orderedAt', 'foodWaitTime', 'staffWaitTime'].every(k => finite(item[k])) || !Array.isArray(item.order) || item.order.length > 18 || item.order.some(o => !o || !Number.isSafeInteger(o.quantity) || o.quantity < 1 || o.quantity > 30 || !menuDefinitions.some(m => m.menuId === o.menuId && m.unlockCafeLevel <= level) && o.menuId !== 'event-signature'))
                 return null;
+            if (item.miniReaction && (g.mode !== 'CAFE_GROWTH' || typeof item.miniReaction.success !== 'boolean' || !finite(item.miniReaction.until)))
+                return null;
             let definition = customers.find(c => c.visualKey === item.definition?.visualKey);
             if (item.specialType && specialTypes.includes(item.specialType))
                 definition = specialDefinition(item.specialType, g.phase4Profile);
@@ -21,8 +24,14 @@ export function decodeGuestCheckpoint(value, g, level) {
                 definition = hospitalityDefinition(item.helperType);
             if (!definition || definition.visualKey !== item.definition?.visualKey || !finite(item.definition.patienceSeconds, 1, 900) || item.eventArrival && (!Number.isSafeInteger(item.eventArrival.eventId) || item.eventArrival.eventId < 1))
                 return null;
+            if (item.specializationId && (!specializationById(item.specializationId) || g.mode !== 'CAFE_GROWTH' || g.specialization?.selected !== item.specializationId))
+                return null;
             const guest = structuredClone(item);
             guest.definition = { ...definition, patienceSeconds: item.definition.patienceSeconds };
+            if (guest.specializationId) {
+                const s = specializationById(guest.specializationId);
+                guest.definition = { ...guest.definition, name: s.guest, characterTrait: s.trait, orderPreference: item.definition.orderPreference };
+            }
             if (guest.state === 'SERVING') {
                 guest.state = 'PREPARING';
                 guest.elapsed = 0;

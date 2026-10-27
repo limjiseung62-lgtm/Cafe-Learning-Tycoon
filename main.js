@@ -1,43 +1,62 @@
-import { webAsset } from './webAsset.js?v=1.5.6';
-import { imageReady } from './imageLoading.js?v=1.5.6';
-import { motionFrame, bubbleCorrection } from './animationPresentation.js?v=1.5.6';
-import { workerPoseArt, preloadMotionSheets, workerTrayPlacement } from './motionSprites.js?v=1.5.6';
-import { EventRecovery } from './eventRecovery.js?v=1.5.6';
-import { renderEventPanel } from './eventUi.js?v=1.5.6';
-import { guestMotion, workerMotion, motionArt } from './characterMotion.js?v=1.5.6';
-import { restoreClassroomCafe } from './classroomCheckpoint.js?v=1.5.6';
-import { LearningAnalyticsV1 } from './learningAnalytics.js?v=1.5.6';
-import { mountCafeResults } from './cafeResults.js?v=1.5.6';
-import { questionCatalog } from './questionPack.js?v=1.5.6';
-import { ClassroomUi } from './classroomUi.js?v=1.5.6';
-import { passageHtml, materialHtml } from './reading.js?v=1.5.6';
-import { CafeRunUi } from './cafeRunUi.js?v=1.5.6';
-import { specialQuestions } from './hospitalityConfig.js?v=1.5.6';
-import { productionReceipt, stockStatus } from './playLoop.js?v=1.5.6';
-import { FinalUx } from './finalUx.js?v=1.5.6';
-import { SessionClock, ActionGate } from './uxState.js?v=1.5.6';
-import { installAssetFallbacks } from './assetFallback.js?v=1.5.6';
-import { createLearning, learningProgressRepository } from './learningIntegration.js?v=1.5.6';
-import { renderQuestionText, escapeText, renderDiagram } from './questionRenderer.js?v=1.5.6';
-import { GameFeel } from './gameFeel.js?v=1.5.6';
-import { ModeFlow } from './modeUi.js?v=1.5.6';
-import { itemCatalog, specialNames, specialIcons } from './phase4Config.js?v=1.5.6';
-import { showOrderBubble, syncOrderBubble, assetSignature } from './presentation.js?v=1.5.6';
-import { personalityLabels } from './customerRules.js?v=1.5.6';
-import { selectCustomerPose, customerPoseArt, poseGeometry, preloadCustomerPoses, selectedPoseAsset } from './customerPoses.js?v=1.5.6';
-import { SpatialScene, hallGrowthSpecs, createSpace } from './spatial.js?v=1.5.6';
-import { DepartureDialogue } from './departureDialogue.js?v=1.5.6';
-import { icon } from './uiIcons.js?v=1.5.6';
-import { sprite } from './art.js?v=1.5.6';
-import { staffBalance } from './config.js?v=1.5.6';
-import { staffDefinitions } from './staff.js?v=1.5.6';
-import { foodVisual } from './foodVisual.js?v=1.5.6';
-import { CafeGame } from './game.js?v=1.5.6';
-import { customers, menuDefinitions } from './data.js?v=1.5.6';
+import { setArcadeSound } from './arcadeUi.js?v=2.0.0';
+import { setCraftSound } from './craftUi.js?v=2.0.0';
+import { setRushSound } from './cakeRushUi.js?v=2.0.0';
+import { beginMiniUi, pollMiniUi } from './miniGameUi.js?v=2.0.0';
+import { miniAnswer, activeMini } from './miniGames.js?v=2.0.0';
+import { beginSpecializationUi, pollSpecializationUi, specializationArt } from './specializationUi.js?v=2.0.0';
+import { specializationById } from './specializationConfig.js?v=2.0.0';
+import { freeMealAnchor } from './furnitureAnchors.js?v=2.0.0';
+import { freeFurniture, freeHallLayers, furnitureVisualVersion } from './freeFurniture.js?v=2.0.0';
+import { growthStaffPanel } from './recruitUi.js?v=2.0.0';
+import { workerBaseArt } from "./recruitArt.js?v=2.0.0";
+import { branchCatalog, branchRoom } from "./growthBranch.js?v=2.0.0";
+import { beginBranchUi, pollBranchUi } from "./growthBranchUi.js?v=2.0.0";
+import { createGrowthSave } from './growthSave.js?v=2.0.0';
+import { beginLongGrowth, pollLongGrowth } from './longGrowthUi.js?v=2.0.0';
+import { growthRuntime } from './growthRuntime.js?v=2.0.0';
+import { webAsset } from './webAsset.js?v=2.0.0';
+import { imageReady } from './imageLoading.js?v=2.0.0';
+import { motionFrame, bubbleCorrection } from './animationPresentation.js?v=2.0.0';
+import { workerPoseArt, preloadMotionSheets, workerTrayPlacement } from './motionSprites.js?v=2.0.0';
+import { EventRecovery } from './eventRecovery.js?v=2.0.0';
+import { renderEventPanel } from './eventUi.js?v=2.0.0';
+import { guestMotion, workerMotion, motionArt } from './characterMotion.js?v=2.0.0';
+import { restoreClassroomCafe } from './classroomCheckpoint.js?v=2.0.0';
+import { LearningAnalyticsV1 } from './learningAnalytics.js?v=2.0.0';
+import { mountCafeResults } from './cafeResults.js?v=2.0.0';
+import { questionCatalog } from './questionPack.js?v=2.0.0';
+import { ClassroomUi } from './classroomUi.js?v=2.0.0';
+import { passageHtml, materialHtml } from './reading.js?v=2.0.0';
+import { CafeRunUi } from './cafeRunUi.js?v=2.0.0';
+import { specialQuestions } from './hospitalityConfig.js?v=2.0.0';
+import { productionReceipt, stockStatus } from './playLoop.js?v=2.0.0';
+import { FinalUx } from './finalUx.js?v=2.0.0';
+import { SessionClock, ActionGate } from './uxState.js?v=2.0.0';
+import { installAssetFallbacks } from './assetFallback.js?v=2.0.0';
+import { createLearning } from './learningIntegration.js?v=2.0.0';
+import { renderQuestionText, escapeText, renderDiagram } from './questionRenderer.js?v=2.0.0';
+import { GameFeel } from './gameFeel.js?v=2.0.0';
+import { ModeFlow } from './modeUi.js?v=2.0.0';
+import { itemCatalog, specialNames, specialIcons } from './phase4Config.js?v=2.0.0';
+import { showOrderBubble, syncOrderBubble, assetSignature } from './presentation.js?v=2.0.0';
+import { personalityLabels } from './customerRules.js?v=2.0.0';
+import { selectCustomerPose, customerPoseArt, poseGeometry, preloadCustomerPoses, selectedPoseAsset } from './customerPoses.js?v=2.0.0';
+import { SpatialScene, hallGrowthSpecs, createSpace } from './spatial.js?v=2.0.0';
+import { DepartureDialogue } from './departureDialogue.js?v=2.0.0';
+import { icon } from './uiIcons.js?v=2.0.0';
+import { sprite } from './art.js?v=2.0.0';
+import { staffBalance } from './config.js?v=2.0.0';
+import { staffDefinitions } from './staff.js?v=2.0.0';
+import { foodVisual } from './foodVisual.js?v=2.0.0';
+import { CafeGame } from './game.js?v=2.0.0';
+import { customers, menuDefinitions } from './data.js?v=2.0.0';
 let classroomElapsed = null;
 const developerMode = new URLSearchParams(location.search).has('dev');
 const clock = new SessionClock(), purchaseGate = new ActionGate();
 const feel = new GameFeel();
+setRushSound(id => { void feel.audio.effect(id); });
+setCraftSound(id => { void feel.audio.effect(id); });
+setArcadeSound(id => { void feel.audio.effect(id); });
 const app = document.querySelector('#app');
 const readVisits = new Set();
 let rereading = false;
@@ -85,8 +104,8 @@ el('serve').onclick = () => { advanceTime(); if (game?.serveReadyOrder())
     render(); };
 export function startSession(session, pool, questionRandom, learningOptions = {}) { classroomElapsed = null; el('workers').innerHTML = ''; el('seats').innerHTML = ''; el('decor').innerHTML = ''; delete el('cafe-room').dataset.artLevel; guestLooks.clear(); preloadMotionSheets(); selectedGuest = null; detailKey = ''; app.classList.add('in-session'); game = session; game.enableEvents(); if (game.mode === 'CLASS_MATCH' && game.status === 'RUNNING')
     game.events.align(game.elapsedTime, game); if (game.status === 'CLOSED')
-    game.events.close(); runUi.start(); clearTimeout(outcomeTimer); game.service.manualOwner = true; game.enableHallGrowth(); departure = new DepartureDialogue(); departureKey = ''; manualTipShown = false; autoTipShown = game.service.paid.length > 0; lastStaffCount = game.service.paid.length; hintUntil = 0; el('service-hint').hidden = true; receipt = []; stockKey = ""; displayedResult = null; clock.start(); ux.start(); feel.start(session); modeFlow.attach(session, pool); scene = new SpatialScene(game.cafeLevel, game.cafe.maxCustomers, true); scene.sync(game); readVisits.clear(); rereading = false; engine = createLearning(pool, session.policy.persistence === 'saved-cafe', questionRandom, learningOptions); analytics = new LearningAnalyticsV1(engine.provider.packId); const sessionAnalytics = analytics; analytics.packName = pool?.[0]?.unit ?? '기본 학습'; void questionCatalog.list().then(list => { if (analytics === sessionAnalytics)
-    analytics.packName = list.find(p => p.packId === engine.provider.packId)?.selectionLabel ?? list.find(p => p.packId === engine.provider.packId)?.title ?? analytics.packName; }).catch(() => { }); game.enableHospitality(specialQuestions(engine.provider.list()).map(q => q.questionId)); specialAttempt = null; active = null; feedback = null; panelOpen = false; investmentOpen = false; investmentMessage = ''; renderedInvestmentKey = ''; celebrationUntil = 0; productionUntil = 0; el('setup').hidden = true; el('results').hidden = true; el('problem-panel').hidden = true; el('playing').hidden = false; el('make').disabled = false; el('investment-panel').hidden = true; last = performance.now(); render(); }
+    game.events.close(); runUi.start(); clearTimeout(outcomeTimer); game.service.manualOwner = true; game.enableHallGrowth(); departure = new DepartureDialogue(); departureKey = ''; manualTipShown = false; autoTipShown = game.service.paid.length > 0; lastStaffCount = game.service.paid.length; hintUntil = 0; el('service-hint').hidden = true; receipt = []; stockKey = ""; displayedResult = null; clock.start(); ux.start(); feel.start(session); scene = new SpatialScene(game.cafeLevel, game.cafe.maxCustomers, true); scene.sync(game); readVisits.clear(); rereading = false; engine = createLearning(pool, session.policy.persistence === 'saved-cafe', questionRandom, learningOptions); analytics = new LearningAnalyticsV1(engine.provider.packId); const growthState = growthRuntime.begin(session, pool, { engine, analytics, readVisits: [] }, () => ({ engine, analytics, readVisits: [...readVisits], specialAttempt })); engine = growthState.engine; analytics = growthState.analytics; readVisits.clear(); growthState.readVisits.forEach(n => readVisits.add(n)); const sessionAnalytics = analytics; analytics.packName = pool?.[0]?.unit ?? '기본 학습'; void questionCatalog.list().then(list => { if (analytics === sessionAnalytics)
+    analytics.packName = list.find(p => p.packId === engine.provider.packId)?.selectionLabel ?? list.find(p => p.packId === engine.provider.packId)?.title ?? analytics.packName; }).catch(() => { }); game.enableHospitality(specialQuestions(engine.provider.list()).map(q => q.questionId)); specialAttempt = growthState.specialAttempt ?? null; active = null; feedback = null; panelOpen = false; investmentOpen = false; investmentMessage = ''; renderedInvestmentKey = ''; celebrationUntil = 0; productionUntil = 0; beginLongGrowth(session, growthRuntime.savedFor(session) ?? createGrowthSave(), growthRuntime.businessId(), () => modeFlow.flush()); modeFlow.attach(session, pool); beginMiniUi(session, () => modeFlow.flush()); beginSpecializationUi(session, () => modeFlow.flush(), () => growthRuntime.businessId()); beginBranchUi(session, growthRuntime.savedFor(session) ?? createGrowthSave(), () => modeFlow.flush()); el('setup').hidden = true; el('results').hidden = true; el('problem-panel').hidden = true; el('playing').hidden = false; el('make').disabled = false; el('investment-panel').hidden = true; last = performance.now(); render(); }
 document.querySelectorAll('[data-focus-tab]').forEach(b => b.onclick = () => { if (game?.status !== 'RUNNING')
     return; investmentTab = b.dataset.focusTab; selectedGuest = null; detailKey = ''; el('guest-detail').hidden = true; investmentOpen = true; panelOpen = false; renderProblem(); renderInvestment(true); });
 el('invest').addEventListener('click', () => { investmentTab = 'cafe'; if (game?.status !== 'RUNNING')
@@ -94,7 +113,7 @@ el('invest').addEventListener('click', () => { investmentTab = 'cafe'; if (game?
 el('special-order').addEventListener('click', () => { const g = game?.specialOrder; if (!game || !g || game.status !== 'RUNNING' || (active && !feedback))
     return; const ids = game.hospitality.questions, q = engine.present(ids[g.id % ids.length], ids); if (!q)
     return; clearTimeout(outcomeTimer); active = q; feedback = null; specialAttempt = g.id; selectedGuest = null; investmentOpen = false; el('investment-panel').hidden = true; panelOpen = true; renderProblem(); });
-el('make').addEventListener('click', () => { if (game?.status !== 'RUNNING')
+el('make').addEventListener('click', () => { if (game?.status !== 'RUNNING' || activeMini(game))
     return; selectedGuest = null; detailKey = ''; el('guest-detail').hidden = true; investmentOpen = false; el('investment-panel').hidden = true; panelOpen = true; if (!active)
     active = engine.next(game?.events.mission?.id === 'gourmet' ? 'challenge' : game?.events.active ? 'standalone' : undefined); renderProblem(); if (active.type === 'short_answer' && !feedback)
     el('answer-input')?.focus(); });
@@ -117,7 +136,7 @@ function renderProblem() {
     p.hidden = !panelOpen;
     if (!panelOpen || !active)
         return;
-    p.innerHTML = `<div class="problem-head"><span>${specialAttempt !== null ? '특별 주문 · 시그니처 도전' : '✦ 음식을 만드는 작은 도전'}</span><button id="close-problem" aria-label="문제 패널 닫기">✕</button></div><p class="eyebrow">${escapeText(active.subject)} · ${active.grade}학년 · ${active.type === 'ox' ? 'OX' : active.type === 'short_answer' ? '단답형' : '객관식'}</p>${feedback?.correct ? '<h2 class="production-result-title">음식이 완성됐어요!</h2>' : '<h2>' + renderQuestionText(active.question) + '</h2>' + renderDiagram(active.diagram)}${feedback ? '<div class="feedback ' + (feedback.correct ? 'correct' : 'incorrect') + '"><strong>' + (feedback.correct ? '정답! 음식이 만들어졌어요.' : '괜찮아요, 함께 확인해요') + '</strong>' + (feedback.correct ? '<p class="production-summary">' + receipt.filter(r => r.quantity > 0).length + '종 · ' + receipt.reduce((n, r) => n + r.quantity, 0) + '개 추가 보관 · MAX ' + receipt.filter(r => r.quantity === 0).length + '종</p><details class="answer-review"><summary>정답·풀이 보기</summary><p>정답: ' + renderQuestionText(feedback.answer) + '</p><p>' + renderQuestionText(feedback.explanation) + '</p></details>' : '<p>정답: ' + renderQuestionText(feedback.answer) + '</p><p>' + renderQuestionText(feedback.explanation) + '</p>') + '</div><button class="primary" id="return-cafe">카페로 돌아가기 →</button>' : active.type === 'short_answer' ? '<form id="answer-form"><label>답<input id="answer-input" maxlength="500" autocomplete="off" inputmode="text" required></label><button class="primary">정답 확인</button></form>' : '<div class="choices">' + active.choices.map(c => '<button data-answer="' + escapeText(c) + '">' + renderQuestionText(c) + '</button>').join('') + '</div>'}<p class="hint">문제를 푸는 동안에도 영업 시간과 손님 대기시간은 흘러요.</p>`;
+    p.innerHTML = `<div class="problem-head"><span>${specialAttempt !== null ? '특별 주문 · 시그니처 도전' : '✦ 음식을 만드는 작은 도전'}</span><button id="close-problem" aria-label="문제 패널 닫기">✕</button></div><p class="eyebrow">${escapeText(active.subject)} · ${active.grade}학년 · ${active.type === 'ox' ? 'OX' : active.type === 'short_answer' ? '단답형' : '객관식'}${game?.mode === 'CAFE_GROWTH' ? ' · ' + (game.elapsedTime < 180 ? '준비' : game.elapsedTime < 660 ? '연습' : '도전·복습') + ' · 난이도 ' + active.difficulty : ''}</p>${feedback?.correct ? '<h2 class="production-result-title">음식이 완성됐어요!</h2>' : '<h2>' + renderQuestionText(active.question) + '</h2>' + renderDiagram(active.diagram)}${feedback ? '<div class="feedback ' + (feedback.correct ? 'correct' : 'incorrect') + '"><strong>' + (feedback.correct ? '정답! 음식이 만들어졌어요.' : '괜찮아요, 함께 확인해요') + '</strong>' + (feedback.correct ? '<p class="production-summary">' + receipt.filter(r => r.quantity > 0).length + '종 · ' + receipt.reduce((n, r) => n + r.quantity, 0) + '개 추가 보관 · MAX ' + receipt.filter(r => r.quantity === 0).length + '종</p><details class="answer-review"><summary>정답·풀이 보기</summary><p>정답: ' + renderQuestionText(feedback.answer) + '</p><p>' + renderQuestionText(feedback.explanation) + '</p></details>' : '<p>정답: ' + renderQuestionText(feedback.answer) + '</p><p>' + renderQuestionText(feedback.explanation) + '</p>') + '</div><button class="primary" id="return-cafe">카페로 돌아가기 →</button>' : active.type === 'short_answer' ? '<form id="answer-form"><label>답<input id="answer-input" maxlength="500" autocomplete="off" inputmode="text" required></label><button class="primary">정답 확인</button></form>' : '<div class="choices">' + active.choices.map(c => '<button data-answer="' + escapeText(c) + '">' + renderQuestionText(c) + '</button>').join('') + '</div>'}<p class="hint">문제를 푸는 동안에도 영업 시간과 손님 대기시간은 흘러요.</p>`;
     if (context) {
         const meta = document.createElement('div');
         meta.className = 'reading-progress';
@@ -163,9 +182,9 @@ function renderProblem() {
         return; active = engine.next(game?.events.mission?.id === 'gourmet' ? 'challenge' : game?.events.active ? 'standalone' : undefined); feedback = null; renderProblem(); if (active.type === 'short_answer')
         el('answer-input')?.focus(); });
 }
-function submit(answer) { advanceTime(); if (!classroom.canSubmit() || game?.status !== 'RUNNING' || feedback || !answer.trim() || active?.material && el('problem-panel').dataset.materialReady !== 'true')
+function submit(answer) { advanceTime(); if (!classroom.canSubmit() || game?.status !== 'RUNNING' || activeMini(game) || feedback || !answer.trim() || active?.material && el('problem-panel').dataset.materialReady !== 'true')
     return; const r = engine.submit(answer); if (!r)
-    return; feedback = r; const aq = active; analytics.record({ questionId: aq.questionId ?? r.questionId, questionPackId: engine.provider.packId, questionType: aq.type, learningObjective: { id: aq.skillId ?? r.skillId, label: aq.skillLabel ?? aq.unit }, question: aq.question, choices: aq.choices, diagram: aq.diagram, answer: r.answer, explanation: r.explanation, passage: aq.readingContext ? [...aq.readingContext.paragraphs, ...aq.readingContext.tables.map(t => t.caption + '\n' + t.columns.join(' · ') + '\n' + t.rows.map(row => row.join(' · ')).join('\n'))].join('\n') : undefined, restricted: !!aq.material || aq.publicExportAllowed === false }, answer, r.correct, { isTwin: r.isTwin, isRemediation: r.isRemediation, sourceQuestionId: r.sourceQuestionId }); const learningSaved = game.policy.persistence !== 'saved-cafe' || learningProgressRepository.write(engine.progress); const before = game.successfulProduction, quantity = game.boosterRemaining ? 3 : 1; const stocksBefore = new Map(game.menus.map(m => [m.menuId, m.stock])); game.recordAnswer(r.correct, aq.difficulty); const signatureMade = specialAttempt !== null && game.completeSignature(specialAttempt, r.correct); specialAttempt = null; receipt = r.correct ? productionReceipt(stocksBefore, game.menus) : []; if (!r.correct)
+    return; feedback = r; const aq = active; analytics.record({ questionId: aq.questionId ?? r.questionId, questionPackId: engine.provider.packId, questionType: aq.type, learningObjective: { id: aq.skillId ?? r.skillId, label: aq.skillLabel ?? aq.unit }, question: aq.question, choices: aq.choices, diagram: aq.diagram, answer: r.answer, explanation: r.explanation, passage: aq.readingContext ? [...aq.readingContext.paragraphs, ...aq.readingContext.tables.map(t => t.caption + '\n' + t.columns.join(' · ') + '\n' + t.rows.map(row => row.join(' · ')).join('\n'))].join('\n') : undefined, restricted: !!aq.material || aq.publicExportAllowed === false }, answer, r.correct, { isTwin: r.isTwin, isRemediation: r.isRemediation, sourceQuestionId: r.sourceQuestionId }); const learningSaved = true; const before = game.successfulProduction, quantity = game.boosterRemaining ? 3 : 1; const stocksBefore = new Map(game.menus.map(m => [m.menuId, m.stock])); game.recordAnswer(r.correct, aq.difficulty); miniAnswer(game, r.correct, aq.questionId ?? r.questionId); const signatureMade = specialAttempt !== null && game.completeSignature(specialAttempt, r.correct); specialAttempt = null; receipt = r.correct ? productionReceipt(stocksBefore, game.menus) : []; if (!r.correct)
     productionUntil = 0; if (r.correct)
     productionUntil = performance.now() + 1800; renderProblem(); if (signatureMade) {
     const note = document.createElement('p');
@@ -181,7 +200,8 @@ function submit(answer) { advanceTime(); if (!classroom.canSubmit() || game?.sta
     warning.className = 'save-error';
     warning.textContent = '학습 기록을 저장하지 못했어요. 이번 영업에서는 복습이 계속됩니다.';
     document.querySelector('.feedback')?.append(warning);
-} const chosen = document.createElement('p'); chosen.className = 'answer-outcome'; chosen.textContent = '내 답: ' + answer + ' · 정답: ' + r.answer; document.querySelector('.feedback')?.append(chosen); document.dispatchEvent(new CustomEvent('classroom-answer')); feel.answer(r.correct, game.successfulProduction - before, quantity, game.menus.length); render(); if (r.correct) {
+} const chosen = document.createElement('p'); chosen.className = 'answer-outcome'; chosen.textContent = '내 답: ' + answer + ' · 정답: ' + r.answer; document.querySelector('.feedback')?.append(chosen); if (game.mode === 'CAFE_GROWTH')
+    modeFlow.flush(); document.dispatchEvent(new CustomEvent('classroom-answer')); feel.answer(r.correct, game.successfulProduction - before, quantity, game.menus.length); render(); if (r.correct) {
     const session = game, answer = r;
     clearTimeout(outcomeTimer);
     outcomeTimer = window.setTimeout(() => { if (game === session && game.status === 'RUNNING' && feedback === answer && panelOpen && !document.querySelector('.answer-review[open]'))
@@ -193,6 +213,12 @@ function render() {
     recovery.poll();
     runUi.poll();
     if (game.status === 'CLOSED' && displayedResult === game) {
+        if (game.mode === 'CAFE_GROWTH') {
+            pollLongGrowth(game, engine);
+            pollBranchUi(game);
+            pollSpecializationUi(game);
+            pollMiniUi(game);
+        }
         modeFlow.refresh(game);
         if (game.status === 'CLOSED')
             mountCafeResults(game, analytics);
@@ -207,8 +233,8 @@ function render() {
     el('money').textContent = game.money.toLocaleString('ko-KR', game.money >= 1000000 ? { notation: 'compact', maximumFractionDigits: 1 } : {}) + ' 원';
     el('money').title = game.money.toLocaleString() + ' 원';
     el('cafe-level').textContent = game.cafeLevel + '단계';
-    el('cafe-level').title = game.cafe.name;
-    el('cafe-name').textContent = game.cafe.name;
+    el('cafe-level').title = cafeDisplayName(game.cafeLevel);
+    el('cafe-name').textContent = game.specialization ? specializationById(game.specialization.selected).name : game.branchId ? branchCatalog.find(b => b.id === game.branchId).name : cafeDisplayName(game.cafeLevel);
     el('warehouse-caption').textContent = '창고 ' + (game.warehouseLevel === 6 ? 'MAX' : game.warehouseLevel + '단계') + ' · 최대 ' + game.warehouse.capacity + '개';
     el('stock-count').textContent = game.menus.length + '종';
     scene.sync(game);
@@ -261,6 +287,12 @@ function render() {
                 el('results').querySelector('.analysis')?.remove();
         }
     }
+    if (game.mode === 'CAFE_GROWTH') {
+        pollLongGrowth(game, engine);
+        pollBranchUi(game);
+        pollSpecializationUi(game);
+        pollMiniUi(game);
+    }
     modeFlow.refresh(game);
     if (game.status === 'CLOSED')
         mountCafeResults(game, analytics);
@@ -269,13 +301,19 @@ function render() {
 }
 let nextRender = 0, nextActors = 0;
 function frame(now) { if (game?.status === 'CLOSED') {
+    if (game.mode === 'CAFE_GROWTH') {
+        pollLongGrowth(game, engine);
+        pollBranchUi(game);
+        pollSpecializationUi(game);
+        pollMiniUi(game);
+    }
     modeFlow.refresh(game);
     if (game.status === 'CLOSED')
         mountCafeResults(game, analytics);
     feel.poll(game);
     ux.poll(game);
 } last = now; if (game?.status === 'RUNNING') {
-    game.tick(classroomElapsed ? Math.max(0, classroomElapsed() - game.elapsedTime) : clock.take(Date.now(), now));
+    game.tick(growthRuntime.delta(game) ?? (classroomElapsed ? Math.max(0, classroomElapsed() - game.elapsedTime) : clock.take(Date.now(), now)));
     scene.sync(game);
     if (!document.hidden && now >= nextActors) {
         renderActors();
@@ -291,9 +329,16 @@ function frame(now) { if (game?.status === 'CLOSED') {
     }
 } requestAnimationFrame(frame); }
 requestAnimationFrame(frame);
+function cafeDisplayName(level) { return game?.branchId ? branchCatalog.find(b => b.id === game.branchId).name + ' Lv.' + level : game.economy.cafes[level - 1].name; }
 function renderRoom() { if (!game)
-    return; const room = el('cafe-room'); room.className = 'cafe cafe-lv-' + game.cafeLevel; room.dataset.theme = game.cafe.theme; room.style.setProperty('--room-zoom', String(hallGrowthSpecs[game.cafeLevel - 1].zoom)); room.dataset.hall = hallGrowthSpecs[game.cafeLevel - 1].name; if (room.dataset.artLevel === String(game.cafeLevel))
-    return; room.dataset.artLevel = String(game.cafeLevel); const file = 'assets/art/' + (game.cafeLevel === 1 ? 'room.png' : 'room-' + game.cafeLevel + '.png'), level = String(game.cafeLevel); const apply = () => { if (room.dataset.artLevel === level)
+    return; pollBranchUi(game); pollSpecializationUi(game); pollMiniUi(game); const room = el('cafe-room'); room.className = 'cafe cafe-lv-' + game.cafeLevel; room.dataset.theme = game.cafe.theme; room.style.setProperty('--room-zoom', String(hallGrowthSpecs[game.cafeLevel - 1].zoom)); room.dataset.hall = hallGrowthSpecs[game.cafeLevel - 1].name; const branch = game.branchId; room.dataset.branch = branch ?? ''; room.dataset.freeLayout = String(!!scene?.space.freeModel); const specArt = specializationArt(game); const roomKey = (specArt ?? 'base') + ':' + String(scene?.space.freeModel) + ':' + game.cafeLevel + ':' + (branch ?? 'legacy') + ':' + JSON.stringify(scene?.space.tables.map(t => [t.x, t.y, t.rotation, t.tableKind, t.furnitureId])) + ':' + (scene?.space.freeModel ? furnitureVisualVersion(scene.space.tables) : 'legacy'); if (room.dataset.artLevel === roomKey) {
+    if (!specArt && branch && imageReady(branchRoom(branch))) {
+        const url = 'url(' + branchRoom(branch) + ')';
+        if (room.style.getPropertyValue('--room') !== url)
+            room.style.setProperty('--room', url);
+    }
+    return;
+} room.dataset.artLevel = roomKey; const file = specArt ?? (scene?.space.freeModel ? branchRoom(branch ?? 'garden') : branch ? branchRoom(branch) : game.mode === 'CAFE_GROWTH' && game.cafeLevel >= 11 ? 'assets/art/long-growth/bakery.png' : game.mode === 'CAFE_GROWTH' && game.cafeLevel >= 7 ? 'assets/art/room-7.png' : 'assets/art/' + (game.cafeLevel === 1 ? 'room.png' : 'room-' + game.cafeLevel + '.png')), level = roomKey; const apply = () => { if (room.dataset.artLevel === level)
     room.style.setProperty('--room', 'url(' + webAsset(file) + ')'); }; if (imageReady(file))
     apply();
 else {
@@ -315,7 +360,8 @@ function allocateLooks() { if (!game)
     if (!active.has(id))
         guestLooks.delete(id); for (const g of game.guests)
     guestLooks.set(g.id, g.definition.visualKey); }
-function lookName(id) { const g = game?.guests.find(g => g.id === id); if (g?.specialType)
+function lookName(id) { const g = game?.guests.find(g => g.id === id); if (g?.specializationId)
+    return g.definition.name; if (g?.specialType)
     return specialNames[g.specialType]; if (g?.helperType || g?.signature)
     return g.definition.name; return customers.find(c => c.visualKey === guestLooks.get(id))?.name ?? '손님'; }
 function renderCompactStock() { if (!game)
@@ -326,7 +372,8 @@ function renderCompactStock() { if (!game)
     const offset = el('stocks').scrollLeft;
     el('stocks').innerHTML = [...game.menus].sort((a, b) => Number(b.stock < (demand.get(b.menuId) ?? 0)) - Number(a.stock < (demand.get(a.menuId) ?? 0))).map(m => { const status = stockStatus(m.stock, m.maxStock, demand.get(m.menuId)); return '<div class="stock" data-stock="' + m.menuId + '" data-status="' + status + '" data-needed="' + ((demand.get(m.menuId) ?? 0) > m.stock) + '" aria-label="' + m.name + ' 재고 ' + m.stock + '/' + m.maxStock + ' ' + (status === '0' ? '품절' : status) + '">' + foodVisual(m) + '<b>' + m.name + '</b><strong>' + m.stock + '/' + m.maxStock + ' · ' + (status === '0' ? '품절' : status) + '</strong></div>'; }).join('');
     el('stocks').scrollLeft = offset;
-} el('make').classList.toggle('needs-production', shortage > 0); }
+} for (const n of el('stocks').querySelectorAll('[data-stock]'))
+    n.classList.toggle('staff-radar', game.staffAbilities.run?.radarMenu === n.dataset.stock && (game.staffAbilities.run?.radarUntil ?? 0) > game.elapsedTime); el('make').classList.toggle('needs-production', shortage > 0); }
 function returnToCafe() { clearTimeout(outcomeTimer); const rewards = [...document.querySelectorAll('[data-reward]')].filter(n => receipt.some(r => r.menuId === n.dataset.reward && r.quantity > 0)).slice(0, 6).map(n => ({ id: n.dataset.reward, rect: n.getBoundingClientRect(), html: n.querySelector('.food-art')?.outerHTML ?? '' })); panelOpen = false; if (feedback) {
     active = null;
     feedback = null;
@@ -349,7 +396,10 @@ function returnToCafe() { clearTimeout(outcomeTimer); const rewards = [...docume
     animation.onfinish = () => token.remove();
 } el('make').focus(); }
 function renderFurniture() { if (!game || !scene)
-    return; el('seats').innerHTML = ''; el('decor').innerHTML = scene.space.tables.map(t => { const art = sprite(t.artKey ?? (game.cafeLevel >= 5 ? 'premium-table' : 'table')); return '<div class="space-table" data-table="' + t.tableId + '" style="left:' + t.x + '%;top:' + t.y + '%;--table-scale:' + t.scale + ';z-index:' + Math.round(t.y * 10 - 5) + '">' + art + '</div><div class="table-front" style="left:' + t.x + '%;top:' + t.y + '%;--table-scale:' + t.scale + ';z-index:' + Math.round(t.y * 10 + 2) + '">' + art + '</div>'; }).join(''); }
+    return; el('seats').innerHTML = ''; if (scene.space.freeModel) {
+    el('decor').innerHTML = freeHallLayers(scene.space, specializationArt(game)) + freeFurniture(scene.space);
+    return;
+} el('decor').innerHTML = scene.space.tables.map(t => { const art = sprite(t.artKey ?? (game.cafeLevel >= 5 ? 'premium-table' : 'table')); return '<div class="space-table" data-table="' + t.tableId + '" style="left:' + t.x + '%;top:' + t.y + '%;--table-scale:' + t.scale + ';--table-flip:' + (t.rotation === 180 ? -1 : 1) + ';z-index:' + Math.round(t.y * 10 - 5) + '">' + art + '</div><div class="table-front" style="left:' + t.x + '%;top:' + t.y + '%;--table-scale:' + t.scale + ';--table-flip:' + (t.rotation === 180 ? -1 : 1) + ';z-index:' + Math.round(t.y * 10 + 2) + '">' + art + '</div>'; }).join(''); }
 function renderSeats() { renderActors(); }
 const actorMotionPreference = matchMedia('(prefers-reduced-motion: reduce)');
 function renderActors() {
@@ -393,13 +443,13 @@ function renderActors() {
             node.dataset.special = g.specialType;
             node.classList.toggle('vip-arrival', g.specialType === 'vip' && ['ENTERING', 'MOVING_TO_SEAT'].includes(g.state));
         }
-        if (g.helperType || g.signature || g.runFinal) {
+        if (g.specializationId || g.helperType || g.signature || g.runFinal) {
             if (!badge) {
                 badge = document.createElement('span');
                 badge.className = 'special-badge hospitality-badge';
                 node.append(badge);
             }
-            badge.textContent = g.runFinal ? '감사 파티' : g.signature ? '특별 주문' : '도움';
+            badge.textContent = g.specializationId ? specializationById(g.specializationId).name : g.runFinal ? '감사 파티' : g.signature ? '특별 주문' : '도움';
             badge.title = g.definition.name + ' · ' + g.definition.characterTrait;
         }
         node.dataset.actualPose = String(selectedPoseAsset(selection).file.includes('/motion-v15'));
@@ -417,6 +467,7 @@ function renderActors() {
         }
         node.dataset.seat = seat.seatId;
         node.dataset.bubbleSide = g.seat % 2 === 0 ? 'right' : 'left';
+        node.dataset.floor = game.mode === 'CAFE_GROWTH' && game.cafeLevel >= 11 && g.seat % scene.space.tables.length < 4 ? 'upper' : 'ground';
         node.dataset.table = seat.tableId;
         node.dataset.state = pose.action;
         node.dataset.engineState = g.state;
@@ -433,11 +484,11 @@ function renderActors() {
         node.style.top = pose.y + '%';
         node.style.opacity = String(pose.opacity);
         node.style.setProperty('--actor-scale', String(seat.scale));
-        node.style.zIndex = String(pose.seated ? Math.round(scene.space.tables.find(t => t.tableId === seat.tableId).y * 10 + (seat.rear ? -1 : 3)) : Math.round(pose.y * 10));
+        node.style.zIndex = String(scene.space.freeModel && pose.seated ? Math.round(seat.standPoint.y * 10 + 1) : pose.seated ? Math.round(scene.space.tables.find(t => t.tableId === seat.tableId).y * 10 + (seat.rear ? -1 : 3)) : Math.round(pose.y * 10));
         const button = node.querySelector('button');
         button.setAttribute('aria-label', lookName(g.id) + ' 주문 상세');
         button.setAttribute('aria-pressed', String(selectedGuest === g.id));
-        const pending = showOrderBubble(g), patience = Math.max(0, g.patienceRemaining / g.definition.patienceSeconds);
+        const pending = showOrderBubble(g) && (game.mode !== 'CAFE_GROWTH' || game.cafeLevel < 11 || !game.guests.some(other => other.id < g.id && showOrderBubble(other) && scene.space.seats[other.seat]?.tableId === seat.tableId)), patience = Math.max(0, g.patienceRemaining / g.definition.patienceSeconds);
         const bubble = node.querySelector('.guest-bubble');
         const key = [pending, g.order.map(o => o.menuId + ':' + o.quantity).join(','), Math.round(patience * 100)].join('/');
         node.dataset.orderUi = pending ? 'pending' : 'hidden';
@@ -452,8 +503,9 @@ function renderActors() {
                 layer.append(meal);
             }
             const table = scene.space.tables.find(t => t.tableId === seat.tableId);
-            meal.style.left = (table.x + (g.seat % 2 === 0 ? 2 : -2) * table.scale) + '%';
-            meal.style.top = (table.y - 11 * table.scale) + '%';
+            const mealPoint = scene.space.freeModel ? freeMealAnchor(scene.space, seat) : { x: table.x + (g.seat % 2 === 0 ? 2 : -2) * table.scale, y: table.y - 11 * table.scale };
+            meal.style.left = mealPoint.x + '%';
+            meal.style.top = mealPoint.y + '%';
             meal.style.zIndex = String(Math.round(table.y * 10 + 4));
         }
         else
@@ -472,7 +524,7 @@ function renderGuestDetail() { const box = el('guest-detail'), g = game?.guests.
 function renderCelebration() { const box = el('celebration'); box.hidden = !game || game.status === 'CLOSED' || performance.now() > celebrationUntil; if (box.hidden)
     return; if (box.dataset.level !== String(celebrationLevel)) {
     box.dataset.level = String(celebrationLevel);
-    box.innerHTML = '<button id="skip-celebration" aria-label="축하 연출 닫기">✕</button><p>카페 ' + celebrationLevel + '단계!</p><h2>' + game.economy.cafes[celebrationLevel - 1].name + ' OPEN!</h2><p class="hall-unlock">' + hallGrowthSpecs[celebrationLevel - 1].name + ' · 테이블 ' + createSpace(celebrationLevel, true).tables.length + '개 · 이용 좌석 ' + game.cafe.maxCustomers + '석</p><p>' + (celebrationLevel <= 6 ? '새 메뉴' : '더 넓어진 카페') + '</p><div>' + menuDefinitions.filter(m => m.unlockCafeLevel === celebrationLevel).map(m => '<span>' + sprite(m.menuId) + ' ' + m.name + '</span>').join('') + '</div>' + (customers.some(c => c.unlockCafeLevel === celebrationLevel) ? '<p>새로운 손님 ' + customers.filter(c => c.unlockCafeLevel === celebrationLevel).length + '명이 찾아오기 시작했어요!</p>' : '');
+    box.innerHTML = '<button id="skip-celebration" aria-label="축하 연출 닫기">✕</button><p>카페 ' + celebrationLevel + '단계!</p><h2>' + cafeDisplayName(celebrationLevel) + ' OPEN!</h2><p class="hall-unlock">' + hallGrowthSpecs[celebrationLevel - 1].name + ' · 테이블 ' + createSpace(celebrationLevel, true).tables.length + '개 · 이용 좌석 ' + game.cafe.maxCustomers + '석</p><p>' + (celebrationLevel <= 6 ? '새 메뉴' : '더 넓어진 카페') + '</p><div>' + menuDefinitions.filter(m => m.unlockCafeLevel === celebrationLevel).map(m => '<span>' + sprite(m.menuId) + ' ' + m.name + '</span>').join('') + '</div>' + (customers.some(c => c.unlockCafeLevel === celebrationLevel) ? '<p>새로운 손님 ' + customers.filter(c => c.unlockCafeLevel === celebrationLevel).length + '명이 찾아오기 시작했어요!</p>' : '');
     box.onclick = () => { celebrationUntil = 0; box.hidden = true; };
     el('skip-celebration').onclick = box.onclick;
 } }
@@ -491,7 +543,7 @@ function renderInvestment(force = false) {
     const warehouse = game.nextWarehouse;
     let content = '';
     if (investmentTab === 'cafe') {
-        content = '<div class="investment-card"><p>현재 카페 ' + game.cafeLevel + '단계' + ' · ' + game.cafe.name + '</p>' + (next ? '<h2><small>카페 ' + next.level + '단계</small><span class="cafe-upgrade-name">' + next.name + '</span></h2><p>홀 확장 · 테이블 ' + scene.space.tables.length + ' → ' + createSpace(next.level, true).tables.length + '개</p><p>이용 좌석 ' + game.cafe.maxCustomers + ' → ' + next.maxCustomers + '석</p><div class="unlock-preview">' + menuDefinitions.filter(m => m.unlockCafeLevel === next.level).map(m => '<span>' + sprite(m.menuId) + ' ' + m.name + '</span>').join('') + '</div>' + affordability(next.expansionCost) + '<button class="primary" data-buy="cafe">카페 확장 · ' + next.expansionCost.toLocaleString() + '원</button>' : '<h2>✦ 드림 카페 완성!</h2><p>최고 단계에 도달했어요. 영업은 남은 시간 동안 계속됩니다.</p>') + '</div>';
+        content = '<div class="investment-card"><p>현재 카페 ' + game.cafeLevel + '단계' + ' · ' + cafeDisplayName(game.cafeLevel) + '</p>' + (next ? '<h2><small>카페 ' + next.level + '단계</small><span class="cafe-upgrade-name">' + cafeDisplayName(next.level) + '</span></h2><p>홀 확장 · 테이블 ' + scene.space.tables.length + ' → ' + createSpace(next.level, true).tables.length + '개</p><p>이용 좌석 ' + game.cafe.maxCustomers + ' → ' + next.maxCustomers + '석</p><div class="unlock-preview">' + menuDefinitions.filter(m => m.unlockCafeLevel === next.level).map(m => '<span>' + sprite(m.menuId) + ' ' + m.name + '</span>').join('') + '</div>' + affordability(next.expansionCost) + '<button class="primary" data-buy="cafe">카페 확장 · ' + next.expansionCost.toLocaleString() + '원</button>' : '<h2>✦ 드림 카페 완성!</h2><p>최고 단계에 도달했어요. 영업은 남은 시간 동안 계속됩니다.</p>') + '</div>';
     }
     else if (investmentTab === 'warehouse') {
         content = '<div class="investment-card"><p>현재 창고 ' + (game.warehouseLevel === 6 ? 'MAX' : game.warehouseLevel + '단계') + '</p><h2>메뉴마다 ' + game.warehouse.capacity + '개 보관</h2>' + (warehouse ? '<p>최대 재고 ' + game.warehouse.capacity + ' → ' + warehouse.capacity + '개</p>' + affordability(warehouse.cost) + '<button class="primary" data-buy="warehouse">창고 확장 · ' + warehouse.cost.toLocaleString() + '원</button>' : '<p>최대 크기의 창고예요.</p>') + '</div>';
@@ -516,6 +568,8 @@ function renderInvestment(force = false) {
         content = '<div class="menu-investments">' + menuDefinitions.map(def => { const m = game.menus.find(m => m.menuId === def.menuId); if (!m)
             return '<article class="investment-card locked"><span class="lock">잠김</span><h3>' + def.name + '</h3><p>카페 ' + def.unlockCafeLevel + '단계에서 열려요</p></article>'; const cost = game.getMenuUpgradeCost(m); return '<article class="investment-card menu-row">' + foodVisual(m) + '<div><h3>' + m.name + ' <small>★' + m.currentLevel + '</small></h3><p>재고 ' + m.stock + '/' + m.maxStock + ' · 판매 ' + game.getPrice(m) + (cost !== null ? ' → ' + game.getPrice(m, m.currentLevel + 1) : '') + '원</p>' + (cost !== null ? affordability(cost) : '') + '</div>' + (cost !== null ? '<button class="secondary" data-buy="menu" data-menu="' + m.menuId + '" ' + (game.money < cost ? 'disabled' : '') + ' aria-label="' + m.name + ' 강화">강화 ' + cost.toLocaleString() + '원</button>' : '<span class="max-label">MAX ★5</span>') + '</article>'; }).join('') + '</div>';
     }
+    if (investmentTab === 'staff' && game.mode === 'CAFE_GROWTH')
+        content = growthStaffPanel(game);
     const scroll = panel.querySelector('.investment-content')?.scrollTop ?? 0;
     let body = panel.querySelector('.investment-body');
     if (!body) {
@@ -556,7 +610,7 @@ function renderWorkers() {
             node = document.createElement('div');
             node.className = 'worker';
             node.dataset.worker = w.staffId;
-            node.innerHTML = sprite(w.staffId, 'worker-art') + '<span class="worker-tray"></span><b></b><small></small><em></em>';
+            node.innerHTML = workerBaseArt(w.staffId) + '<span class="worker-tray"></span><span class="staff-ability"></span><b></b><small></small><em></em>';
             layer.append(node);
         }
         const point = scene.worker(w, game);
@@ -567,6 +621,12 @@ function renderWorkers() {
         node.dataset.state = w.state;
         node.dataset.motion = workerMotion(w);
         node.dataset.order = String(w.orderId ?? '');
+        const ability = game.staffAbilities.messages.find(m => m.staffId === w.staffId && m.until > game.elapsedTime);
+        const bubble = node.querySelector('.staff-ability');
+        if (bubble) {
+            bubble.textContent = ability?.text ?? '';
+            bubble.hidden = !ability;
+        }
         const displayCargo = w.state === 'PICKING_UP' ? w.remaining.slice(0, w.carryCapacity) : w.cargo;
         const actual = workerPoseArt(w.staffId, workerMotion(w), point.facing);
         const visualKey = [actual ? 'actual' : 'base', point.facing, w.state, w.level, displayCargo.join(','), game.elapsedTime < w.upgradeFeedbackUntil].join('/');
@@ -580,7 +640,7 @@ function renderWorkers() {
             node.style.setProperty('--tray-width', tray.width + '%');
         }
         node.dataset.actualPose = String(!!actual);
-        node.querySelector('.worker-art').outerHTML = actual ?? sprite(w.staffId, 'worker-art');
+        node.querySelector('.worker-art').outerHTML = actual ?? workerBaseArt(w.staffId);
         node.querySelector('b').textContent = w.name + (w.owner ? '' : ' Lv.' + w.level);
         node.querySelector('small').textContent = names[w.state];
         node.querySelector('em').textContent = game.elapsedTime < w.upgradeFeedbackUntil ? 'LEVEL UP · Lv.' + w.level : '';
@@ -599,7 +659,7 @@ function appendLearningAnalysis() { if (!game || !developerMode)
     return; const url = URL.createObjectURL(new Blob([JSON.stringify({ ...game.telemetry.export(game.snapshot), learning: engine.report() }, null, 2)], { type: 'application/json' })); const link = document.createElement('a'); link.href = url; link.download = 'cafe-play-log.json'; document.body.append(link); link.click(); link.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000); }; }
 export function closeSessionForQA() { game?.endBusiness(); render(); }
 function advanceTime() { if (game?.status !== 'RUNNING')
-    return; game.tick(classroomElapsed ? Math.max(0, classroomElapsed() - game.elapsedTime) : clock.take()); if (game.status === 'CLOSED')
+    return; game.tick(growthRuntime.delta(game) ?? (classroomElapsed ? Math.max(0, classroomElapsed() - game.elapsedTime) : clock.take())); if (game.status === 'CLOSED')
     render(); }
 addEventListener('visibilitychange', () => { advanceTime(); if (game) {
     render();
@@ -663,3 +723,5 @@ function fitFarewells() { if (!roomVisible)
 let roomVisible = true;
 if (typeof IntersectionObserver !== 'undefined')
     new IntersectionObserver(entries => { roomVisible = entries[0]?.isIntersecting ?? true; }, { rootMargin: '100px' }).observe(el('cafe-room'));
+export function openVillageMode() { modeFlow.villageSetup(); }
+export function flushForQA() { return modeFlow.flush(); }

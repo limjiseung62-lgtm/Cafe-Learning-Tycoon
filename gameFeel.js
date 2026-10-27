@@ -1,4 +1,5 @@
-import { AudioManager } from './audioManager.js?v=1.5.6';
+import { deploymentLocalStorage } from './deploymentStorage.js?v=2.0.0';
+import { AudioManager } from './audioManager.js?v=2.0.0';
 export class FeelTracker {
     guests = new Map();
     workers = new Map();
@@ -68,7 +69,7 @@ export class GameFeel {
     panelWasOpen = false;
     lastNotice = -Infinity;
     constructor() { let storage = null; try {
-        storage = localStorage;
+        storage = deploymentLocalStorage;
     }
     catch { } this.audio = new AudioManager(storage); const button = document.createElement('button'); button.id = 'sound-settings'; button.className = 'sound-settings'; button.textContent = '설정'; button.setAttribute('aria-label', '설정'); document.body.append(button); button.onclick = () => this.settings(); document.addEventListener('click', ev => { const b = ev.target?.closest('button'); if (!b || b.hasAttribute('disabled'))
         return; void this.audio.unlock().then(() => { const status = document.querySelector('#audio-status'); if (status)

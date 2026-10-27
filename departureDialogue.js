@@ -1,4 +1,5 @@
-import { helperCatalog } from './hospitalityConfig.js?v=1.5.6';
+import { specializationById } from './specializationConfig.js?v=2.0.0';
+import { helperCatalog } from './hospitalityConfig.js?v=2.0.0';
 export const departureCatalog = {
     student: { normal: ['친구들이랑 또 올게요!', '오늘 간식 최고예요!', '다음엔 케이크 먹을래요!'], fast: ['벌써 나왔네요!', '금방 먹고 갈게요!'], long: ['조금 오래 기다렸네요.', '다음엔 빨리 먹고 싶어요.'], failed: ['다음엔 꼭 먹고 싶어요!', '오늘은 시간이 없네요.'] },
     grandma: { normal: ['참 맛있게 먹었어요.', '사장님, 늘 고마워요.', '다음에도 들를게요.'], fast: ['금방 챙겨줘서 고마워요.', '손이 참 빠르네요.'], long: ['기다리긴 했지만 잘 먹었어요.', '오늘은 많이 바쁘시군요.'], failed: ['다음에 다시 들를게요.', '오늘은 먼저 가볼게요.'] },
@@ -38,7 +39,7 @@ export class DepartureDialogue {
         let i = hash(key + '/' + g.id) % lines.length;
         if (lines[i] === this.recent.get(key) && lines.length > 1)
             i = (i + 1) % lines.length;
-        const text = g.paid && g.helperType ? helperCatalog.find(h => h.id === g.helperType).line : g.paid && g.signature ? '정성스러운 시그니처, 잘 맛봤어요!' : lines[i];
+        const text = g.specializationId ? (g.paid ? specializationById(g.specializationId).line : '다음에는 함께 준비해요.') : g.paid && g.helperType ? helperCatalog.find(h => h.id === g.helperType).line : g.paid && g.signature ? '정성스러운 시그니처, 잘 맛봤어요!' : lines[i];
         this.recent.set(key, text);
         this.messages.push({ guestId: g.id, name: g.definition.name, text, outcome, expires: now + 2.2 });
     } return this.messages.map(m => ({ ...m })); }

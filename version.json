@@ -1,7 +1,9 @@
 {
-  "version": "1.5.6",
+  "version": "2.0.0",
   "status": "production",
   "publicDeploymentApproved": true,
-  "sourceCandidate": "93e4c8bc835435962ade0f8ae8b86e759d77a4d0",
-  "released": "2026-10-23"
+  "testDeploymentApproved": false,
+  "cacheToken": "2.0.0",
+  "sourceCandidate": "2ee9aefeb49244ef43767eaf4dde704837b4c6d3",
+  "released": "2026-10-27"
 }

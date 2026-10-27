@@ -1,5 +1,5 @@
-import { gradeAnswer } from './reading.js?v=1.5.6';
-import { normalizeAnswer } from './questionPack.js?v=1.5.6';
+import { gradeAnswer } from './reading.js?v=2.0.0';
+import { normalizeAnswer } from './questionPack.js?v=2.0.0';
 export const learningConfig = { remediationGap: 3, recentWindow: 3, maxQueue: 32 };
 export class LearningSession {
     provider;
@@ -37,6 +37,7 @@ export class LearningSession {
                 this.remediation.push({ source, due: this.options.remediationGap ?? learningConfig.remediationGap });
         }
     }
+    setDifficulty(get) { this.options.difficulty = get; }
     // Only explicit numeric difficulty metadata defines stages; grouped reading retains passage order.
     get progressive() { return !this.pool.some(q => q.readingContext) && this.pool.every(q => Number.isInteger(q.difficulty) && q.difficulty >= 1); }
     // Explicit gourmet challenges and scheduled remediation keep their existing educational policies.
@@ -108,9 +109,12 @@ export class LearningSession {
                 this.reserved.clear();
             }
             this.orderQueue();
-            const stage = this.progressive && preference !== 'challenge' ? this.queue[0].difficulty : undefined;
+            const target = this.options.difficulty?.();
+            const stage = this.progressive && target !== undefined ? this.queue.reduce((best, q) => Math.abs(q.difficulty - target) < Math.abs(best - target) ? q.difficulty : best, this.queue[0].difficulty) : this.progressive && preference !== 'challenge' ? this.queue[0].difficulty : undefined;
             const inStage = (x) => stage === undefined || x.difficulty === stage;
-            let index = grouped ? 0 : this.queue.findIndex(x => inStage(x) && !this.recent.includes(x.questionId) && x.questionId !== this.active?.questionId && (!preference || (preference === 'challenge' ? x.difficulty >= 2 : !x.readingContext && !x.prompt.includes('\n'))));
+            const seenBefore = new Set(this.options.seenIds ?? []);
+            const freshStage = this.queue.some(x => inStage(x) && !seenBefore.has(x.questionId));
+            let index = grouped ? 0 : this.queue.findIndex(x => inStage(x) && (!freshStage || !seenBefore.has(x.questionId)) && !this.recent.includes(x.questionId) && x.questionId !== this.active?.questionId && (!preference || (preference === 'challenge' ? x.difficulty >= 2 : !x.readingContext && !x.prompt.includes('\n'))));
             if (index < 0)
                 index = this.queue.findIndex(x => inStage(x) && x.questionId !== this.active?.questionId);
             if (index < 0)

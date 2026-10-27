@@ -1,3 +1,4 @@
+import { specializationEvents } from './specializationConfig.js?v=2.0.0';
 export const eventBalance = { version: 1, firstAt: 30, lastMargin: 30, cashPerMinute: 8, missionBudgetShare: .8, missionWeightBase: 60, incidentWeightBase: 40, reservePerMission: 6, reservePerIncident: 1, giftLimit: 3, giftValueCap: 300, readingExtraSeconds: 45, maxReadingExtensions: 2, noticeSeconds: 4, warningSeconds: 10, arrivalGap: 1.2, maxQueuedArrivals: 6, promotionSeconds: 25, promotionSpawnFactor: .9, performanceActorLimit: 12 };
 export const eventFrequency = [{ seconds: 300, total: 4, urgent: 2 }, { seconds: 600, total: 7, urgent: 4 }, { seconds: 900, total: 10, urgent: 5 }, { seconds: 1200, total: 14, urgent: 7 }, { seconds: 1800, total: 19, urgent: 10 }, { seconds: 2400, total: 25, urgent: 13 }, { seconds: 3600, total: 36, urgent: 18 }];
 export const missionCatalog = [
@@ -18,4 +19,5 @@ export const incidentCatalog = [
     { id: 'critic', name: '미식 평론가 방문', helper: 'critic', unlock: 4, cash: 60, effect: 'gourmet' },
     { id: 'lucky', name: '행운의 손님', helper: 'lucky', unlock: 4, cash: 50, effect: 'lucky' }
 ];
+export const allMissionCatalog = [...missionCatalog, ...specializationEvents];
 export function eventSchedule(seconds) { const row = eventFrequency.find(r => r.seconds >= seconds) ?? eventFrequency.at(-1); const total = seconds < 300 ? Math.max(1, Math.round(seconds / 75)) : row.total, urgent = seconds < 300 ? Math.ceil(total / 2) : row.urgent; const first = Math.min(eventBalance.firstAt, seconds * .1), end = Math.max(first, seconds - eventBalance.lastMargin); return Array.from({ length: total }, (_, i) => ({ at: Math.round(first + (end - first) * i / Math.max(1, total - 1)), urgent: Math.ceil((i + 1) * urgent / total) > Math.ceil(i * urgent / total) })); }

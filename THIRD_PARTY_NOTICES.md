@@ -18,3 +18,19 @@ v1.5.3 후보의 WebP는 기존 PNG로부터 만든 웹 전달용 파생 파일�
 
 ## 사각형 학습 문제팩 (v1.5.3)
 기존 사용자 승인 독립 창작 사각형 보완본의 고정 32문항과 유한 변형 158상태를 재사용합니다. 도형 SVG도 독립 창작 자료이며 출판사 원문·PDF·캡처를 포함하지 않습니다. 2026-10-22 사용자가 카페의 공개 학습 내용을 사각형 단원으로 교체하도록 요청했습니다. 이전 승인은 전체 파라미터 상태의 개인별 수동 검토를 뜻하지 않습니다.
+
+## v1.7 local growth assets
+
+`assets/art/long-growth/bakery.png` is a new project image generated with the built-in imagegen tool using the existing project cafe art as its style reference. The original is retained; the game loads `assets/web/long-growth/bakery.webp`. The eight decoration SVGs and two storefront SVGs in `assets/art/long-growth/` are project-authored vectors, with no externally downloaded art or font files. Existing character assets and their notices are unchanged.
+
+
+## v1.7.2A growth branch backgrounds (2026-10-24)
+Three original garden/bakery/dessert room illustrations were generated with the built-in OpenAI imagegen tool from project-authored prompts. No reference image, publisher PDF, external asset, or watermarked artwork was supplied to these generations. No new third-party asset license was introduced. Existing table/chair and character assets retain their previous provenance.
+Original PNGs: assets/art/branches/ (workspace archival only). Optimized WebP and small selection previews: assets/web/branches/. Original PNGs are excluded from dist by web-delivery.mjs. Source imagegen outputs are also retained in the generated_images folder. See reports/v172a/ASSET_PROMPTS.txt and assets.json for prompts, dimensions and byte counts.
+
+## v1.7.2B recruitment staff art (2026-10-24)
+Seven original six-pose transparent character sheets (Nari, Mint, Sol, Yul, Taeo, Byeol, Moa) were generated with the built-in OpenAI imagegen tool using project-authored textual descriptions. No publisher images, external downloaded assets, copyrighted character references, or third-party stock were supplied. This adds no external asset-license dependency; generated assets are project assets under the applicable OpenAI output terms. Do not represent them as third-party licensed stock or guaranteed exclusive copyright.
+Original RGBA PNGs are retained in assets/art/recruit-staff/ and excluded from dist. Web delivery uses assets/web/recruit-staff/staff-6.webp through staff-12.webp and seven portrait WebPs. Each sheet contains idle, left/right walk, pickup, carry, and serve; return reuses walk. reports/v172b/assets.json records exact sizes, alpha ranges, dimensions and generation provenance. Existing five staff sprites/serving art remain unchanged.
+
+## v2.0 village visual stabilization (local candidate)
+The town and lakeside ground underlays were generated with the built-in OpenAI imagegen tool from project-authored prompts, using the existing project village atlas as style reference. They add no downloaded third-party stock. Existing building, character, font and audio provenance remains unchanged. Original PNGs and a non-shipping concept are retained under assets/art/village-v20/; only the two optimized WebPs under assets/web/village-v20/ are used by the game. Do not claim guaranteed exclusive copyright. Generation prompts, dimensions, byte counts and visual QA are recorded in reports/v20/. No public deployment is authorized by this notice.

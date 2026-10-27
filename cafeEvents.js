@@ -1,4 +1,5 @@
-import { eventBalance as b, eventSchedule, missionCatalog, incidentCatalog } from './eventConfig.js?v=1.5.6';
+import { specializationById } from './specializationConfig.js?v=2.0.0';
+import { eventBalance as b, eventSchedule, allMissionCatalog, incidentCatalog } from './eventConfig.js?v=2.0.0';
 export class CafeEvents {
     enabled = false;
     duration = 0;
@@ -29,7 +30,7 @@ export class CafeEvents {
         this.scheduleDuration = this.duration;
         this.scheduleCache = eventSchedule(this.duration);
     } return this.scheduleCache; }
-    get mission() { return this.active ? missionCatalog.find(m => m.id === this.active.type) : null; }
+    get mission() { return this.active ? allMissionCatalog.find(m => m.id === this.active.type) : null; }
     announce(text) { this.notice = { text, until: this.now + b.noticeSeconds }; }
     arrival(eventId, count, helper) { for (let i = 0; i < count && this.arrivals.length < b.maxQueuedArrivals; i++)
         this.arrivals.push({ eventId, ...helper ? { helper } : {} }); }
@@ -46,10 +47,16 @@ export class CafeEvents {
             this.startIncident(g);
     } if (this.now >= this.duration)
         this.close(); }
-    startMission(g) { const available = missionCatalog.filter(m => m.unlock <= g.cafeLevel && (m.id !== 'rescue' || g.menus.some(m => m.stock === 0))); const choices = available.filter(m => m.id !== this.lastMission), m = (choices.length ? choices : available)[Math.floor(this.cursor / 2) % (choices.length || available.length)]; this.beginMission(m.id, g); }
+    startMission(g) { const themed = g.mode === 'CAFE_GROWTH' && g.specialization && this.cursor % 4 === 1 ? allMissionCatalog.filter(m => 'specialization' in m && m.specialization === g.specialization.selected) : []; if (themed.length) {
+        this.beginMission(themed[Math.floor(this.cursor / 4) % themed.length].id, g);
+        return;
+    } const available = allMissionCatalog.filter(m => !('specialization' in m) && m.unlock <= g.cafeLevel && (m.id !== 'rescue' || g.menus.some(m => m.stock === 0))); const choices = available.filter(m => m.id !== this.lastMission), m = (choices.length ? choices : available)[Math.floor(this.cursor / 2) % (choices.length || available.length)]; this.beginMission(m.id, g); }
     beginMission(type, g) { if (!this.enabled || this.closed || this.active || g.status !== 'RUNNING')
-        return false; const m = missionCatalog.find(m => m.id === type); if (!m || m.unlock > g.cafeLevel)
-        return false; const id = this.records.length + 1; this.records.push({ id, kind: 'mission', type, name: m.name, at: this.now, outcome: 'active', reward: 0, giftValue: 0 }); this.active = { eventId: id, type, deadline: Math.min(this.duration, this.now + m.seconds), correct: 0, served: 0, streak: 0, challengeMet: false, servedIds: [], readingIds: [], ...(type === 'rescue' ? { targetMenu: g.menus.find(m => m.stock === 0)?.menuId ?? g.menus[0].menuId } : {}) }; this.lastMission = type; this.arrival(id, m.arrivals, type === 'gourmet' ? 'judge' : undefined); this.announce(m.line); return true; }
+        return false; const m = allMissionCatalog.find(m => m.id === type); if (!m || m.unlock > g.cafeLevel || 'specialization' in m && (g.mode !== 'CAFE_GROWTH' || g.specialization?.selected !== m.specialization))
+        return false; const id = this.records.length + 1; this.records.push({ id, kind: 'mission', type, name: m.name, at: this.now, outcome: 'active', reward: 0, giftValue: 0 }); this.active = { eventId: id, type, deadline: Math.min(this.duration, this.now + m.seconds), correct: 0, served: 0, streak: 0, challengeMet: false, servedIds: [], readingIds: [], ...(type === 'rescue' ? { targetMenu: g.menus.find(m => m.stock === 0)?.menuId ?? g.menus[0].menuId } : {}) }; this.lastMission = type; this.arrival(id, m.arrivals, type === 'gourmet' ? 'judge' : undefined); if ('specialization' in m)
+        for (const a of this.arrivals)
+            if (a.eventId === id)
+                a.specialization = m.specialization; this.announce(m.line); return true; }
     startIncident(g) { const available = incidentCatalog.filter(m => m.unlock <= g.cafeLevel), choices = available.filter(m => m.id !== this.lastIncident), m = (choices.length ? choices : available)[Math.floor(this.cursor / 2) % (choices.length || available.length)]; this.beginIncident(m.id, g); }
     beginIncident(type, g) { const m = incidentCatalog.find(m => m.id === type); if (!this.enabled || this.closed || g.status !== 'RUNNING' || !m || m.unlock > g.cafeLevel)
         return false; const id = this.records.length + 1; this.records.push({ id, kind: 'incident', type: m.id, name: m.name, at: this.now, outcome: 'waiting', reward: 0, giftValue: 0 }); this.arrival(id, 1, m.helper); this.lastIncident = m.id; this.announce(m.name + ' · 손님을 대접하면 작은 선물이 있어요.'); return true; }
@@ -116,15 +123,15 @@ export function validEventCheckpoint(value) { try {
         return false;
     const ids = new Set();
     for (const r of s.records) {
-        if (!Number.isSafeInteger(r.id) || ids.has(r.id) || r.id < 1 || !['mission', 'incident'].includes(r.kind) || !['active', 'waiting', 'success', 'failed', 'cancelled'].includes(r.outcome) || !finite(r.at, 0, s.now) || !finite(r.reward) || !finite(r.giftValue) || typeof r.name !== 'string' || !([...missionCatalog, ...incidentCatalog].some(x => x.id === r.type)))
+        if (!Number.isSafeInteger(r.id) || ids.has(r.id) || r.id < 1 || !['mission', 'incident'].includes(r.kind) || !['active', 'waiting', 'success', 'failed', 'cancelled'].includes(r.outcome) || !finite(r.at, 0, s.now) || !finite(r.reward) || !finite(r.giftValue) || typeof r.name !== 'string' || !([...allMissionCatalog, ...incidentCatalog].some(x => x.id === r.type)))
             return false;
         ids.add(r.id);
     }
-    if (!s.arrivals.every(a => ids.has(a.eventId) && (!a.helper || a.helper === 'judge' || incidentCatalog.some(i => i.helper === a.helper))))
+    if (!s.arrivals.every(a => ids.has(a.eventId) && (!a.helper || a.helper === 'judge' || incidentCatalog.some(i => i.helper === a.helper)) && (!a.specialization || specializationById(a.specialization) && s.records.some(r => r.id === a.eventId && r.type.startsWith('spec-' + a.specialization + '-')))))
         return false;
     if (s.active) {
         const a = s.active;
-        if (!ids.has(a.eventId) || !missionCatalog.some(m => m.id === a.type) || !finite(a.deadline, 0, s.duration) || ![a.correct, a.served, a.streak].every(n => Number.isSafeInteger(n) && n >= 0) || !Array.isArray(a.readingIds) || a.readingIds.length > b.maxReadingExtensions || !a.readingIds.every(id => typeof id === 'string') || !Array.isArray(a.servedIds) || a.servedIds.length > 100 || !a.servedIds.every(Number.isSafeInteger) || typeof a.challengeMet !== 'boolean' || s.closed)
+        if (!ids.has(a.eventId) || !allMissionCatalog.some(m => m.id === a.type) || !finite(a.deadline, 0, s.duration) || ![a.correct, a.served, a.streak].every(n => Number.isSafeInteger(n) && n >= 0) || !Array.isArray(a.readingIds) || a.readingIds.length > b.maxReadingExtensions || !a.readingIds.every(id => typeof id === 'string') || !Array.isArray(a.servedIds) || a.servedIds.length > 100 || !a.servedIds.every(Number.isSafeInteger) || typeof a.challengeMet !== 'boolean' || s.closed)
             return false;
     }
     return true;

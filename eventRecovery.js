@@ -1,6 +1,7 @@
-import { classroomCafeCheckpoint, restoreClassroomCafe } from './classroomCheckpoint.js?v=1.5.6';
-import { createClassMatch } from './sessionFactory.js?v=1.5.6';
-import { questionCatalog } from './questionPack.js?v=1.5.6';
+import { deploymentLocalStorage } from './deploymentStorage.js?v=2.0.0';
+import { classroomCafeCheckpoint, restoreClassroomCafe } from './classroomCheckpoint.js?v=2.0.0';
+import { createClassMatch } from './sessionFactory.js?v=2.0.0';
+import { questionCatalog } from './questionPack.js?v=2.0.0';
 const key = 'cafe.v15.session-recovery';
 export class EventRecovery {
     current;
@@ -29,7 +30,7 @@ export class EventRecovery {
         this.lastStamp = '';
     } try {
         if (g.status === 'CLOSED') {
-            localStorage.removeItem(key);
+            deploymentLocalStorage.removeItem(key);
             return;
         }
         const stamp = JSON.stringify([g.stats, g.money, g.cafeLevel, g.warehouseLevel, g.menus.map(m => m.currentLevel), g.service.paid.map(w => w.level), g.events.cursor, g.events.active, g.events.records.map(r => [r.id, r.outcome, r.reward, r.giftValue])]);
@@ -39,13 +40,13 @@ export class EventRecovery {
         this.lastStamp = stamp;
         const captured = this.capture(), run = g.run;
         const value = { version: 1, duration: g.durationSeconds, remaining: g.remainingSeconds, savedAt: Date.now(), packId: captured.packId, run: run ? { code: run.code, concept: run.concept.id } : null, cafe: classroomCafeCheckpoint(g), learning: captured.learning };
-        localStorage.setItem(key, JSON.stringify(value));
+        deploymentLocalStorage.setItem(key, JSON.stringify(value));
     }
     catch { /* Existing cafe/learning saves remain independent when local storage is unavailable. */ } }
     offer() {
         let value;
         try {
-            const raw = localStorage.getItem(key);
+            const raw = deploymentLocalStorage.getItem(key);
             if (!raw || raw.length > 2_000_000)
                 return;
             value = JSON.parse(raw);
@@ -73,7 +74,7 @@ export class EventRecovery {
             g.remainingSeconds = value.remaining;
             const missed = Math.max(0, (Date.now() - value.savedAt) / 1000);
             g.tick(Math.min(missed, g.remainingSeconds));
-            localStorage.setItem(key + '.backup.' + Date.now(), JSON.stringify(value));
+            deploymentLocalStorage.setItem(key + '.backup.' + Date.now(), JSON.stringify(value));
             this.start(g, pack.questions);
             if (!this.restore(value.learning))
                 throw Error('학습 기록 복원을 확인해 주세요.');

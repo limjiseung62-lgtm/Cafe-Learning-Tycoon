@@ -1,0 +1,7 @@
+/** RC2 storage is isolated even on the same GitHub Pages origin. */
+export const rc2Prefix = 'cafe-rc2/';
+export function scopedStorage(base, prefix) { return { get length() { return Array.from({ length: base.length }, (_, i) => base.key(i)).filter(k => k?.startsWith(prefix)).length; }, key(i) { return Array.from({ length: base.length }, (_, j) => base.key(j)).filter((k) => !!k && k.startsWith(prefix))[i]?.slice(prefix.length) ?? null; }, getItem(k) { return base.getItem(prefix + k); }, setItem(k, v) { base.setItem(prefix + k, v); }, removeItem(k) { base.removeItem(prefix + k); }, clear() { const keys = Array.from({ length: base.length }, (_, i) => base.key(i)).filter((k) => !!k && k.startsWith(prefix)); for (const k of keys)
+        base.removeItem(k); } }; }
+export function deploymentPrefix() { return typeof document !== 'undefined' && document.querySelector?.('meta[name="cafe-deployment"]')?.getAttribute('content') === 'rc2' ? rc2Prefix : ''; }
+function storage(kind) { const resolve = () => { const base = globalThis[kind], prefix = deploymentPrefix(); return prefix ? scopedStorage(base, prefix) : base; }; return { get length() { return resolve().length; }, key: i => resolve().key(i), getItem: k => resolve().getItem(k), setItem: (k, v) => resolve().setItem(k, v), removeItem: k => resolve().removeItem(k), clear: () => resolve().clear() }; }
+export const deploymentLocalStorage = storage('localStorage'), deploymentSessionStorage = storage('sessionStorage');

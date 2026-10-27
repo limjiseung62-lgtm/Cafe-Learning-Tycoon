@@ -1,10 +1,11 @@
-import { JsonQuestionProvider, legacyQuestions } from './questionPack.js?v=1.5.6';
-import { LearningSession, LearningProgressRepository } from './learningSession.js?v=1.5.6';
-import { LocalProblemRepository } from './problems.js?v=1.5.6';
+import { deploymentLocalStorage } from './deploymentStorage.js?v=2.0.0';
+import { JsonQuestionProvider, legacyQuestions } from './questionPack.js?v=2.0.0';
+import { LearningSession, LearningProgressRepository } from './learningSession.js?v=2.0.0';
+import { LocalProblemRepository } from './problems.js?v=2.0.0';
 let storage = null;
 try {
-    if (typeof localStorage !== 'undefined')
-        storage = localStorage;
+    if (typeof deploymentLocalStorage !== 'undefined')
+        storage = deploymentLocalStorage;
 }
 catch { }
 export let learningProgressRepository = new LearningProgressRepository(storage);

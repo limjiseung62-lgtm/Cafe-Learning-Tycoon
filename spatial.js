@@ -1,4 +1,7 @@
-import { balance } from './config.js?v=1.5.6';
+import { freeFloorRoute } from './freeNavigation.js?v=2.0.0';
+import { createFreeSpace, freeBody, freeKey } from './freeLayoutModel.js?v=2.0.0';
+import { applyPlan, layoutKey } from './layoutModel.js?v=2.0.0';
+import { balance } from './config.js?v=2.0.0';
 // Coordinates are floor contact points, in percent of the full 3:2 room image.
 // All six rooms deliberately retain a clear floor; furniture uses the existing atlas.
 const centers = [
@@ -30,32 +33,70 @@ export const hallGrowthSpecs = [
     { name: '햇살 온실 홀', zoom: 1, scale: .88, worldScale: 1.55, centers: [[20, 44], [46, 42], [74, 44], [20, 65], [45, 66], [73, 65]] },
     { name: '책 향기 라운지', zoom: 1, scale: .85, worldScale: 1.70, centers: [[20, 44], [46, 42], [74, 44], [20, 65], [45, 66], [73, 65]] },
     { name: '하늘 정원 홀', zoom: 1, scale: .82, worldScale: 1.85, centers: [[20, 42], [46, 42], [74, 43], [19, 62], [43, 65], [68, 64], [85, 62]] },
-    { name: '그랜드 시그니처 홀', zoom: 1, scale: .80, worldScale: 2, centers: [[20, 42], [46, 42], [74, 43], [19, 62], [43, 65], [68, 64], [85, 62]] }
+    { name: '그랜드 시그니처 홀', zoom: 1, scale: .88, worldScale: 2, centers: [[20, 42], [46, 42], [74, 43], [19, 62], [43, 65], [68, 64], [85, 62]] },
+    { name: '복층 베이커리 1', zoom: 1, scale: .88, worldScale: 2.05, centers: [[14, 25], [35, 27], [56, 29], [77, 31], [20, 55], [45, 55], [70, 55]] }, { name: '복층 베이커리 2', zoom: 1, scale: .88, worldScale: 2.10, centers: [[14, 25], [35, 27], [56, 29], [77, 31], [20, 55], [45, 55], [70, 55]] }, { name: '복층 베이커리 3', zoom: 1, scale: .88, worldScale: 2.15, centers: [[14, 25], [35, 27], [56, 29], [77, 31], [20, 55], [45, 55], [70, 55]] }, { name: '복층 베이커리 4', zoom: 1, scale: .88, worldScale: 2.20, centers: [[14, 25], [35, 27], [56, 29], [77, 31], [20, 55], [45, 55], [70, 55]] }, { name: '복층 베이커리 5', zoom: 1, scale: .88, worldScale: 2.25, centers: [[14, 25], [35, 27], [56, 29], [77, 31], [20, 55], [45, 55], [70, 55]] }
 ];
-export function createSpace(level, grown = false) {
+export function createSpace(level, grown = false, branch, plan, freePlan) {
+    if (freePlan) {
+        const space = createFreeSpace(level, branch, freePlan, hallGrowthSpecs[level - 1].worldScale);
+        for (const seat of space.seats)
+            try {
+                seat.entryPath = floorPath(space, space.entrance, seat.approach);
+            }
+            catch {
+                seat.entryPath = [];
+            }
+        return space;
+    }
     if (!grown && level <= 6)
         return legacySpace(level);
     const spec = hallGrowthSpecs[level - 1];
     if (!spec)
         throw Error('Unknown cafe level');
-    const premium = level >= 3, scale = spec.scale;
-    const tables = spec.centers.map(([x, y], i) => ({ x, y, tableId: 'table-' + (i + 1), scale, artKey: premium ? 'premium-table' : 'table', servicePoints: [{ x: x + 10 * scale, y: y - 5 * scale }, { x: x - 10 * scale, y: y - 2 * scale }] }));
+    const premium = branch === 'garden' ? false : level >= 3, scale = spec.scale;
+    const points = branch && level >= 7 ? branchCenters(branch, level) : spec.centers;
+    const tables = points.map(([x, y], i) => ({ x, y, tableId: 'table-' + (i + 1), scale, artKey: premium ? 'premium-table' : 'table', servicePoints: [{ x: x + 10 * scale, y: y - 5 * scale }, { x: x - 10 * scale, y: y - 2 * scale }] }));
     const chairs = premium ? [{ x: 210, y: 163, rear: true, facing: 'left' }, { x: 47, y: 218, rear: false, facing: 'right' }] : [{ x: 208, y: 192, rear: false, facing: 'left' }, { x: 43, y: 164, rear: true, facing: 'right' }];
     const furniture = premium ? { w: 250, h: 316 } : { w: 242, h: 291 };
     // Open one chair at each table before opening second chairs. Active capacity remains 3..8.
     const seats = chairs.flatMap((chair, side) => tables.map(t => { const x = t.x + 14 * scale * (chair.x / furniture.w - .5), y = t.y - 21 * scale * (furniture.h - chair.y) / furniture.w; return { seatId: 'seat-' + (tables.indexOf(t) + 1) + '-' + side, tableId: t.tableId, x, y, facing: chair.facing, occupiedBy: null, cafeLevel: level, scale, servicePoint: t.servicePoints[side], approach: { ...t.servicePoints[side] }, rear: chair.rear, entryPath: [], standPoint: { x, y: y + 5 * scale } }; }));
-    const homes = [{ x: 14, y: 67 }, { x: 26, y: 73 }, { x: 42, y: 80 }, { x: 61, y: 77 }, { x: 84, y: 68 }, { x: 90, y: 68 }];
-    const space = { level, grown: true, worldScale: spec.worldScale, entrance: { x: 96, y: 43 }, exit: { x: 103, y: 43 }, pickup: { x: 78, y: 72 }, pickupSlots: Array.from({ length: 6 }, (_, i) => ({ x: 52 + i * 6.6, y: 72 })), staffWaitingPoints: homes, staffAccessPoints: homes.map(p => ({ ...p })), intermediateWaypoints: [], tables, seats };
-    for (const seat of seats)
-        seat.entryPath = floorPath(space, space.entrance, seat.approach);
+    const homes = level >= 11 ? [12, 25, 38, 55, 72, 90].map(x => ({ x, y: 67 })) : [{ x: 14, y: 67 }, { x: 26, y: 73 }, { x: 42, y: 80 }, { x: 61, y: 77 }, { x: 84, y: 68 }, { x: 90, y: 68 }];
+    const space = { level, ...branch ? { branch } : {}, grown: true, worldScale: spec.worldScale, entrance: { x: 96, y: 43 }, exit: { x: 103, y: 43 }, pickup: { x: 78, y: 72 }, pickupSlots: Array.from({ length: 6 }, (_, i) => ({ x: 52 + i * 6.6, y: 72 })), staffWaitingPoints: homes, staffAccessPoints: homes.map(p => ({ ...p })), intermediateWaypoints: [], tables, seats };
+    if (branch && level >= 7) {
+        space.entrance = { x: 96, y: 54 };
+        space.exit = { x: 103, y: 54 };
+        space.worldScale = spec.worldScale;
+        space.staffWaitingPoints = [12, 27, 42, 57, 72, 88].map(x => ({ x, y: 85 }));
+        space.staffAccessPoints = space.staffWaitingPoints;
+        space.pickup = { x: 78, y: 81 };
+        space.pickupSlots = [52, 58.6, 65.2, 71.8, 78.4, 85].map(x => ({ x, y: 81 }));
+    }
+    if (plan)
+        applyPlan(space, plan);
+    for (const seat of seats) {
+        try {
+            seat.entryPath = floorPath(space, space.entrance, seat.approach);
+        }
+        catch (error) {
+            if (!plan)
+                throw error;
+            seat.entryPath = [];
+        }
+    }
     return space;
 }
 // A small visibility graph around furniture rectangles. Routes follow open floor,
 // then the final chair approach is intentionally allowed into its own seat.
-export function floorPath(space, from, to, avoid = []) {
+export function floorPath(space, from, to, avoid = []) { if (space.freeModel)
+    return freeFloorRoute(space, from, to, avoid); if (!space.freeModel && !space.branch && space.level >= 11 && (from.y < 46) !== (to.y < 46)) {
+    const lane = from.y < 46 ? 94 : 88;
+    const a = { x: lane, y: from.y < 46 ? 33 : 64 }, b = { x: lane, y: to.y < 46 ? 33 : 64 };
+    return [...flatFloorPath(space, from, a, avoid), b, ...flatFloorPath(space, b, to, avoid).slice(1)];
+} return flatFloorPath(space, from, to, avoid); }
+function flatFloorPath(space, from, to, avoid = []) {
     const circles = avoid.filter(p => Math.hypot(p.x - from.x, (p.y - from.y) * 2 / 3) >= 4);
     const circleClear = (a, b) => !circles.some(p => { const dx = b.x - a.x, dy = (b.y - a.y) * 2 / 3, px = p.x - a.x, py = (p.y - a.y) * 2 / 3, den = dx * dx + dy * dy, t = den ? Math.max(0, Math.min(1, (px * dx + py * dy) / den)) : 0; return Math.hypot(px - dx * t, py - dy * t) < 4; });
-    const obstacles = space.tables.map(t => ({ left: t.x - 7.2 * t.scale, right: t.x + 7.2 * t.scale, top: t.y - 18.5 * t.scale, bottom: t.y + .6 }));
+    const obstacles = space.tables.map(t => space.freeModel ? freeBody(t) : ({ left: t.x - 7.2 * t.scale, right: t.x + 7.2 * t.scale, top: t.y - 18.5 * t.scale, bottom: t.y + .6 })).concat(space.extraObstacles ?? []);
     const clear = (a, b) => circleClear(a, b) && !obstacles.some(r => { let lo = 0, hi = 1; for (const axis of ['x', 'y']) {
         const min = axis === 'x' ? r.left : r.top, max = axis === 'x' ? r.right : r.bottom, delta = b[axis] - a[axis];
         if (Math.abs(delta) < 1e-8) {
@@ -70,7 +111,7 @@ export function floorPath(space, from, to, avoid = []) {
                 return false;
         }
     } return lo < hi && hi > 0 && lo < 1; });
-    const points = [from, to, ...obstacles.flatMap(r => [{ x: r.left - .6, y: r.top - .6 }, { x: r.right + .6, y: r.top - .6 }, { x: r.left - .6, y: r.bottom + .6 }, { x: r.right + .6, y: r.bottom + .6 }]), ...circles.flatMap(p => Array.from({ length: 8 }, (_, i) => ({ x: p.x + 4.8 * Math.cos(i * Math.PI / 4), y: p.y + 7.2 * Math.sin(i * Math.PI / 4) })))].filter((p, i) => i < 2 || (p.x >= 10 && p.x <= 94 && p.y >= (space.grown ? 25 : 35) && p.y <= (space.grown ? 82 : 67)));
+    const points = [from, to, ...obstacles.flatMap(r => [{ x: r.left - .6, y: r.top - .6 }, { x: r.right + .6, y: r.top - .6 }, { x: r.left - .6, y: r.bottom + .6 }, { x: r.right + .6, y: r.bottom + .6 }]), ...circles.flatMap(p => Array.from({ length: 8 }, (_, i) => ({ x: p.x + 4.8 * Math.cos(i * Math.PI / 4), y: p.y + 7.2 * Math.sin(i * Math.PI / 4) })))].filter((p, i) => i < 2 || (p.x >= (space.floorBounds?.left ?? 10) && p.x <= (space.floorBounds?.right ?? 94) && p.y >= (space.floorBounds?.top ?? (space.grown ? 25 : 35)) && p.y <= (space.floorBounds?.bottom ?? (space.level >= 11 ? 90 : space.grown ? 82 : 67))));
     const distances = points.map(() => Infinity), previous = points.map(() => -1), visited = new Set();
     distances[0] = 0;
     for (let pass = 0; pass < points.length; pass++) {
@@ -130,7 +171,7 @@ export function guestPose(g, space) {
     let point = s, action = g.state, seated = true, opacity = 1;
     const entrance = space.entrance;
     if (g.state === 'ENTERING') {
-        point = pointOnPath([{ x: 101, y: 43 }, entrance], g.elapsed / balance.customer.entering);
+        point = pointOnPath([{ x: 101, y: entrance.y }, entrance], g.elapsed / balance.customer.entering);
         action = 'ENTERING';
         seated = false;
         opacity = Math.min(1, g.elapsed / .3);
@@ -164,13 +205,15 @@ export class SpatialScene {
     space;
     reservations;
     tracks = new Map();
+    layoutStamp = '';
     constructor(level, capacity, grown = false) {
         this.grown = grown;
         this.space = createSpace(level, grown);
         this.reservations = new SeatReservations(this.space.seats, capacity);
     }
-    sync(game) { if (this.space.level !== game.cafeLevel) {
-        this.space = createSpace(game.cafeLevel, this.grown);
+    sync(game) { const plan = game.mode === 'CAFE_GROWTH' ? game.layouts?.plans[layoutKey(game.cafeLevel, game.branchId)] : undefined, free = game.mode === 'CAFE_GROWTH' ? game.freeLayouts?.plans[freeKey(game.cafeLevel, game.branchId)] : undefined, stamp = JSON.stringify([plan ?? null, free ?? null]); if (this.space.level !== game.cafeLevel || this.space.branch !== game.branchId || stamp !== this.layoutStamp) {
+        this.layoutStamp = stamp;
+        this.space = createSpace(game.cafeLevel, this.grown, game.branchId, plan, free);
         this.reservations = new SeatReservations(this.space.seats, game.cafe.maxCustomers);
         this.tracks.clear();
     } this.reservations.sync(game.guests); }
@@ -229,4 +272,12 @@ export class SpatialScene {
         }
         return { ...track.point, facing: track.facing, action: w.state, seated: false, opacity: 1 };
     }
+}
+function branchCenters(branch, level) {
+    const maps = { garden: [[20, 55], [46, 54], [76, 58], [20, 76], [47, 77], [76, 77], [85, 66]], bakery: [[22, 56], [48, 53], [73, 57], [22, 77], [49, 76], [76, 78], [86, 66]], dessert: [[24, 55], [48, 60], [74, 54], [20, 77], [47, 79], [75, 77], [86, 65]] };
+    if (level >= 9) {
+        const expanded = { garden: [[16, 55], [39, 54], [62, 55], [24, 78], [50, 78], [77, 78], [85, 56]], bakery: [[17, 55], [40, 57], [63, 54], [25, 79], [51, 78], [77, 79], [86, 56]], dessert: [[16, 57], [39, 54], [62, 57], [24, 79], [50, 78], [77, 79], [85, 54]] };
+        return expanded[branch];
+    }
+    return maps[branch].slice(0, 6);
 }

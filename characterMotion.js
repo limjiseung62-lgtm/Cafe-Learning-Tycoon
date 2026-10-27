@@ -1,5 +1,7 @@
-import { recentEventReaction } from './animationPresentation.js?v=1.5.6';
-export function guestMotion(g, events) { if (g.state === 'EATING')
+import { deploymentLocalStorage } from './deploymentStorage.js?v=2.0.0';
+import { recentEventReaction } from './animationPresentation.js?v=2.0.0';
+export function guestMotion(g, events) { if (g.miniReaction && events && events.now < g.miniReaction.until)
+    return g.miniReaction.success ? 'REACT_HAPPY' : 'REACT_SAD'; if (g.state === 'EATING')
     return 'EAT'; if (g.state === 'PAYING')
     return 'REACT_HAPPY'; if (g.state === 'LEAVING')
     return g.abandoned && g.elapsed < .7 ? 'REACT_SAD' : g.elapsed < 2 ? 'WAVE' : 'WALK'; if (g.state === 'ENTERING' || g.state === 'MOVING_TO_SEAT')
@@ -17,7 +19,7 @@ if (typeof document !== 'undefined') {
     document.addEventListener('visibilitychange', update);
     update();
     const low = () => { try {
-        return localStorage.getItem('cafe-v15.reduce-motion') === 'true';
+        return deploymentLocalStorage.getItem('cafe-v15.reduce-motion') === 'true';
     }
     catch {
         return false;
@@ -25,7 +27,7 @@ if (typeof document !== 'undefined') {
     document.body.classList.toggle('motion-low', low());
     document.addEventListener('click', e => { if (!e.target.closest('#motion-toggle'))
         return; const on = document.body.classList.toggle('motion-low'); try {
-        localStorage.setItem('cafe-v15.reduce-motion', String(on));
+        deploymentLocalStorage.setItem('cafe-v15.reduce-motion', String(on));
     }
     catch { } const button = document.getElementById('motion-toggle'); button?.setAttribute('aria-pressed', String(on)); if (button)
         button.textContent = on ? '움직임 줄이기 켜짐' : '움직임 줄이기'; });

@@ -1,8 +1,9 @@
-import { balance, cafeLevels, warehouseLevels, staffBalance } from './config.js?v=1.5.6';
-import { phase4Balance } from './phase4Config.js?v=1.5.6';
+import { growthEconomyConfig } from './growthEconomyConfig.js?v=2.0.0';
+import { longGrowthLevels } from './longGrowthConfig.js?v=2.0.0';
+import { balance, cafeLevels, warehouseLevels, staffBalance } from './config.js?v=2.0.0';
+import { phase4Balance } from './phase4Config.js?v=2.0.0';
 // CLASS_MATCH references the approved data without changing any values.
 export const classMatchBalance = { cafes: cafeLevels, warehouses: warehouseLevels, staff: staffBalance, menuMultipliers: balance.menuMultipliers, menuUpgradeMultipliers: balance.menuUpgradeCostMultipliers, special: phase4Balance, initial: { cafeLevel: 1, money: 0, warehouseLevel: 1 } };
 // Independent v1 growth costs. Shared capacity, art, menus and service mechanics.
-const growthExpansion = [0, 7000, 35000, 120000, 350000, 1000000, 1800000, 2600000, 3800000, 5500000];
-const growthCafes = [...cafeLevels, ...['온실 카페', '책 향기 라운지', '스카이 가든 카페', '그랜드 시그니처 카페'].map((name, i) => ({ ...structuredClone(cafeLevels[5]), level: i + 7, name, maxCustomers: i + 9, theme: ['greenhouse', 'library', 'sky', 'grand'][i] }))];
-export const cafeGrowthBalance = { cafes: growthCafes.map((c, i) => ({ ...structuredClone(c), expansionCost: growthExpansion[i] })), warehouses: warehouseLevels.map(w => ({ ...w, cost: w.cost * 2 })), staff: { ...structuredClone(staffBalance), limits: [...staffBalance.limits, 5, 5, 5, 5], hireCosts: staffBalance.hireCosts.map(n => n * 2), upgradeCosts: staffBalance.upgradeCosts.map(n => n * 2) }, menuMultipliers: [...balance.menuMultipliers], menuUpgradeMultipliers: balance.menuUpgradeCostMultipliers.map(n => n * 2), special: { ...structuredClone(phase4Balance), itemPriceMultipliers: [1, 2, 4, 7, 11, 16, 18, 20, 22, 24] }, initial: { cafeLevel: 1, money: 0, warehouseLevel: 1 } };
+const growthCafes = [...cafeLevels, ...longGrowthLevels.map(c => ({ ...structuredClone(cafeLevels[5]), level: c.level, name: c.name, maxCustomers: c.capacity, theme: c.level >= 11 ? 'loft-bakery' : 'garden' }))];
+export const cafeGrowthBalance = { cafes: growthCafes.map((c, i) => ({ ...structuredClone(c), expansionCost: growthEconomyConfig.expansion[i] })), warehouses: warehouseLevels.map(w => ({ ...w, cost: w.cost * 2 })), staff: { ...structuredClone(staffBalance), limits: [...staffBalance.limits, 5, 5, 5, 5, 5, 5, 5, 5, 5], hireCosts: staffBalance.hireCosts.map(n => n * 2), upgradeCosts: staffBalance.upgradeCosts.map(n => n * 2) }, menuMultipliers: [...balance.menuMultipliers], menuUpgradeMultipliers: balance.menuUpgradeCostMultipliers.map(n => n * 2), special: { ...structuredClone(phase4Balance), itemPriceMultipliers: [1, 2, 4, 7, 11, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34] }, initial: { cafeLevel: 1, money: 0, warehouseLevel: 1 } };

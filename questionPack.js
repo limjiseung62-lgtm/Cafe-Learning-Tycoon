@@ -1,5 +1,5 @@
-import { safeDiagram } from './questionRenderer.js?v=1.5.6';
-import { readingErrors } from './reading.js?v=1.5.6';
+import { safeDiagram } from './questionRenderer.js?v=2.0.0';
+import { readingErrors } from './reading.js?v=2.0.0';
 export function normalizeAnswer(text) { return text.trim().normalize('NFKC').replace(/\s+/g, ' ').toUpperCase(); }
 export function validateQuestion(q) { const errors = []; if (!q || typeof q !== 'object' || ![q.questionId, q.sourceId, q.packId, q.skillId, q.prompt, q.question, q.answer, q.explanation].every(x => typeof x === 'string') || !Array.isArray(q.choices) || !q.choices.every(x => typeof x === 'string') || !Array.isArray(q.tags) || !q.tags.every(x => typeof x === 'string'))
     return ['schema']; if (!q.questionId || !q.sourceId || !q.packId || !q.skillId)
@@ -82,7 +82,7 @@ export class QuestionPackCatalog {
     list() { return this.registry ??= (async () => { const response = await this.request(this.manifest); if (!response.ok)
         throw Error('문제팩 목록을 불러오지 못했어요.'); const list = await response.json(); if (!Array.isArray(list) || !list.length || new Set(list.map(x => x.packId)).size !== list.length || list.some(x => !x.packId || !x.title || !x.file))
         throw Error('문제팩 목록을 확인해 주세요.'); return list; })(); }
-    async selectable() { const list = (await this.list()).filter(p => p.enabledForSelection !== false); if (!list.length)
+    async selectable(mode) { const list = (await this.list()).filter(p => mode === 'growth' ? (p.enabledForGrowth ?? p.enabledForSelection !== false) : p.enabledForSelection !== false); if (!list.length)
         throw Error('활성화된 문제팩이 없어요.'); return list.sort((a, b) => Number(!!b.defaultForSelection) - Number(!!a.defaultForSelection)); }
     async load(id) { if (!this.packs.has(id))
         this.packs.set(id, (async () => { const descriptor = (await this.list()).find(x => x.packId === id); if (!descriptor)
